@@ -57,7 +57,7 @@ public class SwaggerAutoConfig implements InitializingBean {
             new ResponseMessageBuilder().code(404).message("Not found").build(),
             new ResponseMessageBuilder().code(500).message("Internal server error").build());
 
-    private final Class<?>[] ignoredParameterTypes = new Class[]{
+    private final Class<?>[] ignoredParameterTypes = new Class[] {
             ServletRequest.class,
             ServletResponse.class,
             HttpServletRequest.class,
