@@ -4,7 +4,9 @@ package com.dandandog.framework.common.exception;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
+/**
+ * @author JohnnyLiu
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class FastCodeException extends RuntimeException {

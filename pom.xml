@@ -25,6 +25,7 @@
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
         <project.build.sourceEncoding>${utf8}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${utf8}</project.reporting.outputEncoding>
+        <fail-on-missing-web-xml>false</fail-on-missing-web-xml>
 
         <shiro-spring-boot-web-starter.version>1.6.0</shiro-spring-boot-web-starter.version>
         <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>
@@ -41,6 +42,8 @@
         <reflections.version>0.9.9</reflections.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-war-plugin.version>2.2</maven-war-plugin.version>
+        <maven-versions-plugin.version>2.2</maven-versions-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -217,6 +220,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -246,6 +250,26 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/application*.yml</include>
+                    <include>**/application*.yaml</include>
+                    <include>**/application*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <excludes>
+                    <exclude>**/application*.yml</exclude>
+                    <exclude>**/application*.yaml</exclude>
+                    <exclude>**/application*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -268,6 +292,21 @@
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven-versions-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -1,0 +1,14 @@
+${AnsiColor.BLUE}
+
+    ____   __          _                   _       ____
+   / / /  / _|        | |                 | |      \ \ \
+  / / /  | |_ __ _ ___| |_    ___ ___   __| | ___   \ \ \
+ < < <   |  _/ _` / __| __|  / __/ _ \ / _` |/ _ \   > > >
+  \ \ \  | || (_| \__ \ |_  | (_| (_) | (_| |  __/  / / /
+   \_\_\ |_| \__,_|___/\__|  \___\___/ \__,_|\___| /_/_/
+
+
+
+${AnsiColor.YELLOW} :: Spring Boot Version :: ${AnsiColor.WHITE}(v${spring-boot.version})
+${AnsiColor.YELLOW} :: Application Version :: ${AnsiColor.WHITE}(v${project.version})
+${AnsiColor.YELLOW} :: Application Name    :: ${AnsiColor.WHITE}(${spring.application.name})

@@ -5,6 +5,9 @@ import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
+/**
+ * @author JohnnyLiu
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
 @Documented

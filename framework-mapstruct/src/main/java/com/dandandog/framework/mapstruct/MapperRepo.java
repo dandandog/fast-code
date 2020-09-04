@@ -2,6 +2,7 @@ package com.dandandog.framework.mapstruct;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.dandandog.framework.common.exception.FrameworkException;
 import com.dandandog.framework.mapstruct.context.BaseContext;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -32,7 +33,7 @@ public class MapperRepo {
 
     protected static StandardMapper hasMapper(FromToKey fromToKey) {
         StandardMapper mapper = bindings.get(fromToKey);
-        return Optional.ofNullable(mapper).orElseThrow(() -> new RuntimeException(StrUtil.format("FromToKey {} 不存在", fromToKey)));
+        return Optional.ofNullable(mapper).orElseThrow(() -> new FrameworkException(StrUtil.format("FromToKey {} 不存在", fromToKey)));
     }
 
     public static <F, T> T mapTo(F from, Class<T> to) {

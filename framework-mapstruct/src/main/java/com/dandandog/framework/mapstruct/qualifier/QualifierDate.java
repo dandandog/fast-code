@@ -1,6 +1,7 @@
 package com.dandandog.framework.mapstruct.qualifier;
 
 import com.dandandog.framework.common.utils.DateTimeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * @author create by Johnny
+ * @author JohnnyLiu
  */
+@Slf4j
 @Component
 public class QualifierDate {
 

@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.dandandog.framework.mapstruct;
 
 import com.dandandog.framework.mapstruct.context.BaseContext;
@@ -8,8 +5,7 @@ import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 
 /**
- * @author jucheme
- *
+ * @author JohnnyLiu
  */
 public interface StandardMapper<From, To> {
 

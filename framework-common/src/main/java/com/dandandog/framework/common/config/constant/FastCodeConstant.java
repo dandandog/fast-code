@@ -4,7 +4,9 @@ import org.springframework.http.HttpHeaders;
 
 import java.util.Optional;
 
-
+/**
+ * @author JohnnyLiu
+ */
 public class FastCodeConstant {
 
 

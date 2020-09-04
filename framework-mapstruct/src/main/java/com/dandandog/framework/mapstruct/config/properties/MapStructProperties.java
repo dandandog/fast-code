@@ -4,8 +4,11 @@ package com.dandandog.framework.mapstruct.config.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * @author JohnnyLiu
+ */
 @Data
-@ConfigurationProperties("fast-code.map-struct")
+@ConfigurationProperties(prefix = "fast-code.map-struct")
 public class MapStructProperties {
 
     private String urlDomain;
