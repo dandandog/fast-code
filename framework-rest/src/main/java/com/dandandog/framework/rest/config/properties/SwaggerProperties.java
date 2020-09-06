@@ -1,4 +1,4 @@
-package com.dandandog.framework.web.config.properties;
+package com.dandandog.framework.rest.config.properties;
 
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import lombok.Data;

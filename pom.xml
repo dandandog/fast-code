@@ -13,9 +13,11 @@
 
     <modules>
         <module>framework-core</module>
-        <module>framework-web</module>
+        <module>framework-rest</module>
         <module>framework-common</module>
         <module>framework-mapstruct</module>
+        <module>framework-cache</module>
+        <module>framework-faces</module>
     </modules>
 
 
@@ -79,6 +81,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
@@ -193,7 +200,17 @@
             </dependency>
             <dependency>
                 <groupId>com.dandandog.fastcode</groupId>
-                <artifactId>framework-web</artifactId>
+                <artifactId>framework-faces</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dandandog.fastcode</groupId>
+                <artifactId>framework-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dandandog.fastcode</groupId>
+                <artifactId>framework-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
