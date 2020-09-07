@@ -35,6 +35,9 @@
         <dynamic-datasource-spring-boot-starter.version>3.2.0</dynamic-datasource-spring-boot-starter.version>
         <h2.version>1.4.200</h2.version>
         <mysql.version>5.1.47</mysql.version>
+        <myfaces.version>2.3.6</myfaces.version>
+        <tomcat-embed-jasper.version>9.0.36</tomcat-embed-jasper.version>
+        <primefaces.version>8.0</primefaces.version>
 
         <knife4j-spring-boot-starter.version>2.0.4</knife4j-spring-boot-starter.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
@@ -154,6 +157,30 @@
             </dependency>
             <!-- database end -->
 
+            <!--jsf start-->
+            <dependency>
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-impl</artifactId>
+                <version>${myfaces.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-api</artifactId>
+                <version>${myfaces.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>${tomcat-embed-jasper.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>${primefaces.version}</version>
+            </dependency>
+            <!--jsf end-->
+
             <!-- common tools start -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -234,6 +261,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
