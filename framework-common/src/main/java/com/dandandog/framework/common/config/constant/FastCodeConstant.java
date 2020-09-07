@@ -113,6 +113,15 @@ public class FastCodeConstant {
      */
     public static final Long CORS_MAX_AGE = 1800L;
 
+    /**
+     * 指定页
+     */
+    public static final Integer PAGE_DEFAULT_INDEX = 1;
+
+    /**
+     * 分页大小
+     */
+    public static final Integer PAGE_DEFAULT_SIZE = 10;
 
     static {
         FAST_CODE_VERSION = Optional.ofNullable(FastCodeConstant.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class MapperRepo {
+public final class MapperRepo {
 
     private static Map<FromToKey, StandardMapper> bindings;
 
@@ -32,8 +32,8 @@ public class MapperRepo {
     }
 
     protected static StandardMapper hasMapper(FromToKey fromToKey) {
-        StandardMapper mapper = bindings.get(fromToKey);
-        return Optional.ofNullable(mapper).orElseThrow(() -> new FrameworkException(StrUtil.format("FromToKey {} 不存在", fromToKey)));
+        return Optional.ofNullable(bindings.get(fromToKey)).orElseThrow(() ->
+                new FrameworkException(StrUtil.format("FromToKey {} 不存在", fromToKey)));
     }
 
     public static <F, T> T mapTo(F from, Class<T> to) {

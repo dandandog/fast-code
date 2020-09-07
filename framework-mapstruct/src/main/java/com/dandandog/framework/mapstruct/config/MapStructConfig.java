@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 @ComponentScan("com.dandandog.framework.mapstruct")
+@SuppressWarnings({ "rawtypes"})
 public class MapStructConfig {
 
     private final Map<String, StandardMapper> resources;

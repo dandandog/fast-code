@@ -25,9 +25,7 @@ public class AuditableEntity extends BaseEntity {
     @TableField(value = "operator", fill = FieldFill.INSERT_UPDATE)
     protected String operator;
 
-    @TableField(value = "operation_time", fill = FieldFill.INSERT_UPDATE)
-    protected LocalDateTime operationTime;
-
-    protected String remark;
+    @TableField(value = "operated_time", fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime operatedTime;
 
 }
