@@ -1,10 +1,10 @@
-package com.dandandog.framework.web.config;
+package com.dandandog.framework.rest.config;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.dandandog.framework.rest.config.properties.SwaggerProperties;
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import com.dandandog.framework.common.utils.SpringContextUtil;
-import com.dandandog.framework.web.config.properties.SwaggerProperties;
 import io.swagger.annotations.Api;
 import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
