@@ -15,30 +15,28 @@ public class MessageResolvableException extends FastCodeException {
 
     private final String category;
 
-    private final String errorCode;
-
     private final Object[] parameters;
 
-    public MessageResolvableException(String category, String errorCode) {
+    public MessageResolvableException(String category, Integer errorCode) {
         this(category, errorCode, new Object[0], null);
     }
 
-    public MessageResolvableException(String category, String errorCode, Object[] parameters) {
+    public MessageResolvableException(String category, Integer errorCode, Object[] parameters) {
         this(category, errorCode, parameters, null);
     }
 
-    public MessageResolvableException(String category, String errorCode, Throwable cause) {
+    public MessageResolvableException(String category, Integer errorCode, Throwable cause) {
         this(category, errorCode, null, cause);
     }
 
-    public MessageResolvableException(String category, String errorCode, Object[] parameters, Throwable cause) {
+    public MessageResolvableException(String category, Integer errorCode, Object[] parameters, Throwable cause) {
         super(cause);
         this.category = category;
-        this.errorCode = errorCode;
+        super.setErrorCode(errorCode);
         this.parameters = parameters;
     }
 
     public String getMessage(MessageSource messageSource, Locale locale) {
-        return messageSource.getMessage(this.category + "." + this.errorCode, this.parameters, locale);
+        return messageSource.getMessage(this.category + "." + this.getErrorCode(), this.parameters, locale);
     }
 }

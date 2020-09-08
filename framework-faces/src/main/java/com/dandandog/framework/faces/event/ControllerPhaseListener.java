@@ -24,7 +24,7 @@ public class ControllerPhaseListener implements PhaseListener {
         if (view.getViewMap(false) == null) {
             FacesController controller = FacesController.getCurrentInstance();
             if (controller != null) {
-                controller.init();
+                controller.onEntry();
             }
         }
     }

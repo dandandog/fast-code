@@ -35,9 +35,11 @@
         <dynamic-datasource-spring-boot-starter.version>3.2.0</dynamic-datasource-spring-boot-starter.version>
         <h2.version>1.4.200</h2.version>
         <mysql.version>5.1.47</mysql.version>
-        <myfaces.version>2.3.6</myfaces.version>
+        <glassfish.version>2.4.0</glassfish.version>
         <tomcat-embed-jasper.version>9.0.36</tomcat-embed-jasper.version>
         <primefaces.version>8.0</primefaces.version>
+        <jstl.version>1.2</jstl.version>
+        <standard.version>1.1.2</standard.version>
 
         <knife4j-spring-boot-starter.version>2.0.4</knife4j-spring-boot-starter.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
@@ -159,25 +161,29 @@
 
             <!--jsf start-->
             <dependency>
-                <groupId>org.apache.myfaces.core</groupId>
-                <artifactId>myfaces-impl</artifactId>
-                <version>${myfaces.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.myfaces.core</groupId>
-                <artifactId>myfaces-api</artifactId>
-                <version>${myfaces.version}</version>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.faces</artifactId>
+                <version>${glassfish.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-jasper</artifactId>
                 <version>${tomcat-embed-jasper.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
                 <version>${primefaces.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>${standard.version}</version>
             </dependency>
             <!--jsf end-->
 

@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Slf4j
 @ComponentScan("com.dandandog.framework.core")
-public class CoreConfig {
+public class SpringAutoScanConfig {
 
-    public CoreConfig() {
+    public SpringAutoScanConfig() {
         log.debug("Core config initialization");
     }
 }

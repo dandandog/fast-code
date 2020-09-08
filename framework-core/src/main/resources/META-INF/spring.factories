@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.dandandog.framework.core.config.CoreConfig
+com.dandandog.framework.core.config.SpringAutoScanConfig

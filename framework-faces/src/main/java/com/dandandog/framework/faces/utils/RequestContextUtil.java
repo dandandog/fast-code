@@ -3,11 +3,9 @@ package com.dandandog.framework.faces.utils;
 import org.primefaces.PrimeFaces;
 
 /**
- * @author create by Johnny
- * @description com.johnny.web.restful
- * @date 七月 06,2019
+ * @author JohnnyLiu
  */
-public class RequestContextUtils {
+public class RequestContextUtil {
 
     public static void execute(String script) {
         PrimeFaces.current().executeScript(script);

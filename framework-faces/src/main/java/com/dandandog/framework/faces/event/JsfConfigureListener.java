@@ -1,8 +1,7 @@
 package com.dandandog.framework.faces.event;
 
-import com.apj.framework.web.faces.el.FacesControllerELResolver;
-import com.apj.framework.web.faces.el.PlatformMessageSourceELResolver;
 import com.dandandog.framework.faces.el.FacesControllerELResolver;
+import com.dandandog.framework.faces.el.PlatformMessageSourceELResolver;
 import com.sun.faces.config.ConfigureListener;
 import org.springframework.web.jsf.el.SpringBeanFacesELResolver;
 
@@ -15,11 +14,10 @@ import javax.servlet.ServletContextEvent;
 import java.util.Locale;
 
 /**
- * @author create by Johnny
- * @description com.johnny.web.faces.el
- * @date 七月 06,2019
+ * @author JohnnyLiu
  */
 public class JsfConfigureListener extends ConfigureListener {
+
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {

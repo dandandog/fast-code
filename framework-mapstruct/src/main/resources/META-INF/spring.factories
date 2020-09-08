@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.dandandog.framework.mapstruct.config.MapStructConfig
+com.dandandog.framework.mapstruct.config.SpringAutoScanConfig

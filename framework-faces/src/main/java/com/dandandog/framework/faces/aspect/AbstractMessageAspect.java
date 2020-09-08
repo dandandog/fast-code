@@ -6,6 +6,7 @@ import com.dandandog.framework.faces.exception.MessageResolvableException;
 import lombok.Setter;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 
@@ -19,12 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractMessageAspect {
 
-
-    private final MessageSource messageSource;
-
-    public AbstractMessageAspect(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
+    @Autowired
+    private MessageSource messageSource;
 
     @Setter
     private String messageCodePrefix = "framework.";

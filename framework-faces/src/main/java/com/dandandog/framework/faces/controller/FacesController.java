@@ -1,9 +1,9 @@
 package com.dandandog.framework.faces.controller;
 
-import com.apj.framework.web.faces.scope.FlashScope;
-import com.apj.framework.web.faces.scope.PageScope;
-import com.apj.framework.web.faces.scope.SessionScope;
-import com.apj.framework.web.faces.scope.ViewScope;
+import com.dandandog.framework.faces.scope.FlashScope;
+import com.dandandog.framework.faces.scope.PageScope;
+import com.dandandog.framework.faces.scope.SessionScope;
+import com.dandandog.framework.faces.scope.ViewScope;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -28,166 +28,158 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @author create by Johnny
- * @description com.johnny.web.faces.controller
- * @date 七月 06,2019
+ * @author JohnnyLiu
  */
 @Component
 public class FacesController {
-	@Autowired
-	private FlashScope flashScope;
+    @Autowired
+    private FlashScope flashScope;
 
-	@Autowired
-	private ViewScope viewScope;
+    @Autowired
+    private ViewScope viewScope;
 
-	@Autowired
-	private PageScope pageScope;
+    @Autowired
+    private PageScope pageScope;
 
-	@Autowired
-	private SessionScope sessionScope;
+    @Autowired
+    private SessionScope sessionScope;
 
-	@Autowired
-	private MessageSource messageSource;
-
-	public void init() {
-		String contextPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
-		putSessionScope("ctx", contextPath);
-		onEntry();
-	}
+    @Autowired
+    private MessageSource messageSource;
 
 
-	public void onEntry() {
+    public void onEntry() {
 
-	}
+    }
 
-	public static FacesController getCurrentInstance() {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		String path = facesContext.getExternalContext().getRequestServletPath();
-		ApplicationContext applicationContext = FacesContextUtils.getRequiredWebApplicationContext(facesContext);
-		try {
-			return (FacesController) applicationContext.getBean(path, FacesController.class);
-		} catch (NoSuchBeanDefinitionException e) {
-		}
-		return null;
-	}
+    public static FacesController getCurrentInstance() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String path = facesContext.getExternalContext().getRequestServletPath();
+        ApplicationContext applicationContext = FacesContextUtils.getRequiredWebApplicationContext(facesContext);
+        try {
+            return applicationContext.getBean(path, FacesController.class);
+        } catch (NoSuchBeanDefinitionException ignored) {
+        }
+        return null;
+    }
 
-	public void putFlashScope(String name, Object obj) {
-		this.flashScope.put(name, obj);
-	}
+    public void putFlashScope(String name, Object obj) {
+        this.flashScope.put(name, obj);
+    }
 
-	public Object getFlashScope(String name) {
-		return this.flashScope.get(name);
-	}
+    public <T> T getFlashScope(String name) {
+        return (T) this.flashScope.get(name);
+    }
 
-	public void putViewScope(String name, Object obj) {
-		this.viewScope.put(name, obj);
-	}
+    public void putViewScope(String name, Object obj) {
+        this.viewScope.put(name, obj);
+    }
 
-	public Object getViewScope(String name) {
-		return this.viewScope.get(name);
-	}
+    public <T> T getViewScope(String name) {
+        return (T) this.viewScope.get(name);
+    }
 
-	public Object getAndCleanViewScope(String name) {
-		return this.viewScope.remove(name);
-	}
+    public <T> T getAndCleanViewScope(String name) {
+        return (T) this.viewScope.remove(name);
+    }
 
-	public void putSessionScope(String name, Object obj) {
-		this.sessionScope.put(name, obj);
-	}
+    public void putSessionScope(String name, Object obj) {
+        this.sessionScope.put(name, obj);
+    }
 
-	public Object getSessionScope(String name) {
-		return this.sessionScope.get(name);
-	}
+    public <T> T getSessionScope(String name) {
+        return (T) this.sessionScope.get(name);
+    }
 
-	public Object getAndCleanSessionScope(String name) {
-		return this.sessionScope.remove(name);
-	}
+    public <T> T getAndCleanSessionScope(String name) {
+        return (T) this.sessionScope.remove(name);
+    }
 
-	public Object getPageScope(String name) {
-		return this.pageScope.get(name);
-	}
+    public <T> T getPageScope(String name) {
+        return (T) this.pageScope.get(name);
+    }
 
-	public void putPageScope(String name, Object object) {
-		this.pageScope.put(name, object);
-	}
+    public void putPageScope(String name, Object object) {
+        this.pageScope.put(name, object);
+    }
 
-	public Object getAndCleanPageScope(String name) {
-		return this.pageScope.remove(name);
-	}
+    public <T> T getAndCleanPageScope(String name) {
+        return (T) this.pageScope.remove(name);
+    }
 
-	public HttpServletRequest getRequest() {
-		return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-	}
+    public HttpServletRequest getRequest() {
+        return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+    }
 
-	public HttpSession getSession() {
-		return getRequest().getSession();
-	}
+    public HttpSession getSession() {
+        return getRequest().getSession();
+    }
 
-	public HttpServletResponse getResponse() {
+    public HttpServletResponse getResponse() {
 
-		return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-	}
+        return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+    }
 
-	public void redirectInternal(String url) {
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		redirectExternal(externalContext.getRequestContextPath() + url);
-	}
+    public void redirectInternal(String url) {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        redirectExternal(externalContext.getRequestContextPath() + url);
+    }
 
-	public void redirectExternal(String url) {
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		try {
-			externalContext.redirect(url);
-		} catch (IOException e) {
-			throw new FacesException(e);
-		}
-	}
+    public void redirectExternal(String url) {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            externalContext.redirect(url);
+        } catch (IOException e) {
+            throw new FacesException(e);
+        }
+    }
 
-	public String getRequestParameter(String key) {
-		Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext()
-				.getRequestParameterMap();
-		return paramValues.get(key);
-	}
+    public String getRequestParameter(String key) {
+        Map<String, String> paramValues = FacesContext.getCurrentInstance().getExternalContext()
+                .getRequestParameterMap();
+        return paramValues.get(key);
+    }
 
-	public void resetForm(UIComponent component) {
-		UIForm form = getNestingForm(component);
-		if (form != null) {
-			VisitContext visitContext = VisitContext.createVisitContext(FacesContext.getCurrentInstance());
-			form.visitTree(visitContext, (VisitContext context, UIComponent target) -> {
-				if ((target instanceof EditableValueHolder)) {
-					EditableValueHolder holder = (EditableValueHolder) target;
-					holder.resetValue();
-				}
-				return VisitResult.ACCEPT;
-			});
-		}
-	}
+    public void resetForm(UIComponent component) {
+        UIForm form = getNestingForm(component);
+        if (form != null) {
+            VisitContext visitContext = VisitContext.createVisitContext(FacesContext.getCurrentInstance());
+            form.visitTree(visitContext, (VisitContext context, UIComponent target) -> {
+                if ((target instanceof EditableValueHolder)) {
+                    EditableValueHolder holder = (EditableValueHolder) target;
+                    holder.resetValue();
+                }
+                return VisitResult.ACCEPT;
+            });
+        }
+    }
 
-	public UIForm getNestingForm(UIComponent component) {
-		UIComponent parent = component.getParent();
-		while (parent != null) {
-			if ((parent instanceof UIForm)) {
-				return (UIForm) parent;
-			}
-			parent = parent.getParent();
-		}
-		return null;
-	}
+    public UIForm getNestingForm(UIComponent component) {
+        UIComponent parent = component.getParent();
+        while (parent != null) {
+            if ((parent instanceof UIForm)) {
+                return (UIForm) parent;
+            }
+            parent = parent.getParent();
+        }
+        return null;
+    }
 
-	public Locale getLocale() {
-		return getResponse().getLocale();
-	}
+    public Locale getLocale() {
+        return getResponse().getLocale();
+    }
 
-	public String getMessage(String code, Object[] args) {
-		return this.messageSource.getMessage(code, args, getLocale());
-	}
+    public String getMessage(String code, Object[] args) {
+        return this.messageSource.getMessage(code, args, getLocale());
+    }
 
-	public String getMessage(String code, Object[] args, String defaultMessage) {
-		return this.messageSource.getMessage(code, args, defaultMessage, getLocale());
-	}
+    public String getMessage(String code, Object[] args, String defaultMessage) {
+        return this.messageSource.getMessage(code, args, defaultMessage, getLocale());
+    }
 
-	protected void throwValidatorMessages(String code, Object[] args, FacesMessage.Severity severity) {
-		FacesMessage facesMessage = new FacesMessage(getMessage(code, args));
-		facesMessage.setSeverity(severity);
-		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-	}
+    protected void throwValidatorMessages(String code, Object[] args, FacesMessage.Severity severity) {
+        FacesMessage facesMessage = new FacesMessage(getMessage(code, args));
+        facesMessage.setSeverity(severity);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    }
 }

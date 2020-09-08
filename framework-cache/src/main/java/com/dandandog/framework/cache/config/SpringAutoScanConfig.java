@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Slf4j
 @ComponentScan("com.dandandog.framework.cache")
-public class CacheConfig {
+public class SpringAutoScanConfig {
 
-    public CacheConfig() {
+    public SpringAutoScanConfig() {
         log.debug("Cache config initialization");
     }
 

@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Slf4j
 @ComponentScan("com.dandandog.framework.rest")
-public class RestConfig {
+public class SpringAutoScanConfig {
 
-    public RestConfig() {
+    public SpringAutoScanConfig() {
         log.debug("Web config initialization");
     }
 }

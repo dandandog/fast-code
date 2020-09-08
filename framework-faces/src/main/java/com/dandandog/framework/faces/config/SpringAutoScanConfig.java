@@ -8,10 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Slf4j
 @ComponentScan("com.dandandog.framework.faces")
-public class FacesConfig {
+public class SpringAutoScanConfig {
 
-    public FacesConfig() {
-        log.debug("Faces config initialization");
+    public SpringAutoScanConfig() {
+        log.debug("Framework faces initialization");
     }
 
 }

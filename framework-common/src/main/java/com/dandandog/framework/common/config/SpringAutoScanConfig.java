@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Slf4j
 @ComponentScan("com.dandandog.framework.common")
-public class CommonConfig {
+public class SpringAutoScanConfig {
 
-    public CommonConfig() {
+    public SpringAutoScanConfig() {
         log.debug("Common config initialization");
     }
 

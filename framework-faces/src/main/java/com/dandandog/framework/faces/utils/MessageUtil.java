@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author JohnnyLiu
  */
-public class MessageUtils {
+public class MessageUtil {
 
     public static void showSuccessMessage(String message, FacesMessage.Severity severity) {
         showMessageGrowl(message, severity);
@@ -33,11 +33,11 @@ public class MessageUtils {
     }
 
     public static void showMessageGrowl() {
-        RequestContextUtils.update("globalMessageGrowl");
+        RequestContextUtil.update("globalMessageGrowl");
     }
 
     public static void showMessageDialog() {
-        RequestContextUtils.executeAndUpdate("globalMessageDialog.show();", "globalMessages");
+        RequestContextUtil.executeAndUpdate("globalMessageDialog.show();", "globalMessages");
     }
 
     private static void showMessageGrowl(String message, FacesMessage.Severity severity) {

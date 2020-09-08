@@ -11,13 +11,12 @@ import javax.servlet.ServletContext;
  * @description com.johnny.web.restful
  * @date 七月 06,2019
  */
-public class FacesContextUtils {
+public class FacesContextUtil {
 
     public static ApplicationContext getApplicationContext() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
                 .getContext();
-        ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-        return context;
+        return WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
     }
 
     public static <T> T getBean(Class<T> clazz) {
