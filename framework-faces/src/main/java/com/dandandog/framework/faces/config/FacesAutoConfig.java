@@ -19,12 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author create by Johnny
- * @description com.johnny.web.faces.config
- * @date 七月 06,2019
+ * @author JohnnyLiu
  */
 @Configuration
-public class WebFacesConfig implements ServletContextAware, WebMvcConfigurer {
+public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
