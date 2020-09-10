@@ -34,13 +34,14 @@
         <mybatis-plus-boot-starter.version>3.4.0</mybatis-plus-boot-starter.version>
         <dynamic-datasource-spring-boot-starter.version>3.2.0</dynamic-datasource-spring-boot-starter.version>
         <h2.version>1.4.200</h2.version>
-        <mysql.version>5.1.47</mysql.version>
+        <mysql.version>8.0.21</mysql.version>
         <faces.version>2.4.0</faces.version>
         <tomcat-embed-jasper.version>9.0.21</tomcat-embed-jasper.version>
         <primefaces.version>8.0</primefaces.version>
         <jsp-api.version>2.2</jsp-api.version>
         <jstl.version>1.2</jstl.version>
         <standard.version>1.1.2</standard.version>
+        <rewrite.version>3.4.4.Final</rewrite.version>
 
         <knife4j-spring-boot-starter.version>2.0.4</knife4j-spring-boot-starter.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
@@ -159,7 +160,7 @@
             </dependency>
             <!-- database end -->
 
-            <!--jsf start-->
+            <!--faces start-->
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>javax.faces</artifactId>
@@ -190,7 +191,22 @@
                 <artifactId>standard</artifactId>
                 <version>${standard.version}</version>
             </dependency>
-            <!--jsf end-->
+            <dependency>
+                <groupId>org.ocpsoft.rewrite</groupId>
+                <artifactId>rewrite-servlet</artifactId>
+                <version>${rewrite.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ocpsoft.rewrite</groupId>
+                <artifactId>rewrite-integration-spring</artifactId>
+                <version>${rewrite.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.tuckey</groupId>
+                <artifactId>urlrewritefilter</artifactId>
+                <version>4.0.4</version>
+            </dependency>
+            <!--faces end-->
 
             <!-- common tools start -->
             <dependency>

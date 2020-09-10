@@ -1,6 +1,7 @@
 package com.dandandog.framework.faces.config;
 
 import com.dandandog.framework.faces.event.JsfConfigureListener;
+import lombok.extern.slf4j.Slf4j;
 import org.primefaces.webapp.filter.FileUploadFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -12,6 +13,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
 
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
@@ -21,6 +23,7 @@ import java.util.Map;
 /**
  * @author JohnnyLiu
  */
+@Slf4j
 @Configuration
 public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
 
@@ -32,7 +35,6 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
     }
 
 
@@ -46,11 +48,11 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
         servletContext.setInitParameter("javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL", Boolean.TRUE.toString());
 
         servletContext.setInitParameter("primefaces.TRANSFORM_METADATA", Boolean.TRUE.toString());
-        servletContext.setInitParameter("primefaces.THEME", "nova-light");
+        servletContext.setInitParameter("primefaces.THEME", "omega");
         servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
         servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
         servletContext.setInitParameter("primefaces.UPLOADER", "auto");
-
+        servletContext.setInitParameter("org.ocpsoft.rewrite.config.CONFIG_RELOADING", Boolean.TRUE.toString());
     }
 
 
@@ -72,16 +74,6 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
     public ServletListenerRegistrationBean<JsfConfigureListener> jsfConfigureListenerBean() {
         return new ServletListenerRegistrationBean<>(new JsfConfigureListener());
     }
-
-/*    @Bean
-    public ServletListenerRegistrationBean<ContextLoaderListener> contextLoaderListener() {
-        return new ServletListenerRegistrationBean<>(new ContextLoaderListener());
-    }
-
-    @Bean
-    public ServletListenerRegistrationBean<RequestContextListener> requestContextListener() {
-        return new ServletListenerRegistrationBean<>(new RequestContextListener());
-    }*/
 
     @Bean
     public FilterRegistrationBean<FileUploadFilter> fileUploadFilter() {
@@ -108,4 +100,43 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
         filterBean.setInitParameters(initParameters);
         return filterBean;
     }
+
+    @Bean
+    public FilterRegistrationBean<UrlRewriteFilter> urlRewrite() {
+        UrlRewriteFilter rewriteFilter = new UrlRewriteFilter();
+        FilterRegistrationBean<UrlRewriteFilter> registration = new FilterRegistrationBean<>(rewriteFilter);
+        registration.addUrlPatterns("/*");
+        Map<String, String> initParam = new HashMap<>();
+        initParam.put("confPath", "UrlRewrite.xml");
+        initParam.put("logLevel", "DEBUG");
+        registration.setInitParameters(initParam);
+        return registration;
+    }
+
+
+//    @Bean
+//    public ServletListenerRegistrationBean<RewriteServletRequestListener> rewriteServletRequestListener() {
+//        log.debug("~~~~~rewriteServletRequestListener ~~~~ ");
+//        return new ServletListenerRegistrationBean<>(new RewriteServletRequestListener());
+//    }
+//
+//    @Bean
+//    public ServletListenerRegistrationBean<RewriteServletContextListener> rewriteServletContextListener() {
+//        log.debug("~~~~~rewriteServletContextListener ~~~~ ");
+//        return new ServletListenerRegistrationBean<>(new RewriteServletContextListener());
+//    }
+//
+//    @Bean
+//    public FilterRegistrationBean<RewriteFilter> rewriteFilter() {
+//        log.debug("~~~~~rewriteFilter rewriteFilter ~~~~ ");
+//        FilterRegistrationBean<RewriteFilter> rwFilter = new FilterRegistrationBean<>(new RewriteFilter());
+//        rwFilter.setDispatcherTypes(
+//                DispatcherType.ASYNC,
+//                DispatcherType.ERROR,
+//                DispatcherType.FORWARD,
+//                DispatcherType.INCLUDE,
+//                DispatcherType.REQUEST);
+//        rwFilter.addUrlPatterns("/*");
+//        return rwFilter;
+//    }
 }

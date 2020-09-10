@@ -1,5 +1,6 @@
 package com.dandandog.framework.common.config.constant;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.cors.CorsConfiguration;
 
@@ -10,8 +11,13 @@ import java.util.Optional;
 /**
  * @author JohnnyLiu
  */
+@Slf4j
 public class FastCodeConstant {
 
+
+    public FastCodeConstant(){
+        log.debug("FastCodeConstant");
+    }
 
     /**
      * swagger文档标题

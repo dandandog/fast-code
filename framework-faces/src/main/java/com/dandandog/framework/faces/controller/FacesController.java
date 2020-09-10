@@ -79,10 +79,6 @@ public class FacesController {
         return (T) this.viewScope.get(name);
     }
 
-    public <T> T getAndCleanViewScope(String name) {
-        return (T) this.viewScope.remove(name);
-    }
-
     public void putSessionScope(String name, Object obj) {
         this.sessionScope.put(name, obj);
     }
@@ -91,20 +87,12 @@ public class FacesController {
         return (T) this.sessionScope.get(name);
     }
 
-    public <T> T getAndCleanSessionScope(String name) {
-        return (T) this.sessionScope.remove(name);
-    }
-
-    public <T> T getPageScope(String name) {
-        return (T) this.pageScope.get(name);
-    }
-
     public void putPageScope(String name, Object object) {
         this.pageScope.put(name, object);
     }
 
-    public <T> T getAndCleanPageScope(String name) {
-        return (T) this.pageScope.remove(name);
+    public <T> T getPageScope(String name) {
+        return (T) this.pageScope.get(name);
     }
 
     public HttpServletRequest getRequest() {

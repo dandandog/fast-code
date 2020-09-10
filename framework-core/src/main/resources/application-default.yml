@@ -20,16 +20,13 @@ spring:
       location: /opt/upload/tmp
       max-file-size: 10MB
       max-request-size: 100MB
-  datasource:
-    dynamic:
-      primary: master
-      strict: false
-      datasource:
-        master:
-          url: jdbc:h2:file:~/.fc/db/connect
-          driver-class-name: org.h2.Driver
-          username: admin
-          password: 123456
+  druid:
+    stat-view-servlet:
+      enabled: true
+ #     loginUsername: admin
+ #     loginPassword: 123456
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
 
 logging:
   config: classpath:config/logback.xml
