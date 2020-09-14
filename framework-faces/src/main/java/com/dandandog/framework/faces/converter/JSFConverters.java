@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * @author JohnnyLiu
- * @create 2019-08-05 17:28
  */
 @Configuration
 public class JSFConverters {

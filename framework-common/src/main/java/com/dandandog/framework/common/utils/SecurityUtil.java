@@ -1,14 +1,35 @@
 package com.dandandog.framework.common.utils;
 
+import com.dandandog.framework.common.components.security.IAuthenticationFacade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
 /**
  * @author JohnnyLiu
  */
+@Component
 public class SecurityUtil {
 
 
-    public static String getCurrUsername() {
-        return "admin";
+    private static IAuthenticationFacade authenticationFacade;
+
+    @Autowired
+    public SecurityUtil(IAuthenticationFacade authenticationFacade) {
+        SecurityUtil.authenticationFacade = authenticationFacade;
     }
 
+
+    public static String getCurrUsername() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        return authentication.getName();
+    }
+
+
+    public static boolean isLogin() {
+        Authentication authentication = authenticationFacade.getAuthentication();
+        return !(authentication instanceof AnonymousAuthenticationToken);
+    }
 
 }

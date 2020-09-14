@@ -3,9 +3,7 @@
         "http://tuckey.org/res/dtds/urlrewrite3.2.dtd">
 <urlrewrite>
     <rule>
-        <!--拦截页面以/_开头的数据,作为转发给前端使用-->
-        <from>^(/\w+)+$</from>
-        <!-- to: 真实的URL -->
-        <to type="forward">/views/$1.faces</to>
+        <from>^(/\w+)+(?!.)$</from>
+        <to>/views$1.faces</to>
     </rule>
 </urlrewrite>

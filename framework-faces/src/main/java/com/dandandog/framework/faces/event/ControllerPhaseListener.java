@@ -15,7 +15,7 @@ public class ControllerPhaseListener implements PhaseListener {
 
     @Override
     public void beforePhase(PhaseEvent event) {
-
+        UIViewRoot view = event.getFacesContext().getViewRoot();
     }
 
     @Override

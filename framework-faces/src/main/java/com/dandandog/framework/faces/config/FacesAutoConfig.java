@@ -10,10 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.tuckey.web.filters.urlrewrite.UrlRewriteFilter;
 
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
@@ -25,17 +21,8 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
-public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
+public class FacesAutoConfig implements ServletContextAware {
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("redirect:/views/index.faces");
-    }
-
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-    }
 
 
     @Override
@@ -52,7 +39,6 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
         servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
         servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
         servletContext.setInitParameter("primefaces.UPLOADER", "auto");
-        servletContext.setInitParameter("org.ocpsoft.rewrite.config.CONFIG_RELOADING", Boolean.TRUE.toString());
     }
 
 
@@ -77,6 +63,7 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
 
     @Bean
     public FilterRegistrationBean<FileUploadFilter> fileUploadFilter() {
+        log.debug("~~~~~FileUploadFilter");
         FilterRegistrationBean<FileUploadFilter> filterBean = new FilterRegistrationBean<>(
                 new FileUploadFilter());
         Map<String, String> initParameters = new HashMap<>(2);
@@ -88,9 +75,24 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
         return filterBean;
     }
 
+//    @Bean
+//    public FilterRegistrationBean<UrlRewriteFilter> urlRewrite() {
+//        log.debug("~~~~~UrlRewriteFilter");
+//        UrlRewriteFilter rewriteFilter = new UrlRewriteFilter();
+//        FilterRegistrationBean<UrlRewriteFilter> registration = new FilterRegistrationBean<>(rewriteFilter);
+//        registration.setUrlPatterns(Collections.singletonList("/*"));
+//        registration.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.FORWARD);
+//        Map<String, String> initParam = new HashMap<>();
+//        initParam.put("confPath", "urlrewrite.xml");
+//        initParam.put("logLevel", "DEBUG");
+//
+//        registration.setInitParameters(initParam);
+//        return registration;
+//    }
 
     @Bean
     public FilterRegistrationBean<CharacterEncodingFilter> encodingFilter() {
+        log.debug("~~~~~CharacterEncodingFilter");
         FilterRegistrationBean<CharacterEncodingFilter> filterBean = new FilterRegistrationBean<>(
                 new CharacterEncodingFilter());
         filterBean.setName("Character Encoding Filter");
@@ -101,42 +103,6 @@ public class FacesAutoConfig implements ServletContextAware, WebMvcConfigurer {
         return filterBean;
     }
 
-    @Bean
-    public FilterRegistrationBean<UrlRewriteFilter> urlRewrite() {
-        UrlRewriteFilter rewriteFilter = new UrlRewriteFilter();
-        FilterRegistrationBean<UrlRewriteFilter> registration = new FilterRegistrationBean<>(rewriteFilter);
-        registration.addUrlPatterns("/*");
-        Map<String, String> initParam = new HashMap<>();
-        initParam.put("confPath", "UrlRewrite.xml");
-        initParam.put("logLevel", "DEBUG");
-        registration.setInitParameters(initParam);
-        return registration;
-    }
 
 
-//    @Bean
-//    public ServletListenerRegistrationBean<RewriteServletRequestListener> rewriteServletRequestListener() {
-//        log.debug("~~~~~rewriteServletRequestListener ~~~~ ");
-//        return new ServletListenerRegistrationBean<>(new RewriteServletRequestListener());
-//    }
-//
-//    @Bean
-//    public ServletListenerRegistrationBean<RewriteServletContextListener> rewriteServletContextListener() {
-//        log.debug("~~~~~rewriteServletContextListener ~~~~ ");
-//        return new ServletListenerRegistrationBean<>(new RewriteServletContextListener());
-//    }
-//
-//    @Bean
-//    public FilterRegistrationBean<RewriteFilter> rewriteFilter() {
-//        log.debug("~~~~~rewriteFilter rewriteFilter ~~~~ ");
-//        FilterRegistrationBean<RewriteFilter> rwFilter = new FilterRegistrationBean<>(new RewriteFilter());
-//        rwFilter.setDispatcherTypes(
-//                DispatcherType.ASYNC,
-//                DispatcherType.ERROR,
-//                DispatcherType.FORWARD,
-//                DispatcherType.INCLUDE,
-//                DispatcherType.REQUEST);
-//        rwFilter.addUrlPatterns("/*");
-//        return rwFilter;
-//    }
 }
