@@ -35,7 +35,12 @@
         <dynamic-datasource-spring-boot-starter.version>3.2.0</dynamic-datasource-spring-boot-starter.version>
         <h2.version>1.4.200</h2.version>
         <mysql.version>8.0.21</mysql.version>
-        <joinfaces.version>4.3.3</joinfaces.version>
+        <faces.version>2.4.0</faces.version>
+        <tomcat-embed-jasper.version>9.0.21</tomcat-embed-jasper.version>
+        <primefaces.version>8.0</primefaces.version>
+        <jsp-api.version>2.2</jsp-api.version>
+        <jstl.version>1.2</jstl.version>
+        <standard.version>1.1.2</standard.version>
         <omega-theme.version>2.0.1</omega-theme.version>
         <!--        <rewrite.version>4.0.4</rewrite.version>-->
 
@@ -163,11 +168,34 @@
 
             <!--faces start-->
             <dependency>
-                <groupId>org.joinfaces</groupId>
-                <artifactId>joinfaces-dependencies</artifactId>
-                <version>${joinfaces.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.faces</artifactId>
+                <version>${faces.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>${primefaces.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>${tomcat-embed-jasper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>${jsp-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>${standard.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.primefaces.THEME</groupId>

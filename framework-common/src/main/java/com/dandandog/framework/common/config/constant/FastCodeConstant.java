@@ -15,7 +15,7 @@ import java.util.Optional;
 public class FastCodeConstant {
 
 
-    public FastCodeConstant(){
+    public FastCodeConstant() {
         log.debug("FastCodeConstant");
     }
 
@@ -128,6 +128,27 @@ public class FastCodeConstant {
      * 分页大小
      */
     public static final Integer PAGE_DEFAULT_SIZE = 10;
+
+    /**
+     * 首页
+     */
+    public static final String INDEX_PAGE = "/index.faces";
+
+    /**
+     * 500页
+     */
+    public static final String ERROR_PAGE = "/error.faces";
+
+    /**
+     * 404页
+     */
+    public static final String NOT_FOUND_PAGE = "/404.faces";
+
+    /**
+     * access页
+     */
+    public static final String ACCESS_PAGE = "/access.faces";
+
 
     static {
         FAST_CODE_VERSION = Optional.ofNullable(FastCodeConstant.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);
