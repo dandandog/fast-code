@@ -21,40 +21,9 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
-public class FacesAutoConfig implements ServletContextAware {
 
+public class FacesAutoConfig {
 
-
-    @Override
-    public void setServletContext(ServletContext servletContext) {
-        servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
-        servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
-        servletContext.setInitParameter("javax.faces.STATE_SAVING_METHOD", "server");
-        servletContext.setInitParameter("javax.faces.validator.ENABLE_VALIDATE_WHOLE_BEAN", Boolean.TRUE.toString());
-        servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
-        servletContext.setInitParameter("javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL", Boolean.TRUE.toString());
-
-        servletContext.setInitParameter("primefaces.TRANSFORM_METADATA", Boolean.TRUE.toString());
-        servletContext.setInitParameter("primefaces.THEME", "omega");
-        servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
-        servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
-        servletContext.setInitParameter("primefaces.UPLOADER", "auto");
-    }
-
-
-    @Bean
-    public FacesServlet facesServlet() {
-        return new FacesServlet();
-    }
-
-    @Bean
-    public ServletRegistrationBean<FacesServlet> facesServletBean() {
-        ServletRegistrationBean<FacesServlet> servletBean = new ServletRegistrationBean<>(facesServlet(),
-                "*.faces");
-        servletBean.setLoadOnStartup(1);
-        servletBean.setName("Faces Servlet");
-        return servletBean;
-    }
 
     @Bean
     public ServletListenerRegistrationBean<JsfConfigureListener> jsfConfigureListenerBean() {
@@ -75,21 +44,6 @@ public class FacesAutoConfig implements ServletContextAware {
         return filterBean;
     }
 
-//    @Bean
-//    public FilterRegistrationBean<UrlRewriteFilter> urlRewrite() {
-//        log.debug("~~~~~UrlRewriteFilter");
-//        UrlRewriteFilter rewriteFilter = new UrlRewriteFilter();
-//        FilterRegistrationBean<UrlRewriteFilter> registration = new FilterRegistrationBean<>(rewriteFilter);
-//        registration.setUrlPatterns(Collections.singletonList("/*"));
-//        registration.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.FORWARD);
-//        Map<String, String> initParam = new HashMap<>();
-//        initParam.put("confPath", "urlrewrite.xml");
-//        initParam.put("logLevel", "DEBUG");
-//
-//        registration.setInitParameters(initParam);
-//        return registration;
-//    }
-
     @Bean
     public FilterRegistrationBean<CharacterEncodingFilter> encodingFilter() {
         log.debug("~~~~~CharacterEncodingFilter");
@@ -102,7 +56,5 @@ public class FacesAutoConfig implements ServletContextAware {
         filterBean.setInitParameters(initParameters);
         return filterBean;
     }
-
-
 
 }
