@@ -183,11 +183,6 @@
                 <version>${tomcat-embed-jasper.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.servlet.jsp</groupId>
-                <artifactId>jsp-api</artifactId>
-                <version>${jsp-api.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>${jstl.version}</version>
@@ -198,7 +193,7 @@
                 <version>${standard.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.primefaces.THEME</groupId>
+                <groupId>org.primefaces.themes</groupId>
                 <artifactId>omega-theme</artifactId>
                 <version>${omega-theme.version}</version>
             </dependency>

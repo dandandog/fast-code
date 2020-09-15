@@ -30,10 +30,6 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>javax.servlet.jsp</groupId>-->
-        <!--            <artifactId>jsp-api</artifactId>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -43,7 +39,7 @@
             <artifactId>standard</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.primefaces.THEME</groupId>
+            <groupId>org.primefaces.themes</groupId>
             <artifactId>omega-theme</artifactId>
         </dependency>
         <dependency>
