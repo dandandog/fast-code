@@ -129,25 +129,31 @@ public class FastCodeConstant {
      */
     public static final Integer PAGE_DEFAULT_SIZE = 10;
 
+
+    /**
+     * 登入页
+     */
+    public static final String LOGIN_PAGE = "/login";
+
     /**
      * 首页
      */
-    public static final String INDEX_PAGE = "/index.faces";
+    public static final String INDEX_PAGE = "/index";
 
     /**
      * 500页
      */
-    public static final String ERROR_PAGE = "/error.faces";
+    public static final String ERROR_PAGE = "/error";
 
     /**
      * 404页
      */
-    public static final String NOT_FOUND_PAGE = "/404.faces";
+    public static final String NOT_FOUND_PAGE = "/404";
 
     /**
      * access页
      */
-    public static final String ACCESS_PAGE = "/access.faces";
+    public static final String ACCESS_PAGE = "/access";
 
 
     static {
