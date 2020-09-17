@@ -155,6 +155,11 @@ public class FastCodeConstant {
      */
     public static final String ACCESS_PAGE = "/access";
 
+    /**
+     * 页面后缀
+     */
+    public static final String PAGE_SUFFIX = ".faces";
+
 
     static {
         FAST_CODE_VERSION = Optional.ofNullable(FastCodeConstant.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);

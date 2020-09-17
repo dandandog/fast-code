@@ -17,4 +17,6 @@ public class PageProperties {
     private String access = FastCodeConstant.ACCESS_PAGE;
 
     private String notFound = FastCodeConstant.NOT_FOUND_PAGE;
+
+    private String suffix = FastCodeConstant.PAGE_SUFFIX;
 }
