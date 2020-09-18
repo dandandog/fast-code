@@ -51,12 +51,14 @@ mybatis-plus:
     banner: false
   #原生配置
   configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
     # 字段名称下划线转驼峰命名
     map-underscore-to-camel-case: true
-    localCacheScope: SESSION
+    local-cache-scope: SESSION
     cache-enabled: false
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
+
 
 logging:
   config: classpath:config/logback.xml

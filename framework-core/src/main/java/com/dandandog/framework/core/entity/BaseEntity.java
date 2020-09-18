@@ -21,7 +21,7 @@ public class BaseEntity implements Serializable {
     protected String id;
 
     @TableLogic
-    protected Integer del;
+    protected Boolean del = Boolean.FALSE;
 
     @Override
     public boolean equals(Object obj) {
