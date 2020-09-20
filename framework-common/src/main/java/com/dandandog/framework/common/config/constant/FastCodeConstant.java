@@ -160,6 +160,25 @@ public class FastCodeConstant {
      */
     public static final String PAGE_SUFFIX = ".faces";
 
+    /**
+     * 消息标识前缀
+     */
+    public static final String MESSAGE_CODE_PREFIX = "framework.";
+
+    /**
+     * 消息弹窗
+     */
+    public static final String MESSAGE_DIALOG_WIDGET_VAR = "globalMessageDialog";
+
+    /**
+     * 消息公告
+     */
+    public static final String MESSAGE_GROWL_WIDGET_VAR = "globalMessageGrowl";
+
+    /**
+     * 消息公告
+     */
+    public static final String MESSAGE_DEFAULT_TITLE = "messageTitle";
 
     static {
         FAST_CODE_VERSION = Optional.ofNullable(FastCodeConstant.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);

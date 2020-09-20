@@ -2,11 +2,13 @@ package com.dandandog.framework.faces.aspect;
 
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.faces.annotation.MessageRequired;
+import com.dandandog.framework.faces.config.properties.MessageProperties;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
-import lombok.Setter;
+import com.dandandog.framework.faces.utils.MessageUtil;
+import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 
@@ -17,27 +19,27 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author JohnnyLiu
  */
-
+@AllArgsConstructor
+@EnableConfigurationProperties(MessageProperties.class)
 public abstract class AbstractMessageAspect {
 
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
 
-    @Setter
-    private String messageCodePrefix = "framework.";
+    private final MessageProperties properties;
 
     @Around("@annotation(messageRequired)")
     public Object showMessage(ProceedingJoinPoint joinPoint, MessageRequired messageRequired) throws Throwable {
-        String title = getMessageDetail(messageCodePrefix + "tipsMessages");
+        String messageCodePrefix = properties.getCodePrefix();
+        String title = getMessageDetail(messageCodePrefix + properties.getTitle());
         StringBuilder messageCode = new StringBuilder(messageCodePrefix);
+
         String messageDetail;
 
         try {
             Object result = joinPoint.proceed();
             messageCode.append(messageRequired.type().getSuccessCode());
             messageDetail = getMessageDetail(messageCode.toString(), result);
-            createFacesMessage(FacesMessage.SEVERITY_INFO, title, messageDetail);
-
+            MessageUtil.showMessageGrowl(title, messageDetail, FacesMessage.SEVERITY_INFO);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,8 +51,7 @@ public abstract class AbstractMessageAspect {
                 String detail = getMessageDetail(messageCodePrefix + "contactTheAdmin");
                 messageDetail = getMessageDetail(messageCode.toString(), detail);
             }
-            createFacesMessage(FacesMessage.SEVERITY_ERROR, title, messageDetail);
-
+            MessageUtil.showMessageDialog(title, messageDetail, FacesMessage.SEVERITY_ERROR);
         } finally {
             if (messageRequired.growl()) {
                 renderMessages();
@@ -72,10 +73,6 @@ public abstract class AbstractMessageAspect {
         return msg;
     }
 
-    private void createFacesMessage(FacesMessage.Severity severity, String title, String messageDetail) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(severity, title, messageDetail));
-    }
 
     private HttpServletResponse getResponse() {
         return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();

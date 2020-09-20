@@ -30,7 +30,7 @@
         <fail-on-missing-web-xml>false</fail-on-missing-web-xml>
 
         <shiro-spring-boot-web-starter.version>1.6.0</shiro-spring-boot-web-starter.version>
-        <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
         <mybatis-plus-boot-starter.version>3.4.0</mybatis-plus-boot-starter.version>
         <dynamic-datasource-spring-boot-starter.version>3.2.0</dynamic-datasource-spring-boot-starter.version>
         <h2.version>1.4.200</h2.version>
