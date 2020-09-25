@@ -31,7 +31,7 @@ public class PageRewriteProvider extends HttpConfigurationProvider {
                 .addRule()
                 .when(Direction.isInbound().and(Path.matches("/")))
                 .perform(Redirect.temporary(context.getContextPath() + properties.getIndex()))
-                .addRule(Join.path(properties.getLogin()).to(StrUtil.addSuffixIfNot(properties.getLogin(), ".faces")))
+                .addRule(Join.path(properties.getLogin() + "{error}").to(StrUtil.addSuffixIfNot(properties.getLogin(), ".faces{error}")))
                 .addRule(Join.path(properties.getIndex()).to(StrUtil.addSuffixIfNot(properties.getIndex(), ".faces")))
                 .addRule(Join.path(properties.getAccess()).to(StrUtil.addSuffixIfNot(properties.getAccess(), ".faces")))
                 .addRule(Join.path(properties.getError()).to(StrUtil.addSuffixIfNot(properties.getError(), ".faces")))

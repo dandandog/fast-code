@@ -31,7 +31,7 @@ public class AuditableHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "createdTime", LocalDateTime::now, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "operator", SecurityUtil::getCurrUsername, String.class);
         this.strictInsertFill(metaObject, "operatedTime", LocalDateTime::now, LocalDateTime.class);
     }
 
