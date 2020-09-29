@@ -32,15 +32,10 @@ public class CaptchaFilter extends GenericFilterBean {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         try {
-            boolean isAjaxRequest = false;
-            if (!StrUtil.isBlank(request.getHeader("x-requested-with")) && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
-                isAjaxRequest = true;
-            }
-            if (!isAjaxRequest) {
-                validate(request);
-                chain.doFilter(request, response);
-            }
-        } catch (VerifyCaptchaException e) {
+            validate(request);
+            chain.doFilter(request, response);
+        } catch (
+                VerifyCaptchaException e) {
             if (authenticationFailureHandler != null) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, e);
             }
@@ -50,15 +45,21 @@ public class CaptchaFilter extends GenericFilterBean {
     private void validate(HttpServletRequest request) throws VerifyCaptchaException {
         String requestCaptcha = request.getParameter(sessionKey);
         BaseCaptcha genCaptcha = (BaseCaptcha) request.getSession().getAttribute(sessionKey);
-        if ("POST".equalsIgnoreCase(request.getMethod()) && "/login".equals(request.getServletPath())) {
-            if (StrUtil.isEmpty(requestCaptcha))
-                throw new VerifyCaptchaException("captcha not empty");
-            if (genCaptcha == null)
-                throw new VerifyCaptchaException("captcha error");
-            if (genCaptcha.getExpireTime().isBefore(LocalDateTime.now()))
-                throw new VerifyCaptchaException("captcha time out");
-            if (!genCaptcha.getCode().toLowerCase().equals(requestCaptcha.toLowerCase()))
-                throw new VerifyCaptchaException("captcha input error");
+        boolean isAjaxRequest = false;
+        if (!StrUtil.isBlank(request.getHeader("x-requested-with")) && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
+            isAjaxRequest = true;
+        }
+        if (!isAjaxRequest) {
+            if ("POST".equalsIgnoreCase(request.getMethod()) && "/login".equals(request.getServletPath())) {
+                if (StrUtil.isEmpty(requestCaptcha))
+                    throw new VerifyCaptchaException("captcha not empty");
+                if (genCaptcha == null)
+                    throw new VerifyCaptchaException("captcha error");
+                if (genCaptcha.getExpireTime().isBefore(LocalDateTime.now()))
+                    throw new VerifyCaptchaException("captcha time out");
+                if (!genCaptcha.getCode().toLowerCase().equals(requestCaptcha.toLowerCase()))
+                    throw new VerifyCaptchaException("captcha input error");
+            }
         }
     }
 }
