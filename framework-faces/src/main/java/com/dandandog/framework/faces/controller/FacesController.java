@@ -165,9 +165,27 @@ public class FacesController {
         return this.messageSource.getMessage(code, args, defaultMessage, getLocale());
     }
 
-    protected void throwValidatorMessages(String code, Object[] args, FacesMessage.Severity severity) {
+    protected void addMessages(String code, Object[] args, FacesMessage.Severity severity) {
         FacesMessage facesMessage = new FacesMessage(getMessage(code, args));
         facesMessage.setSeverity(severity);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
     }
+
+    protected void infoMessages(String code, Object[] args) {
+        this.addMessages(code, args, FacesMessage.SEVERITY_INFO);
+    }
+
+    protected void warnMessages(String code, Object[] args) {
+        this.addMessages(code, args, FacesMessage.SEVERITY_WARN);
+    }
+
+    protected void errorMessages(String code, Object[] args) {
+        this.addMessages(code, args, FacesMessage.SEVERITY_ERROR);
+    }
+
+    protected void fatalMessages(String code, Object[] args) {
+        this.addMessages(code, args, FacesMessage.SEVERITY_FATAL);
+    }
+
+
 }

@@ -41,8 +41,19 @@ public class MessageUtil {
         showMessageGrowl();
     }
 
+    public static void showMessageGrowl(FacesMessage facesMessage) {
+        addGlobalMessage(facesMessage);
+        showMessageGrowl();
+    }
+
+
     public static void showMessageDialog(String title, String message, FacesMessage.Severity severity) {
         addGlobalMessage(title, message, severity);
+        showMessageDialog();
+    }
+
+    public static void showMessageDialog(FacesMessage facesMessage) {
+        addGlobalMessage(facesMessage);
         showMessageDialog();
     }
 

@@ -10,6 +10,8 @@ public class PageProperties {
 
     private String login = FastCodeConstant.LOGIN_PAGE;
 
+    private String loginFailed = FastCodeConstant.LOGIN_FAILED_PAGE;
+
     private String index = FastCodeConstant.INDEX_PAGE;
 
     private String error = FastCodeConstant.ERROR_PAGE;

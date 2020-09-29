@@ -136,6 +136,11 @@ public class FastCodeConstant {
     public static final String LOGIN_PAGE = "/login";
 
     /**
+     * 登入失败页
+     */
+    public static final String LOGIN_FAILED_PAGE = "/login?error=true";
+
+    /**
      * 首页
      */
     public static final String INDEX_PAGE = "/index";
