@@ -33,14 +33,14 @@ public class CaptchaFilter extends GenericFilterBean {
         HttpServletResponse response = (HttpServletResponse) res;
         try {
             validate(request);
-            chain.doFilter(request, response);
         } catch (
                 VerifyCaptchaException e) {
             if (authenticationFailureHandler != null) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, e);
             }
+        } finally {
+            chain.doFilter(request, response);
         }
-
     }
 
     private void validate(HttpServletRequest request) throws VerifyCaptchaException {
