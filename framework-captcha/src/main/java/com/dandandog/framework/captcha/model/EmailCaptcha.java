@@ -8,5 +8,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class EmailCaptcha extends BaseCaptcha {
 
+    public String url;
 
 }

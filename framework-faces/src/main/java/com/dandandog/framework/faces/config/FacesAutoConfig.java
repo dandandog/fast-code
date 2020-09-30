@@ -69,7 +69,7 @@ public class FacesAutoConfig {
             registry.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, properties.getNotFound()));
             registry.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, properties.getError()));
             registry.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, properties.getAccess()));
-            registry.addErrorPages(new ErrorPage(NoClassDefFoundError.class, properties.getError()));
+            registry.addErrorPages(new ErrorPage(Exception.class, properties.getError()));
         };
     }
 

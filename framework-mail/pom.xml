@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>framework-captcha</artifactId>
+    <artifactId>framework-mail</artifactId>
     <packaging>jar</packaging>
-    <name>fastcode :: framework :: captcha</name>
+    <name>fastcode :: framework :: mail</name>
 
     <dependencies>
         <dependency>
@@ -19,14 +19,8 @@
             <artifactId>framework-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.joinfaces</groupId>
-            <artifactId>security-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>

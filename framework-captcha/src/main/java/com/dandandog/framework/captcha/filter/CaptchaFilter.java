@@ -40,11 +40,13 @@ public class CaptchaFilter extends GenericFilterBean {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, e);
             }
         }
+
     }
 
     private void validate(HttpServletRequest request) throws VerifyCaptchaException {
         String requestCaptcha = request.getParameter(sessionKey);
         BaseCaptcha genCaptcha = (BaseCaptcha) request.getSession().getAttribute(sessionKey);
+
         boolean isAjaxRequest = false;
         if (!StrUtil.isBlank(request.getHeader("x-requested-with")) && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
             isAjaxRequest = true;

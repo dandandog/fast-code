@@ -18,5 +18,7 @@ public class CaptchaProperties {
 
     private SmsCaptchaProperties sms = new SmsCaptchaProperties();
 
+    private EmailCaptchaProperties email = new EmailCaptchaProperties();
+
 
 }
