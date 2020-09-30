@@ -129,26 +129,61 @@ public class FastCodeConstant {
      */
     public static final Integer PAGE_DEFAULT_SIZE = 10;
 
+
+    /**
+     * 登入页
+     */
+    public static final String LOGIN_PAGE = "/login";
+
+    /**
+     * 登入失败页
+     */
+    public static final String LOGIN_FAILED_PAGE = "/login?error=true";
+
     /**
      * 首页
      */
-    public static final String INDEX_PAGE = "/index.faces";
+    public static final String INDEX_PAGE = "/index";
 
     /**
      * 500页
      */
-    public static final String ERROR_PAGE = "/error.faces";
+    public static final String ERROR_PAGE = "/error";
 
     /**
      * 404页
      */
-    public static final String NOT_FOUND_PAGE = "/404.faces";
+    public static final String NOT_FOUND_PAGE = "/404";
 
     /**
      * access页
      */
-    public static final String ACCESS_PAGE = "/access.faces";
+    public static final String ACCESS_PAGE = "/access";
 
+    /**
+     * 页面后缀
+     */
+    public static final String PAGE_SUFFIX = ".faces";
+
+    /**
+     * 消息标识前缀
+     */
+    public static final String MESSAGE_CODE_PREFIX = "framework.";
+
+    /**
+     * 消息弹窗
+     */
+    public static final String MESSAGE_DIALOG_WIDGET_VAR = "globalMessageDialog";
+
+    /**
+     * 消息公告
+     */
+    public static final String MESSAGE_GROWL_WIDGET_VAR = "globalMessageGrowl";
+
+    /**
+     * 消息公告
+     */
+    public static final String MESSAGE_DEFAULT_TITLE = "messageTitle";
 
     static {
         FAST_CODE_VERSION = Optional.ofNullable(FastCodeConstant.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);

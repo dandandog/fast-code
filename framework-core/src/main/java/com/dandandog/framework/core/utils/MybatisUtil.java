@@ -23,6 +23,4 @@ public class MybatisUtil {
         }
         return SpringContextUtil.getBean(mapperClass);
     }
-
-
 }

@@ -1,13 +1,19 @@
 package com.dandandog.framework.faces.config;
 
+import com.dandandog.framework.faces.config.properties.PageProperties;
 import com.dandandog.framework.faces.event.JsfConfigureListener;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.primefaces.webapp.filter.FileUploadFilter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -21,40 +27,11 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
-public class FacesAutoConfig implements ServletContextAware {
+@AllArgsConstructor
+@EnableConfigurationProperties(PageProperties.class)
+public class FacesAutoConfig {
 
-
-
-    @Override
-    public void setServletContext(ServletContext servletContext) {
-        servletContext.setInitParameter("com.sun.faces.forceLoadConfiguration", Boolean.TRUE.toString());
-        servletContext.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", Boolean.TRUE.toString());
-        servletContext.setInitParameter("javax.faces.STATE_SAVING_METHOD", "server");
-        servletContext.setInitParameter("javax.faces.validator.ENABLE_VALIDATE_WHOLE_BEAN", Boolean.TRUE.toString());
-        servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
-        servletContext.setInitParameter("javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL", Boolean.TRUE.toString());
-
-        servletContext.setInitParameter("primefaces.TRANSFORM_METADATA", Boolean.TRUE.toString());
-        servletContext.setInitParameter("primefaces.THEME", "omega");
-        servletContext.setInitParameter("primefaces.FONT_AWESOME", Boolean.TRUE.toString());
-        servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", Boolean.TRUE.toString());
-        servletContext.setInitParameter("primefaces.UPLOADER", "auto");
-    }
-
-
-    @Bean
-    public FacesServlet facesServlet() {
-        return new FacesServlet();
-    }
-
-    @Bean
-    public ServletRegistrationBean<FacesServlet> facesServletBean() {
-        ServletRegistrationBean<FacesServlet> servletBean = new ServletRegistrationBean<>(facesServlet(),
-                "*.faces");
-        servletBean.setLoadOnStartup(1);
-        servletBean.setName("Faces Servlet");
-        return servletBean;
-    }
+    private final PageProperties properties;
 
     @Bean
     public ServletListenerRegistrationBean<JsfConfigureListener> jsfConfigureListenerBean() {
@@ -63,7 +40,6 @@ public class FacesAutoConfig implements ServletContextAware {
 
     @Bean
     public FilterRegistrationBean<FileUploadFilter> fileUploadFilter() {
-        log.debug("~~~~~FileUploadFilter");
         FilterRegistrationBean<FileUploadFilter> filterBean = new FilterRegistrationBean<>(
                 new FileUploadFilter());
         Map<String, String> initParameters = new HashMap<>(2);
@@ -75,24 +51,8 @@ public class FacesAutoConfig implements ServletContextAware {
         return filterBean;
     }
 
-//    @Bean
-//    public FilterRegistrationBean<UrlRewriteFilter> urlRewrite() {
-//        log.debug("~~~~~UrlRewriteFilter");
-//        UrlRewriteFilter rewriteFilter = new UrlRewriteFilter();
-//        FilterRegistrationBean<UrlRewriteFilter> registration = new FilterRegistrationBean<>(rewriteFilter);
-//        registration.setUrlPatterns(Collections.singletonList("/*"));
-//        registration.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.FORWARD);
-//        Map<String, String> initParam = new HashMap<>();
-//        initParam.put("confPath", "urlrewrite.xml");
-//        initParam.put("logLevel", "DEBUG");
-//
-//        registration.setInitParameters(initParam);
-//        return registration;
-//    }
-
     @Bean
     public FilterRegistrationBean<CharacterEncodingFilter> encodingFilter() {
-        log.debug("~~~~~CharacterEncodingFilter");
         FilterRegistrationBean<CharacterEncodingFilter> filterBean = new FilterRegistrationBean<>(
                 new CharacterEncodingFilter());
         filterBean.setName("Character Encoding Filter");
@@ -103,6 +63,14 @@ public class FacesAutoConfig implements ServletContextAware {
         return filterBean;
     }
 
-
+    @Bean
+    public ErrorPageRegistrar errorPageRegistrar() {
+        return registry -> {
+            registry.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, properties.getNotFound()));
+            registry.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, properties.getError()));
+            registry.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, properties.getAccess()));
+            registry.addErrorPages(new ErrorPage(NoClassDefFoundError.class, properties.getError()));
+        };
+    }
 
 }

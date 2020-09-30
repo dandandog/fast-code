@@ -3,6 +3,7 @@ package com.dandandog.framework.core.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.dandandog.framework.common.model.IEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,13 +16,13 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class BaseEntity implements Serializable {
+public class BaseEntity implements IEntity, Serializable {
 
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
     protected String id;
 
     @TableLogic
-    protected Integer del;
+    protected Boolean del = Boolean.FALSE;
 
     @Override
     public boolean equals(Object obj) {

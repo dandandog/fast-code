@@ -8,6 +8,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "fast-code.page")
 public class PageProperties {
 
+    private String login = FastCodeConstant.LOGIN_PAGE;
+
+    private String loginFailed = FastCodeConstant.LOGIN_FAILED_PAGE;
+
     private String index = FastCodeConstant.INDEX_PAGE;
 
     private String error = FastCodeConstant.ERROR_PAGE;
@@ -15,4 +19,6 @@ public class PageProperties {
     private String access = FastCodeConstant.ACCESS_PAGE;
 
     private String notFound = FastCodeConstant.NOT_FOUND_PAGE;
+
+    private String suffix = FastCodeConstant.PAGE_SUFFIX;
 }

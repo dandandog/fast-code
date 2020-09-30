@@ -12,9 +12,7 @@ import java.beans.FeatureDescriptor;
 import java.util.Iterator;
 
 /**
- * @author create by Johnny
- * @description com.johnny.web.faces.el
- * @date 七月 06,2019
+ * @author JohnnyLiu
  */
 public class PlatformMessageSourceELResolver extends ELResolver {
 

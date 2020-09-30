@@ -1,52 +1,67 @@
 package com.dandandog.framework.faces.utils;
 
 
+import cn.hutool.core.util.StrUtil;
+import com.dandandog.framework.faces.config.properties.MessageProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import java.util.List;
 
 /**
  * @author JohnnyLiu
  */
+@Component
+
+@EnableConfigurationProperties(MessageProperties.class)
 public class MessageUtil {
 
-    public static void showSuccessMessage(String message, FacesMessage.Severity severity) {
-        showMessageGrowl(message, severity);
+
+    private static MessageProperties properties;
+
+    public MessageUtil(MessageProperties properties) {
+        MessageUtil.properties = properties;
     }
 
-    public static void showDialogMessage(String message, FacesMessage.Severity severity) {
-        showMessageDialog(message, severity);
-    }
-
-    public static void addGlobalMessage(String message, FacesMessage.Severity severity) {
-        addGlobalMessage(new FacesMessage(severity, message, message));
+    public static void addGlobalMessage(String title, String message, FacesMessage.Severity severity) {
+        addGlobalMessage(new FacesMessage(severity, title, message));
     }
 
     public static void addGlobalMessage(FacesMessage facesMessage) {
-        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-    }
-
-    public static void addGlobalMessages(List<String> messages, FacesMessage.Severity severity) {
-        for (String message : messages) {
-            addGlobalMessage(message, severity);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, facesMessage);
+        if (facesMessage.getSeverity().equals(FacesMessage.SEVERITY_ERROR)) {
+            context.validationFailed();
         }
     }
 
-    public static void showMessageGrowl() {
-        RequestContextUtil.update("globalMessageGrowl");
-    }
-
-    public static void showMessageDialog() {
-        RequestContextUtil.executeAndUpdate("globalMessageDialog.show();", "globalMessages");
-    }
-
-    private static void showMessageGrowl(String message, FacesMessage.Severity severity) {
-        addGlobalMessage(message, severity);
+    public static void showMessageGrowl(String title, String message, FacesMessage.Severity severity) {
+        addGlobalMessage(title, message, severity);
         showMessageGrowl();
     }
 
-    private static void showMessageDialog(String message, FacesMessage.Severity severity) {
-        addGlobalMessage(message, severity);
+    public static void showMessageGrowl(FacesMessage facesMessage) {
+        addGlobalMessage(facesMessage);
+        showMessageGrowl();
+    }
+
+
+    public static void showMessageDialog(String title, String message, FacesMessage.Severity severity) {
+        addGlobalMessage(title, message, severity);
         showMessageDialog();
+    }
+
+    public static void showMessageDialog(FacesMessage facesMessage) {
+        addGlobalMessage(facesMessage);
+        showMessageDialog();
+    }
+
+    private static void showMessageGrowl() {
+        RequestContextUtil.update(properties.getGrowlWidgetVar());
+    }
+
+    private static void showMessageDialog() {
+        RequestContextUtil.executeAndUpdate(StrUtil.addSuffixIfNot(properties.getDialogWidgetVar(), ".show()"), "messages");
     }
 }
