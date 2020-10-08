@@ -9,4 +9,8 @@ import lombok.EqualsAndHashCode;
 public class SmsCaptcha extends BaseCaptcha {
 
 
+    @Override
+    public boolean verify(String code) {
+        return super.verify(code);
+    }
 }

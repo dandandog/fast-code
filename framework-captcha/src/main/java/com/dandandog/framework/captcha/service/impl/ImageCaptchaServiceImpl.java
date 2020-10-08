@@ -1,11 +1,8 @@
 package com.dandandog.framework.captcha.service.impl;
 
 import cn.hutool.captcha.AbstractCaptcha;
-import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ICaptcha;
-import cn.hutool.core.util.RandomUtil;
 import com.dandandog.framework.captcha.config.properties.CaptchaProperties;
-import com.dandandog.framework.captcha.config.properties.ImageCaptchaProperties;
 import com.dandandog.framework.captcha.model.ImageCaptcha;
 import com.dandandog.framework.captcha.service.CaptchaService;
 import com.dandandog.framework.common.utils.DateTimeUtil;

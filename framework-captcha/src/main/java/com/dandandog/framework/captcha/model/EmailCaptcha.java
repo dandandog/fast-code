@@ -10,4 +10,8 @@ public class EmailCaptcha extends BaseCaptcha {
 
     public String url;
 
+    @Override
+    public boolean verify(String code) {
+        return super.verify(code);
+    }
 }

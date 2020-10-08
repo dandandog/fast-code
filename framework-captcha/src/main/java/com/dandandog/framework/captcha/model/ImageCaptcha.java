@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -20,4 +21,8 @@ public class ImageCaptcha extends BaseCaptcha {
     private String imageBase64Data;
 
 
+    @Override
+    public boolean verify(String code) {
+        return super.verify(code) || getExpireTime().isAfter(LocalDateTime.now());
+    }
 }
