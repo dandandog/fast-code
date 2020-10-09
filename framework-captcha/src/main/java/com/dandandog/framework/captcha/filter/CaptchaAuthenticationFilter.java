@@ -1,13 +1,11 @@
 package com.dandandog.framework.captcha.filter;
 
-import com.dandandog.framework.captcha.exception.VerifyCaptchaException;
+import com.dandandog.framework.captcha.exception.CaptchaVerifyException;
 import com.dandandog.framework.captcha.model.BaseCaptcha;
+import com.dandandog.framework.common.exception.FrameworkException;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.Assert;
@@ -28,13 +26,20 @@ public class CaptchaAuthenticationFilter extends GenericFilterBean {
     @Setter
     private String captchaParameter = "captcha";
 
-    private final AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
+    private final CaptchaFailureHandler failureHandler;
 
     private RequestMatcher requiresAuthenticationRequestMatcher;
 
-    public CaptchaAuthenticationFilter() {
+    public CaptchaAuthenticationFilter(CaptchaFailureHandler failureHandler) {
+        this.failureHandler = failureHandler;
         this.requiresAuthenticationRequestMatcher = new AntPathRequestMatcher("/login", "POST");
     }
+
+    public CaptchaAuthenticationFilter(AntPathRequestMatcher antPathRequestMatcher, CaptchaFailureHandler failureHandler) {
+        this.failureHandler = failureHandler;
+        this.requiresAuthenticationRequestMatcher = antPathRequestMatcher;
+    }
+
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -45,14 +50,14 @@ public class CaptchaAuthenticationFilter extends GenericFilterBean {
                 String code = obtainCode(request);
                 BaseCaptcha captcha = obtainCaptcha(request);
                 if (captcha == null) {
-                    throw new VerifyCaptchaException("captcha disabled");
+                    throw new CaptchaVerifyException("captcha disabled");
                 }
                 if (!captcha.verify(code)) {
-                    throw new VerifyCaptchaException("captcha error");
+                    throw new CaptchaVerifyException("captcha error");
                 }
             }
             chain.doFilter(request, response);
-        } catch (VerifyCaptchaException e) {
+        } catch (CaptchaVerifyException e) {
             this.unsuccessfulAuthentication(request, response, e);
         }
     }
@@ -76,9 +81,14 @@ public class CaptchaAuthenticationFilter extends GenericFilterBean {
         this.requiresAuthenticationRequestMatcher = requestMatcher;
     }
 
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, FrameworkException failed) {
         SecurityContextHolder.clearContext();
         this.failureHandler.onAuthenticationFailure(request, response, failed);
+    }
+
+
+    public interface CaptchaFailureHandler {
+        void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, FrameworkException failed);
     }
 
 }

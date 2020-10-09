@@ -14,6 +14,6 @@ public class BaseCaptcha implements Serializable {
     private LocalDateTime expireTime;
 
     public boolean verify(String code) {
-        return !StrUtil.isNotEmpty(code) || !getCode().toLowerCase().equals(code.toLowerCase());
+        return StrUtil.isNotEmpty(code) && getCode().toLowerCase().equals(code.toLowerCase());
     }
 }

@@ -42,5 +42,9 @@
             <groupId>com.dandandog.fastcode</groupId>
             <artifactId>framework-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.dandandog.fastcode</groupId>
+            <artifactId>framework-cache</artifactId>
+        </dependency>
     </dependencies>
 </project>

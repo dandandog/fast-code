@@ -7,13 +7,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Component
 @AllArgsConstructor
 @EnableConfigurationProperties(CaptchaProperties.class)
-public class CaptchaFactory {
+public class CaptchaServletFactory {
 
 
     private final CaptchaProperties properties;
@@ -21,10 +20,9 @@ public class CaptchaFactory {
     private final Map<String, CaptchaService<?>> serviceMap;
 
 
-    public <T extends BaseCaptcha> T generate(Class<T> tClass, HttpServletRequest request) {
-        BaseCaptcha captcha = serviceMap.get(tClass.getName()).generate(properties);
-        request.getSession().setAttribute(properties.getKey(), captcha);
-        return (T) captcha;
+    public <T extends BaseCaptcha> CaptchaServlet generate(Class<T> tClass) {
+        CaptchaService<?> captcha = serviceMap.get(tClass.getName());
+        return new CaptchaServlet(properties, captcha);
     }
 
 }

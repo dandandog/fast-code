@@ -23,6 +23,6 @@ public class ImageCaptcha extends BaseCaptcha {
 
     @Override
     public boolean verify(String code) {
-        return super.verify(code) || getExpireTime().isAfter(LocalDateTime.now());
+        return super.verify(code) && getExpireTime().isAfter(LocalDateTime.now());
     }
 }
