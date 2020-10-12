@@ -11,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -117,6 +118,17 @@ public class SpringContextUtil implements ApplicationContextAware {
     public static Class<?> getType(String name) {
         return getApplicationContext().getType(name);
     }
+
+    /**
+     * 获取注册类型相匹配bean
+     *
+     * @param clazz bean类型
+     * @return 注册bean类型
+     */
+    public static <T> Map<String, T> getBeansOfType(Class<T> clazz) {
+        return getApplicationContext().getBeansOfType(clazz);
+    }
+
 
     /**
      * 注册bean

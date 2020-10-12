@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.cache.annotation.CachePut;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -13,7 +14,7 @@ import java.util.function.Function;
 
 public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> {
 
-
+    @CachePut(value = "entity", key = "#entity.targetClass")
     public boolean save(T entity) {
         return super.save(entity);
     }
