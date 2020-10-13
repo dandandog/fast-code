@@ -1,10 +1,12 @@
 package com.dandandog.framework.core.cache;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -47,6 +49,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         return super.updateBatchById(entityList, batchSize);
     }
 
+    @CachePut(value = "entity", key = "#entity.targetClass")
     public boolean saveOrUpdate(T entity) {
         return super.saveOrUpdate(entity);
     }
@@ -115,10 +118,12 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         return super.list(queryWrapper);
     }
 
+    @Cacheable(value = "list")
     public List<T> list() {
         return super.list();
     }
 
+    @Cacheable(value = "page")
     public <E extends IPage<T>> E page(E page, Wrapper<T> queryWrapper) {
         return super.page(page, queryWrapper);
     }
@@ -157,6 +162,15 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
     public <E extends IPage<Map<String, Object>>> E pageMaps(E page) {
         return super.pageMaps(page);
+    }
+
+    @Override
+    public Class<T> currentModelClass() {
+        return super.currentModelClass();
+    }
+
+    public boolean isCurrentModelClass(Class<?> clazz) {
+        return ObjectUtil.equal(super.currentModelClass(), clazz);
     }
 
 

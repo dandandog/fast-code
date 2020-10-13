@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -26,6 +27,7 @@ import java.util.Objects;
 /**
  * @author JohnnyLiu
  */
+@Slf4j
 @EnableCaching
 @Configuration
 @AllArgsConstructor
@@ -34,6 +36,7 @@ public class CacheConfig extends CachingConfigurerSupport {
     RedisConnectionFactory factory;
 
 
+    @Bean
     @Override
     public KeyGenerator keyGenerator() {
         return (o, method, objects) -> {
@@ -43,7 +46,7 @@ public class CacheConfig extends CachingConfigurerSupport {
             for (Object obj : objects) {
                 sb.append(obj.toString());
             }
-            System.out.println("keyGenerator=" + sb.toString());
+            log.debug("keyGenerator=" + sb.toString());
             return sb.toString();
         };
     }

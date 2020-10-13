@@ -2,10 +2,9 @@ package com.dandandog.framework.core.utils;
 
 import cn.hutool.core.util.ClassUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.dandandog.framework.common.utils.SpringContextUtil;
+import com.dandandog.framework.core.cache.BaseServiceImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -28,18 +27,12 @@ public class MybatisUtil {
         return SpringContextUtil.getBean(mapperClass);
     }
 
-    public static <M extends BaseMapper<T>, T> ServiceImpl<M, T> getService(Class<T> typeClass) throws IllegalStateException {
+    public static <M extends BaseMapper<T>, T> BaseServiceImpl<M, T> getService(Class<T> typeClass) throws IllegalStateException {
         if (typeClass == null) {
             throw new IllegalStateException("typeClass is not null");
         }
-        Map<String, ServiceImpl> beanMap = SpringContextUtil.getBeansOfType(ServiceImpl.class);
-        ServiceImpl serviceImpl = null;
-        for (ServiceImpl value : beanMap.values()) {
-            if (ReflectionKit.getSuperClassGenericType(value.getClass(), 1) == typeClass) {
-                serviceImpl = value;
-            }
-        }
-        return serviceImpl;
+        Map<String, BaseServiceImpl> beanMap = SpringContextUtil.getBeansOfType(BaseServiceImpl.class);
+        return beanMap.values().stream().filter(baseService -> baseService.isCurrentModelClass(typeClass)).findFirst().get();
     }
 
 }
