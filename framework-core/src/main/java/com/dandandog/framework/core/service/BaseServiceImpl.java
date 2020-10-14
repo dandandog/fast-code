@@ -26,17 +26,12 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         return super.save(entity);
     }
 
-    @CacheEvict(value = "page", condition = "T(com.dandandog.framework.core.cache.PageCacheHelper).canEvict(#root.caches[0])", beforeInvocation = true)
-    public boolean saveOrUpdate(T entity) {
-        return super.saveOrUpdate(entity);
-    }
-
     @CacheEvict(value = "list", key = "#root.targetClass + ':list'")
     public boolean update(T entity, Wrapper<T> updateWrapper) {
         return super.update(entity, updateWrapper);
     }
 
-    @CacheEvict(value = "entity", key = "#root.targetClass + #entity.id", beforeInvocation = true)
+    @CacheEvict(value = "entity", key = "#root.targetClass + ':' + #entity.id", beforeInvocation = true)
     public boolean updateById(T entity) {
         return super.updateById(entity);
     }

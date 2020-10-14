@@ -14,7 +14,7 @@ public interface ICacheService<T> extends IService<T> {
 
     boolean save(T entity);
 
-    boolean saveOrUpdate(T entity);
+    void cacheSaveOrUpdate(T entity);
 
     boolean update(T entity, Wrapper<T> updateWrapper);
 
