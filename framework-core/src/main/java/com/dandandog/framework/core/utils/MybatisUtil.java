@@ -1,13 +1,16 @@
 package com.dandandog.framework.core.utils;
 
-import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dandandog.framework.common.utils.SpringContextUtil;
-import com.dandandog.framework.core.cache.BaseServiceImpl;
+import com.dandandog.framework.core.service.BaseServiceImpl;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author JohnnyLiu
@@ -15,24 +18,31 @@ import java.util.Map;
 @Component
 public class MybatisUtil {
 
-    public static <T> BaseMapper<T> getMapper(Class<T> typeClass) throws IllegalStateException, ClassNotFoundException {
-        if (typeClass == null) {
-            throw new IllegalStateException("typeClass is not null");
-        }
-        String classNamespace = SqlHelper.table(typeClass).getCurrentNamespace();
-        Class<BaseMapper<T>> mapperClass = ClassUtil.loadClass(classNamespace);
-        if (mapperClass == null) {
-            throw new ClassNotFoundException("No baseMapper is defined by typeClass");
-        }
-        return SpringContextUtil.getBean(mapperClass);
+    public static <T> BaseMapper<T> getOneMappersByModelClass(Class<T> typeClass) throws IllegalStateException {
+        List<BaseMapper<T>> baseMappers = getMappersByModelClass(typeClass);
+        return baseMappers.stream().findFirst().orElse(null);
     }
 
-    public static <M extends BaseMapper<T>, T> BaseServiceImpl<M, T> getService(Class<T> typeClass) throws IllegalStateException {
+    public static <T> List getMappersByModelClass(Class<T> typeClass) throws IllegalStateException {
+        List<BaseServiceImpl> baseMappers = getServicesByModelClass(typeClass);
+        return baseMappers.stream().map(ServiceImpl::getBaseMapper).collect(Collectors.toList());
+    }
+
+    public static <M extends BaseMapper<T>, T> BaseServiceImpl<M, T> getOneServiceByModelClass(Class<T> typeClass) throws IllegalStateException {
+        List<BaseServiceImpl> baseServices = getServicesByModelClass(typeClass);
+        return baseServices.stream().findFirst().orElse(null);
+    }
+
+    public static <M extends BaseMapper<T>, T> List<BaseServiceImpl> getServicesByModelClass(Class<T> typeClass) throws IllegalStateException {
         if (typeClass == null) {
             throw new IllegalStateException("typeClass is not null");
         }
         Map<String, BaseServiceImpl> beanMap = SpringContextUtil.getBeansOfType(BaseServiceImpl.class);
-        return beanMap.values().stream().filter(baseService -> baseService.isCurrentModelClass(typeClass)).findFirst().get();
+        if (CollUtil.isEmpty(beanMap)) {
+            return Collections.emptyList();
+        }
+        return beanMap.values().stream().filter(baseService -> baseService.isCurrentModelClass(typeClass)).collect(Collectors.toList());
     }
+
 
 }

@@ -37,9 +37,11 @@ public abstract class AbstractMessageAspect {
 
         try {
             Object result = joinPoint.proceed();
-            messageCode.append(messageRequired.type().getSuccessCode());
-            messageDetail = getMessageDetail(messageCode.toString(), result);
-            MessageUtil.showMessageGrowl(title, messageDetail, FacesMessage.SEVERITY_INFO);
+            if (messageRequired.growl()) {
+                messageCode.append(messageRequired.type().getSuccessCode());
+                messageDetail = getMessageDetail(messageCode.toString(), result);
+                MessageUtil.showMessageGrowl(title, messageDetail, FacesMessage.SEVERITY_INFO);
+            }
             return result;
         } catch (Exception e) {
             e.printStackTrace();

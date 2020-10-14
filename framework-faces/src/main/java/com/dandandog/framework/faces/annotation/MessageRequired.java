@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface MessageRequired {
 
-	MessageType type() default MessageType.OPERATION;
+    MessageType type() default MessageType.OPERATION;
 
-	boolean growl() default false;
+    boolean growl() default true;
 }
