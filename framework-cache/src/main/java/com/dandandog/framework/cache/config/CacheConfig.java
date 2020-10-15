@@ -40,8 +40,6 @@ public class CacheConfig extends CachingConfigurerSupport {
     @Override
     public KeyGenerator keyGenerator() {
         return (target, method, objects) -> {
-
-
             StringBuilder sb = new StringBuilder();
             sb.append(target.getClass().getName()).append(".");
             sb.append(method.getName()).append(".");

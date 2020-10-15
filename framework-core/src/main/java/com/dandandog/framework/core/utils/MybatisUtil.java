@@ -3,7 +3,9 @@ package com.dandandog.framework.core.utils;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.common.utils.SpringContextUtil;
+import com.dandandog.framework.core.entity.BaseEntity;
 import com.dandandog.framework.core.service.BaseServiceImpl;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +30,7 @@ public class MybatisUtil {
         return baseMappers.stream().map(ServiceImpl::getBaseMapper).collect(Collectors.toList());
     }
 
-    public static <M extends BaseMapper<T>, T> BaseServiceImpl<M, T> getOneServiceByModelClass(Class<T> typeClass) throws IllegalStateException {
+    public static <M extends BaseMapper<T>, T extends IEntity> BaseServiceImpl<M, T> getOneServiceByModelClass(Class<T> typeClass) throws IllegalStateException {
         List<BaseServiceImpl> baseServices = getServicesByModelClass(typeClass);
         return baseServices.stream().findFirst().orElse(null);
     }

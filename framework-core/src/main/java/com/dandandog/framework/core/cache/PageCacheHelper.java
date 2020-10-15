@@ -1,13 +1,13 @@
 package com.dandandog.framework.core.cache;
 
-import org.springframework.cache.Cache;
+import org.springframework.data.redis.cache.RedisCache;
 
 /**
  * @author JohnnyLiu
  */
 public class PageCacheHelper {
 
-    public boolean canEvict(Cache cache) {
+    public static boolean canEvict(RedisCache cache) {
         String cacheUser = cache.getName();
         return true;
     }

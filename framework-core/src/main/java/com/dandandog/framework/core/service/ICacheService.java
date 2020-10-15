@@ -3,6 +3,7 @@ package com.dandandog.framework.core.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dandandog.framework.common.model.IEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,28 +11,30 @@ import java.util.List;
 /**
  * @author JohnnyLiu
  */
-public interface ICacheService<T> extends IService<T> {
+public interface ICacheService<T extends IEntity> extends IService<T> {
 
-    boolean save(T entity);
+    boolean cacheSave(T entity);
 
-    void cacheSaveOrUpdate(T entity);
+    boolean cacheSaveOrUpdate(T entity);
 
-    boolean update(T entity, Wrapper<T> updateWrapper);
+    boolean cacheUpdate(T entity, Wrapper<T> updateWrapper);
 
-    boolean updateById(T entity);
+    boolean cacheUpdateById(T entity);
 
-    boolean removeById(Serializable id);
+    boolean cacheRemove(Wrapper<T> queryWrapper);
 
-    boolean remove(Wrapper<T> queryWrapper);
+    boolean cacheRemoveById(Serializable id);
 
-    T getById(Serializable id);
+    T cacheGetById(Serializable id);
 
-    List<T> list(Wrapper<T> queryWrapper);
+    T cacheGetOne(Wrapper<T> queryWrapper);
 
-    List<T> list();
+    List<T> cacheList();
 
-    <E extends IPage<T>> E page(E page, Wrapper<T> queryWrapper);
+    List<T> cacheList(Wrapper<T> queryWrapper);
 
-    <E extends IPage<T>> E page(E page);
+    <E extends IPage<T>> E cachePage(E page, Wrapper<T> queryWrapper);
+
+    <E extends IPage<T>> E cachePage(E page);
 
 }
