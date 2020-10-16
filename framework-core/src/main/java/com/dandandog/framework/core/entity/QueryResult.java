@@ -1,4 +1,4 @@
-package com.dandandog.framework.core.config.pagination;
+package com.dandandog.framework.core.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

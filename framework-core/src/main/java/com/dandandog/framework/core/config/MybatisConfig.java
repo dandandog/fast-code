@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.dandandog.framework.core.config.interceptor.SortInnerInterceptor;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -30,6 +31,8 @@ public class MybatisConfig {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         // 乐观锁
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        // 排序
+        interceptor.addInnerInterceptor(new SortInnerInterceptor());
         return interceptor;
     }
 
@@ -49,5 +52,4 @@ public class MybatisConfig {
         log.debug("loading mybatis config Jackson2ObjectMapperBuilderCustomizer....");
         return builder -> builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     }
-
 }

@@ -15,14 +15,8 @@ import java.time.LocalDateTime;
 @Component
 public class AuditableHandler implements MetaObjectHandler {
 
-
-    public AuditableHandler() {
-        log.debug("AuditableHandler initialization");
-    }
-
     @Override
     public void insertFill(MetaObject metaObject) {
-
         this.strictInsertFill(metaObject, "creator", SecurityUtil::getCurrUsername, String.class);
         this.strictInsertFill(metaObject, "operator", SecurityUtil::getCurrUsername, String.class);
         this.strictInsertFill(metaObject, "createdTime", LocalDateTime::now, LocalDateTime.class);

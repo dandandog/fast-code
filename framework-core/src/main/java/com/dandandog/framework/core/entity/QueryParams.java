@@ -1,4 +1,4 @@
-package com.dandandog.framework.core.config.pagination;
+package com.dandandog.framework.core.entity;
 
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import com.google.common.collect.Maps;

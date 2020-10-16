@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -33,8 +34,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class CacheConfig extends CachingConfigurerSupport {
 
-    RedisConnectionFactory factory;
-
+    @Resource
+    private static RedisConnectionFactory factory;
 
     @Bean
     @Override

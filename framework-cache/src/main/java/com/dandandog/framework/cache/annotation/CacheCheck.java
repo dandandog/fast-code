@@ -10,8 +10,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CacheRemove {
+public @interface CacheCheck {
 
-    String[] value() default {};
-
+    String value() default "";
 }

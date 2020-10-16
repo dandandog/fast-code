@@ -27,7 +27,7 @@ public abstract class AbstractMessageAspect {
 
     private final MessageProperties properties;
 
-    @Around("@annotation(messageRequired)")
+    @Around("@annotation(com.dandandog.framework.faces.annotation.MessageRequired)")
     public Object showMessage(ProceedingJoinPoint joinPoint, MessageRequired messageRequired) throws Throwable {
         String messageCodePrefix = properties.getCodePrefix();
         String title = getMessageDetail(messageCodePrefix + properties.getTitle());
