@@ -18,7 +18,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Objects;
@@ -35,9 +34,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class CacheAspect {
 
-
-    @Resource
-    private static RedisTemplate<String, Object> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
 
     @Around("@annotation(com.dandandog.framework.cache.annotation.CacheCheck)")

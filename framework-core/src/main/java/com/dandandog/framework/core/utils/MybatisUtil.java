@@ -35,7 +35,7 @@ public class MybatisUtil {
         return baseServices.stream().findFirst().orElse(null);
     }
 
-    public static <M extends BaseMapper<T>, T extends IEntity> List<BaseServiceImpl<M, T>> getServicesByModelClass(Class<T> typeClass) throws IllegalStateException {
+    public static <M extends BaseMapper<T>, T extends IEntity> List getServicesByModelClass(Class<T> typeClass) throws IllegalStateException {
         if (typeClass == null) {
             throw new IllegalStateException("typeClass is not null");
         }

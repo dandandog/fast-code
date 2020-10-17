@@ -63,7 +63,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends IEntity> extends
         return getOne(queryWrapper);
     }
 
-    @CacheCheck("list + '::' + #root.targetClass")
+    @CacheCheck("#root.targetClass")
     public List<T> cacheList() {
         return list();
     }
