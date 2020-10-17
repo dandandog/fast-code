@@ -1,8 +1,8 @@
 package com.dandandog.framework.cache.aspect;
 
-import com.dandandog.framework.cache.annotation.CacheCheck;
+import cn.hutool.core.util.ClassUtil;
+import com.dandandog.framework.cache.annotation.CacheStore;
 import com.dandandog.framework.cache.annotation.CacheRemove;
-import com.dandandog.framework.cache.annotation.CacheUpdate;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -37,14 +37,13 @@ public class CacheAspect {
     RedisTemplate<String, Object> redisTemplate;
 
 
-    @Around("@annotation(com.dandandog.framework.cache.annotation.CacheCheck)")
+    @Around("@annotation(com.dandandog.framework.cache.annotation.CacheStore)")
     public Object add(ProceedingJoinPoint point) throws Throwable {
         try {
             Method method = ((MethodSignature) point.getSignature()).getMethod();
-            CacheCheck cacheAdd = method.getAnnotation(CacheCheck.class);
-            String key = cacheAdd.value();
+            CacheStore cacheAdd = method.getAnnotation(CacheStore.class);
             if (key.contains("#")) {
-                key = parseKey(key, method, point.getArgs());
+                key = parseKey(key, method, point.getArgs(), point.getTarget());
             }
             if (Optional.ofNullable(redisTemplate.hasKey(key)).orElse(false)) {
                 return redisTemplate.opsForValue().get(key);
@@ -58,25 +57,6 @@ public class CacheAspect {
         return null;
     }
 
-    @Around("@annotation(com.dandandog.framework.cache.annotation.CacheUpdate)")
-    public Object update(ProceedingJoinPoint point) throws Throwable {
-        try {
-            Method method = ((MethodSignature) point.getSignature()).getMethod();
-            CacheUpdate cacheUpdate = method.getAnnotation(CacheUpdate.class);
-            String key = cacheUpdate.value();
-            if (key.contains("#")) {
-                key = parseKey(key, method, point.getArgs());
-            }
-            Object value = point.proceed();
-            redisTemplate.opsForValue().set(key, value);
-            return value;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     @Before("@annotation(com.dandandog.framework.cache.annotation.CacheRemove)")
     public void remove(JoinPoint point) {
         Method method = ((MethodSignature) point.getSignature()).getMethod();
@@ -84,7 +64,7 @@ public class CacheAspect {
         String[] keys = cacheRemove.value();
         for (String key : keys) {
             if (key.contains("#")) {
-                key = parseKey(key, method, point.getArgs());
+                key = parseKey(key, method, point.getArgs(), point.getTarget());
             }
             Set<String> deleteKeys = Optional.ofNullable(redisTemplate.keys(key)).orElse(Collections.emptySet());
             redisTemplate.delete(deleteKeys);
@@ -95,18 +75,20 @@ public class CacheAspect {
     /**
      * parseKey from SPEL
      */
-    private String parseKey(String key, Method method, Object[] args) {
+    private String parseKey(String key, Method method, Object[] args, Object target) {
         LocalVariableTableParameterNameDiscoverer u =
                 new LocalVariableTableParameterNameDiscoverer();
         String[] paraNameArr = u.getParameterNames(method);
 
         ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = new StandardEvaluationContext();
+        context.setRootObject(target);
+        ClassUtil.getClassName(target, true);
 
         for (int i = 0; i < Objects.requireNonNull(paraNameArr).length; i++) {
             context.setVariable(paraNameArr[i], args[i]);
         }
-        return parser.parseExpression(key).getValue(context, String.class);
+        return Objects.requireNonNull(parser.parseExpression(key).getValue(context)).toString();
     }
 
 }
