@@ -13,18 +13,19 @@ import java.util.concurrent.TimeUnit;
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CacheStore {
+public @interface CacheStorePut {
 
-    @AliasFor("cacheNames")
-    String[] value() default {};
+    @AliasFor("cacheName")
+    String value() default "";
 
     @AliasFor("value")
-    String[] cacheNames() default {};
-
+    String cacheName() default "";
 
     String key() default "";
 
     long expired() default 5;
 
     TimeUnit timeUnit() default TimeUnit.SECONDS;
+
+    boolean onlyStore() default true;
 }

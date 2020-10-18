@@ -1,6 +1,5 @@
 package com.dandandog.framework.core.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dandandog.framework.common.model.IEntity;
@@ -17,23 +16,13 @@ public interface ICacheService<T extends IEntity> extends IService<T> {
 
     boolean cacheSaveOrUpdate(T entity);
 
-    boolean cacheUpdate(T entity, Wrapper<T> updateWrapper);
-
     boolean cacheUpdateById(T entity);
-
-    boolean cacheRemove(Wrapper<T> queryWrapper);
 
     boolean cacheRemoveById(Serializable id);
 
     T cacheGetById(Serializable id);
 
-    T cacheGetOne(Wrapper<T> queryWrapper);
-
     List<T> cacheList();
-
-    List<T> cacheList(Wrapper<T> queryWrapper);
-
-    <E extends IPage<T>> E cachePage(E page, Wrapper<T> queryWrapper);
 
     <E extends IPage<T>> E cachePage(E page);
 
