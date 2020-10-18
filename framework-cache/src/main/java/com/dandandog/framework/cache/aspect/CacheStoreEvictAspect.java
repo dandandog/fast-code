@@ -29,7 +29,7 @@ public class CacheStoreEvictAspect extends AbstractCacheStoreAspect {
         Method method = ((MethodSignature) point.getSignature()).getMethod();
         CacheStoreEvict cacheStore = method.getAnnotation(CacheStoreEvict.class);
         for (String key : cacheStore.keys()) {
-            key = keyGenerator(cacheStore.cacheName(), key, point);
+            key = keyGenerator(cacheStore.value(), key, point);
             Set<String> deleteKeys = Optional.ofNullable(redisTemplate.keys(key)).orElse(Collections.emptySet());
             redisTemplate.delete(deleteKeys);
         }

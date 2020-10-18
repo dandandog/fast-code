@@ -25,7 +25,7 @@ public @interface CacheStorePut {
 
     long expired() default 5;
 
-    TimeUnit timeUnit() default TimeUnit.SECONDS;
+    TimeUnit timeUnit() default TimeUnit.MINUTES;
 
-    boolean onlyStore() default true;
+    boolean checkStore() default true;
 }

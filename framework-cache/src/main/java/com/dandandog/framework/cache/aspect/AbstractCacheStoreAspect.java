@@ -19,18 +19,19 @@ public abstract class AbstractCacheStoreAspect {
         Method method = ((MethodSignature) point.getSignature()).getMethod();
         Object target = point.getTarget();
         Class<?> targetClass = target.getClass();
+        CacheStoreExpressionRootObject rootObject = new CacheStoreExpressionRootObject(method, point.getArgs(), target, targetClass);
 
         StringBuilder sb = new StringBuilder(cacheName);
         sb.append("::").append(ClassUtil.getClassName(targetClass, true)).append(":");
+        sb.append(parseKey(key, rootObject));
 
-        CacheStoreExpressionRootObject rootObject = new CacheStoreExpressionRootObject(method, point.getArgs(), target, targetClass);
-        if (key.contains("#")) {
-            sb.append(parseKey(key, rootObject));
-        }
         return sb.toString();
     }
 
     private String parseKey(String value, CacheStoreExpressionRootObject rootObject) {
+        if (!value.contains("#")) {
+            return value;
+        }
         LocalVariableTableParameterNameDiscoverer u =
                 new LocalVariableTableParameterNameDiscoverer();
         String[] paraNameArr = u.getParameterNames(rootObject.getMethod());

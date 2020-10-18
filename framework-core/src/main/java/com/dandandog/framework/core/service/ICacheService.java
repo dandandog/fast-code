@@ -1,5 +1,6 @@
 package com.dandandog.framework.core.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dandandog.framework.common.model.IEntity;
@@ -25,5 +26,8 @@ public interface ICacheService<T extends IEntity> extends IService<T> {
     List<T> cacheList();
 
     <E extends IPage<T>> E cachePage(E page);
+
+    <E extends IPage<T>> E cachePage(E page, Wrapper<T> queryWrapper);
+
 
 }

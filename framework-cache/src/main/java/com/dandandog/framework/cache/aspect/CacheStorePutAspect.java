@@ -30,13 +30,10 @@ public class CacheStorePutAspect extends AbstractCacheStoreAspect {
         try {
             Method method = ((MethodSignature) point.getSignature()).getMethod();
             CacheStorePut cacheStore = method.getAnnotation(CacheStorePut.class);
-            String key = keyGenerator(cacheStore.cacheName(), cacheStore.key(), point);
+            String key = keyGenerator(cacheStore.value(), cacheStore.key(), point);
             Object value;
-            if (Optional.ofNullable(redisTemplate.hasKey(key)).orElse(false)) {
-                value = redisTemplate.opsForValue().get(key);
-                if (!cacheStore.onlyStore()) {
-                    return value;
-                }
+            if (cacheStore.checkStore() && Optional.ofNullable(redisTemplate.hasKey(key)).orElse(false)) {
+                return redisTemplate.opsForValue().get(key);
             }
             value = point.proceed();
             redisTemplate.opsForValue().set(key, value, cacheStore.expired(), cacheStore.timeUnit());

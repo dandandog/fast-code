@@ -1,6 +1,7 @@
 package com.dandandog.framework.core.service;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,22 +18,22 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends IEntity> extends
         return ObjectUtil.equal(super.currentModelClass(), clazz);
     }
 
-    @CacheStoreEvict(value = "entity", keys = "page,list")
+    @CacheStoreEvict(value = "entity", keys = {"page:*", "list"})
     public boolean cacheSave(T entity) {
         return super.save(entity);
     }
 
-    @CacheStoreEvict(value = "entity", keys = "page,list")
+    @CacheStoreEvict(value = "entity", keys = {"page:*", "list"})
     public boolean cacheSaveOrUpdate(T entity) {
         return super.saveOrUpdate(entity);
     }
 
-    @CacheStoreEvict(value = "entity", keys = "page,list")
+    @CacheStoreEvict(value = "entity", keys = {"page:*", "list", "#id"})
     public boolean cacheUpdateById(T entity) {
         return super.updateById(entity);
     }
 
-    @CacheStoreEvict(value = "entity", keys = "page,list,#id")
+    @CacheStoreEvict(value = "entity", keys = {"page:*", "list", "#id"})
     public boolean cacheRemoveById(Serializable id) {
         return super.removeById(id);
     }
@@ -50,6 +51,11 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends IEntity> extends
     @CacheStorePut(value = "entity", key = "'page' + #page.cacheKey()")
     public <E extends IPage<T>> E cachePage(E page) {
         return page(page);
+    }
+
+    @CacheStorePut(value = "entity", key = "'page' + #page.cacheKey()")
+    public <E extends IPage<T>> E cachePage(E page, Wrapper<T> queryWrapper) {
+        return page(page, queryWrapper);
     }
 
 
