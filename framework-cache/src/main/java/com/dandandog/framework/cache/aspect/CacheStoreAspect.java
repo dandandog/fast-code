@@ -1,8 +1,7 @@
 package com.dandandog.framework.cache.aspect;
 
 import cn.hutool.core.util.ClassUtil;
-import com.dandandog.framework.cache.annotation.CacheStore;
-import com.dandandog.framework.cache.annotation.CacheRemove;
+import com.dandandog.framework.cache.annotation.CacheDelete;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -32,35 +31,35 @@ import java.util.Set;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class CacheAspect {
+public class CacheStoreAspect extends AbstractCacheAspect {
 
     RedisTemplate<String, Object> redisTemplate;
 
 
     @Around("@annotation(com.dandandog.framework.cache.annotation.CacheStore)")
     public Object add(ProceedingJoinPoint point) throws Throwable {
-        try {
-            Method method = ((MethodSignature) point.getSignature()).getMethod();
-            CacheStore cacheAdd = method.getAnnotation(CacheStore.class);
-            if (key.contains("#")) {
-                key = parseKey(key, method, point.getArgs(), point.getTarget());
-            }
-            if (Optional.ofNullable(redisTemplate.hasKey(key)).orElse(false)) {
-                return redisTemplate.opsForValue().get(key);
-            }
-            Object value = point.proceed();
-            redisTemplate.opsForValue().set(key, value);
-            return value;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Method method = ((MethodSignature) point.getSignature()).getMethod();
+//            CacheStore cacheAdd = method.getAnnotation(CacheStore.class);
+//            if (key.contains("#")) {
+//                key = parseKey(key, method, point.getArgs(), point.getTarget());
+//            }
+//            if (Optional.ofNullable(redisTemplate.hasKey(key)).orElse(false)) {
+//                return redisTemplate.opsForValue().get(key);
+//            }
+//            Object value = point.proceed();
+//            redisTemplate.opsForValue().set(key, value);
+//            return value;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
 
-    @Before("@annotation(com.dandandog.framework.cache.annotation.CacheRemove)")
+    @Before("@annotation(com.dandandog.framework.cache.annotation.CacheDelete)")
     public void remove(JoinPoint point) {
         Method method = ((MethodSignature) point.getSignature()).getMethod();
-        CacheRemove cacheRemove = method.getAnnotation(CacheRemove.class);
+        CacheDelete cacheRemove = method.getAnnotation(CacheDelete.class);
         String[] keys = cacheRemove.value();
         for (String key : keys) {
             if (key.contains("#")) {

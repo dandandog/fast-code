@@ -24,7 +24,7 @@ public @interface CacheStore {
 
     String key() default "";
 
-    long timeout();
+    long expired() default 5;
 
-    TimeUnit unit();
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
 }

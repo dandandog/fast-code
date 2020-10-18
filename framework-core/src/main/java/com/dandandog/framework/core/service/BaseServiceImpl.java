@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dandandog.framework.cache.annotation.CacheStore;
-import com.dandandog.framework.cache.annotation.CacheRemove;
+import com.dandandog.framework.cache.annotation.CacheDelete;
 import com.dandandog.framework.common.model.IEntity;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -19,32 +19,32 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends IEntity> extends
         return ObjectUtil.equal(super.currentModelClass(), clazz);
     }
 
-    @CacheRemove({"list + '::' + #root.targetClass", "page + '::' + #entity"})
+    @CacheDelete({"list + '::' + #root.targetClass", "page + '::' + #entity"})
     public boolean cacheSave(T entity) {
         return super.save(entity);
     }
 
-    @CacheRemove({"list + '::' + #root.targetClass", "page + '::' + #entity"})
+    @CacheDelete({"list + '::' + #root.targetClass", "page + '::' + #entity"})
     public boolean cacheSaveOrUpdate(T entity) {
         return super.saveOrUpdate(entity);
     }
 
-    @CacheRemove({"list + '::' + #root.targetClass", "page + '::' + #entity"})
+    @CacheDelete({"list + '::' + #root.targetClass", "page + '::' + #entity"})
     public boolean cacheUpdate(T entity, Wrapper<T> updateWrapper) {
         return super.update(entity, updateWrapper);
     }
 
-    @CacheRemove({"list + '::' + #root.targetClass", "page + '::' + #entity"})
+    @CacheDelete({"list + '::' + #root.targetClass", "page + '::' + #entity"})
     public boolean cacheUpdateById(T entity) {
         return super.updateById(entity);
     }
 
-    @CacheRemove({"list + '::' + #root.targetClass", "page + '::' + #entity"})
+    @CacheDelete({"list + '::' + #root.targetClass", "page + '::' + #entity"})
     public boolean cacheRemove(Wrapper<T> queryWrapper) {
         return super.remove(queryWrapper);
     }
 
-    @CacheRemove({"list + '::' + #root.targetClass", "page + '::' + #entity", "entity + '::' + #root.targetClass + #entity.id"})
+    @CacheDelete({"list + '::' + #root.targetClass", "page + '::' + #entity", "entity + '::' + #root.targetClass + #entity.id"})
     public boolean cacheRemoveById(Serializable id) {
         return super.removeById(id);
     }
@@ -59,7 +59,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends IEntity> extends
         return getOne(queryWrapper);
     }
 
-    @CacheStore("list + '::' + #root.class")
+    @Cacheable("#root")
     public List<T> cacheList() {
         return list();
     }
@@ -69,7 +69,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T extends IEntity> extends
         return list(queryWrapper);
     }
 
-    @Cacheable("list + '::' + #root.targetClass")
+    @Cacheable(key="#root")
     public <E extends IPage<T>> E cachePage(E page, Wrapper<T> queryWrapper) {
         return page(page, queryWrapper);
     }
