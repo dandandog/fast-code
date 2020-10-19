@@ -20,6 +20,7 @@
         <module>framework-cache</module>
         <module>framework-faces</module>
         <module>framework-captcha</module>
+        <module>framework-wx</module>
     </modules>
 
 
@@ -39,6 +40,8 @@
         <mysql.version>8.0.21</mysql.version>
         <joinfaces.version>4.3.3</joinfaces.version>
         <omega-theme.version>2.0.1</omega-theme.version>
+
+        <wx-java.version>3.9.0</wx-java.version>
 
         <knife4j-spring-boot-starter.version>2.0.4</knife4j-spring-boot-starter.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
@@ -176,6 +179,20 @@
             </dependency>
             <!--faces end-->
 
+            <!-- wechat api start-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+                <version>${wx-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>wx-java-pay-spring-boot-starter</artifactId>
+                <version>${wx-java.version}</version>
+            </dependency>
+            <!--wechat api end-->
+
             <!-- common tools start -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
@@ -264,6 +281,11 @@
             <dependency>
                 <groupId>com.dandandog.fastcode</groupId>
                 <artifactId>framework-mail</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dandandog.fastcode</groupId>
+                <artifactId>framework-wx</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- module end -->
