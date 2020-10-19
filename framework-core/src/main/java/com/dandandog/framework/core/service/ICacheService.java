@@ -13,17 +13,14 @@ import java.util.List;
  */
 public interface ICacheService<T extends IEntity> extends IService<T> {
 
-    boolean cacheSave(T entity);
-
-    boolean cacheSaveOrUpdate(T entity);
-
-    boolean cacheUpdateById(T entity);
-
-    boolean cacheRemoveById(Serializable id);
 
     T cacheGetById(Serializable id);
 
+    T cacheGetOne(Wrapper<T> queryWrapper);
+
     List<T> cacheList();
+
+    List<T> cacheList(Wrapper<T> queryWrapper);
 
     <E extends IPage<T>> E cachePage(E page);
 

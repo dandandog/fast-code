@@ -1,5 +1,6 @@
 package com.dandandog.framework.cache.aspect;
 
+import cn.hutool.core.collection.CollUtil;
 import com.dandandog.framework.cache.annotation.CacheStoreEvict;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,9 @@ public class CacheStoreEvictAspect extends AbstractCacheStoreAspect {
         for (String key : cacheStore.keys()) {
             key = keyGenerator(cacheStore.value(), key, point);
             Set<String> deleteKeys = Optional.ofNullable(redisTemplate.keys(key)).orElse(Collections.emptySet());
-            redisTemplate.delete(deleteKeys);
+            if (CollUtil.isNotEmpty(deleteKeys)) {
+                redisTemplate.delete(deleteKeys);
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dandandog.framework.common.model.IEntity;
 import com.dandandog.framework.common.utils.SpringContextUtil;
-import com.dandandog.framework.core.service.BaseServiceImpl;
+import com.dandandog.framework.core.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
