@@ -18,7 +18,7 @@ import java.util.List;
 public class SwaggerProperties {
 
 
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     /**
      * 标题

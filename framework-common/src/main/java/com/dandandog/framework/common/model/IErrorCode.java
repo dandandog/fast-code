@@ -1,4 +1,4 @@
-package com.dandandog.framework.rest.model;
+package com.dandandog.framework.common.model;
 
 public interface IErrorCode {
 

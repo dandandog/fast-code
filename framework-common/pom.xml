@@ -13,8 +13,4 @@
     <name>fastcode :: framework :: common</name>
     <packaging>jar</packaging>
 
-    <dependencies>
-
-    </dependencies>
-
 </project>

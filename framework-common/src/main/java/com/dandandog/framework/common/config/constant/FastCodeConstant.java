@@ -185,6 +185,39 @@ public class FastCodeConstant {
      */
     public static final String MESSAGE_DEFAULT_TITLE = "messageTitle";
 
+
+    /**
+     * 默认密钥
+     */
+    public static final String JWT_DEFAULT_SECRET = "O@k%m#PL<a";
+
+    /**
+     * JWT唯一键
+     */
+    public static final String JWT_UNIQUE_ID = "userId";
+
+    /**
+     * JWT 默认过期时间，3600L，单位秒
+     */
+    public static final Long JWT_DEFAULT_EXPIRE = 3600L;
+
+    /**
+     * JWT刷新新token响应状态码
+     */
+    public static final int JWT_REFRESH_TOKEN_CODE = 460;
+
+    /**
+     * JWT 请求头token标记
+     */
+    public static final String JWT_TOKEN_HEADER = "Authorization";
+
+
+    /**
+     * JWT 刷新倒计时
+     */
+    public static final int JWT_TOKEN_REFRESH_COUNTDOWN = 10 * 60;
+
+
     static {
         FAST_CODE_VERSION = Optional.ofNullable(FastCodeConstant.class.getPackage().getImplementationVersion()).orElse(UNKNOWN_VERSION);
     }

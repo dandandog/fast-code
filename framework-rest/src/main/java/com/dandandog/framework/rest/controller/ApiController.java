@@ -1,7 +1,7 @@
 package com.dandandog.framework.rest.controller;
 
+import com.dandandog.framework.common.model.IErrorCode;
 import com.dandandog.framework.rest.model.ApiResponse;
-import com.dandandog.framework.rest.model.IErrorCode;
 
 public class ApiController {
 

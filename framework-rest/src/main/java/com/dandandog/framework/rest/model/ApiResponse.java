@@ -1,5 +1,7 @@
 package com.dandandog.framework.rest.model;
 
+import com.dandandog.framework.common.model.ApiErrorCode;
+import com.dandandog.framework.common.model.IErrorCode;
 import com.dandandog.framework.rest.exception.ApiException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

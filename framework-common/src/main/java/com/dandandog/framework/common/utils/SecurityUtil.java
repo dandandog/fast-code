@@ -19,8 +19,8 @@ public class SecurityUtil {
     }
 
 
-    public static String getCurrUsername() {
-        return authenticationFacade.getUsername();
+    public static String getUniqueId() {
+        return authenticationFacade.getUniqueId();
     }
 
 

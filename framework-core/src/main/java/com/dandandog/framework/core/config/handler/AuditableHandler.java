@@ -17,15 +17,15 @@ public class AuditableHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "creator", SecurityUtil::getCurrUsername, String.class);
-        this.strictInsertFill(metaObject, "operator", SecurityUtil::getCurrUsername, String.class);
+        this.strictInsertFill(metaObject, "creator", SecurityUtil::getUniqueId, String.class);
+        this.strictInsertFill(metaObject, "operator", SecurityUtil::getUniqueId, String.class);
         this.strictInsertFill(metaObject, "createdTime", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "operatedTime", LocalDateTime::now, LocalDateTime.class);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "operator", SecurityUtil::getCurrUsername, String.class);
+        this.strictInsertFill(metaObject, "operator", SecurityUtil::getUniqueId, String.class);
         this.strictInsertFill(metaObject, "operatedTime", LocalDateTime::now, LocalDateTime.class);
     }
 

@@ -1,4 +1,4 @@
-package com.dandandog.framework.rest.model;
+package com.dandandog.framework.common.model;
 
 import cn.hutool.core.util.EnumUtil;
 

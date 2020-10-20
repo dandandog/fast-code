@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
+import java.util.Date;
 
 import static cn.hutool.core.date.DatePattern.*;
 
@@ -550,5 +551,17 @@ public class DateTimeUtil {
      */
     public static boolean isLessThanOrEqual(Temporal startInclusive, Temporal endInclusive) {
         return Duration.between(startInclusive, endInclusive).toNanos() <= 0;
+    }
+
+    /**
+     * LocalDateTime 转 Date
+     *
+     * @param localDateTime LocalDateTime
+     * @return Date
+     */
+    public static Date toDate(LocalDateTime localDateTime) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        Instant instant = localDateTime.atZone(zoneId).toInstant();
+        return Date.from(instant);
     }
 }
