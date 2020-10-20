@@ -3,9 +3,9 @@ package com.dandandog.framework.wx.config;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
-import com.binarywang.spring.starter.wxjava.miniapp.properties.WxMaProperties;
-import com.binarywang.spring.starter.wxjava.pay.properties.WxPayProperties;
 import com.dandandog.framework.common.exception.FastCodeException;
+import com.dandandog.framework.wx.config.properties.WxMaProperties;
+import com.dandandog.framework.wx.config.properties.WxPayProperties;
 import com.dandandog.framework.wx.config.properties.WxProperties;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(WxProperties.class)
+
 public class WxConfig {
 
     private final WxProperties properties;
@@ -49,18 +50,19 @@ public class WxConfig {
     }
 
     private void initMaConfig() {
-        List<WxMaProperties> maConfigs = this.properties.getMas();
+        List<WxMaProperties> maConfigs = this.properties.getMiniApps();
         if (maConfigs == null) {
             log.warn("微信小程序 - 未找到相关配置文件");
             return;
         }
         maServices = maConfigs.stream().map(a -> {
             WxMaDefaultConfigImpl config = new WxMaDefaultConfigImpl();
-            config.setAppid(a.getAppid());
+            config.setAppid(a.getAppId());
             config.setSecret(a.getSecret());
             config.setToken(a.getToken());
             config.setAesKey(a.getAesKey());
             config.setMsgDataFormat(a.getMsgDataFormat());
+
             WxMaService wxMaService = new WxMaServiceImpl();
             wxMaService.setWxMaConfig(config);
             return wxMaService;

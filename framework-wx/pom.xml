@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.dandandog.fastcode</groupId>
-            <artifactId>framework-core</artifactId>
+            <artifactId>framework-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
@@ -28,11 +28,11 @@
         </dependency>
         <dependency>
             <groupId>com.github.binarywang</groupId>
-            <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+            <artifactId>weixin-java-miniapp</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.binarywang</groupId>
-            <artifactId>wx-java-pay-spring-boot-starter</artifactId>
+            <artifactId>weixin-java-pay</artifactId>
         </dependency>
     </dependencies>
 

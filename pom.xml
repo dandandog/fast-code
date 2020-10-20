@@ -32,7 +32,7 @@
         <project.reporting.outputEncoding>${utf8}</project.reporting.outputEncoding>
         <fail-on-missing-web-xml>false</fail-on-missing-web-xml>
 
-        <shiro-spring-boot-web-starter.version>1.6.0</shiro-spring-boot-web-starter.version>
+        <shiro-spring-boot-starter.version>1.6.0</shiro-spring-boot-starter.version>
         <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
         <mybatis-plus-boot-starter.version>3.4.0</mybatis-plus-boot-starter.version>
         <dynamic-datasource-spring-boot-starter.version>3.2.0</dynamic-datasource-spring-boot-starter.version>
@@ -41,9 +41,8 @@
         <joinfaces.version>4.3.3</joinfaces.version>
         <omega-theme.version>2.0.1</omega-theme.version>
 
-        <wx-java.version>3.9.0</wx-java.version>
+        <weixin-java.version>3.9.0</weixin-java.version>
         <java-jwt.version>3.10.0</java-jwt.version>
-        <shiro-spring-boot-starter.version>1.6.0</shiro-spring-boot-starter.version>
 
         <knife4j-spring-boot-starter.version>2.0.4</knife4j-spring-boot-starter.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
@@ -128,14 +127,14 @@
             <!-- security start -->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-spring-boot-web-starter</artifactId>
-                <version>${shiro-spring-boot-web-starter.version}</version>
+                <artifactId>shiro-spring-boot-starter</artifactId>
+                <version>${shiro-spring-boot-starter.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-security</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-starter-security</artifactId>-->
+<!--                <version>${spring-boot.version}</version>-->
+<!--            </dependency>-->
             <!-- security end -->
 
             <!-- database start -->
@@ -184,30 +183,23 @@
             <!-- wechat api start-->
             <dependency>
                 <groupId>com.github.binarywang</groupId>
-                <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
-                <version>${wx-java.version}</version>
+                <artifactId>weixin-java-miniapp</artifactId>
+                <version>${weixin-java.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.binarywang</groupId>
-                <artifactId>wx-java-pay-spring-boot-starter</artifactId>
-                <version>${wx-java.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-spring-boot-starter</artifactId>
-                <version>${shiro-spring-boot-starter.version}</version>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${weixin-java.version}</version>
             </dependency>
             <!--wechat api end-->
 
-            <!-- wechat api start-->
+            <!-- jwt start-->
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
                 <version>${java-jwt.version}</version>
             </dependency>
-            <!--wechat api end-->
+            <!--jwt end-->
 
             <!-- common tools start -->
             <dependency>
