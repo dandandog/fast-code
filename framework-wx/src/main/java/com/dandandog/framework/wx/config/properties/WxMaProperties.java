@@ -6,6 +6,10 @@ import lombok.Data;
 public class WxMaProperties {
 
     /**
+     * 小程序名字
+     */
+    private String name;
+    /**
      * 设置微信小程序的appId
      */
     private String appId;

@@ -16,5 +16,4 @@ public class WxProperties {
 
     List<WxPayProperties> pays;
 
-
 }

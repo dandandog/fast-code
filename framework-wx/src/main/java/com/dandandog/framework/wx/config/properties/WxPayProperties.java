@@ -6,6 +6,10 @@ import lombok.Data;
 public class WxPayProperties {
 
     /**
+     * 小程序名字
+     */
+    private String name;
+    /**
      * 设置微信公众号或者小程序等的appid
      */
     private String appId;

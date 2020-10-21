@@ -45,7 +45,7 @@ import java.util.List;
 @EnableSwagger2
 @AllArgsConstructor
 @EnableConfigurationProperties(SwaggerProperties.class)
-@ConditionalOnProperty(value = {"fast-code.swagger.enable"}, matchIfMissing = true)
+@ConditionalOnProperty(prefix = "fast-code.swagger", value = {"enabled"}, matchIfMissing = true)
 public class SwaggerAutoConfig implements InitializingBean {
 
 

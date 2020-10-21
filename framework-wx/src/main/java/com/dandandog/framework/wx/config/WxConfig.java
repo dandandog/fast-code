@@ -3,6 +3,7 @@ package com.dandandog.framework.wx.config;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
+import cn.hutool.core.collection.CollUtil;
 import com.dandandog.framework.common.exception.FastCodeException;
 import com.dandandog.framework.wx.config.properties.WxMaProperties;
 import com.dandandog.framework.wx.config.properties.WxPayProperties;
@@ -13,6 +14,7 @@ import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(WxProperties.class)
-
+@ConditionalOnProperty(prefix = "fast-code.wx", value = {"enabled"}, matchIfMissing = true)
 public class WxConfig {
 
     private final WxProperties properties;
@@ -50,55 +52,49 @@ public class WxConfig {
     }
 
     private void initMaConfig() {
-        List<WxMaProperties> maConfigs = this.properties.getMiniApps();
-        if (maConfigs == null) {
+        List<WxMaProperties> miniApps = this.properties.getMiniApps();
+        if (CollUtil.isNotEmpty(miniApps)) {
             log.warn("微信小程序 - 未找到相关配置文件");
             return;
         }
-        maServices = maConfigs.stream().map(a -> {
-            WxMaDefaultConfigImpl config = new WxMaDefaultConfigImpl();
-            config.setAppid(a.getAppId());
-            config.setSecret(a.getSecret());
-            config.setToken(a.getToken());
-            config.setAesKey(a.getAesKey());
-            config.setMsgDataFormat(a.getMsgDataFormat());
-
-            WxMaService wxMaService = new WxMaServiceImpl();
-            wxMaService.setWxMaConfig(config);
-            return wxMaService;
-        }).collect(Collectors.toMap(s -> s.getWxMaConfig().getAppid(), a -> a));
+        maServices = miniApps.stream().collect(Collectors.toMap(WxMaProperties::getName, properties -> new WxMaServiceImpl() {{
+            setWxMaConfig(new WxMaDefaultConfigImpl() {{
+                setAppid(properties.getAppId());
+                setSecret(properties.getSecret());
+                setToken(properties.getToken());
+                setAesKey(properties.getAesKey());
+                setMsgDataFormat(properties.getMsgDataFormat());
+            }});
+        }}));
     }
 
     private void initPayConfig() {
-        List<WxPayProperties> payConfigs = this.properties.getPays();
-        if (payConfigs == null) {
-            log.warn("微信小程序 - 未找到相关配置文件");
+        List<WxPayProperties> pays = this.properties.getPays();
+        if (CollUtil.isNotEmpty(pays)) {
+            log.warn("微信支付 - 未找到相关配置文件");
             return;
         }
-        payServices = payConfigs.stream().map(a -> {
-            WxPayConfig payConfig = new WxPayConfig();
-            payConfig.setAppId(payConfig.getAppId());
-            payConfig.setMchId(payConfig.getMchId());
-            payConfig.setMchKey(payConfig.getMchKey());
-            payConfig.setSubAppId(payConfig.getSubAppId());
-            payConfig.setSubMchId(payConfig.getSubMchId());
-            payConfig.setKeyPath(payConfig.getKeyPath());
-            WxPayService wxPayService = new WxPayServiceImpl();
-            wxPayService.setConfig(payConfig);
-            return wxPayService;
-        }).collect(Collectors.toMap(s -> s.getConfig().getAppId(), a -> a));
+        payServices = pays.stream().collect(Collectors.toMap(WxPayProperties::getName, properties -> new WxPayServiceImpl() {{
+            setConfig(new WxPayConfig() {{
+                setAppId(properties.getAppId());
+                setMchId(properties.getMchId());
+                setMchKey(properties.getMchKey());
+                setSubAppId(properties.getSubAppId());
+                setSubMchId(properties.getSubMchId());
+                setKeyPath(properties.getKeyPath());
+            }});
+        }}));
     }
 
-
-    public static WxMaService getMaService(String appId) {
-        return Optional.ofNullable(maServices).map(services -> Optional.of(maServices.get(appId))).
+    public static WxMaService getMaService(String appName) {
+        return Optional.ofNullable(maServices).map(services -> Optional.of(maServices.get(appName))).
                 orElseThrow(() -> new FastCodeException("未启用小程序配置"))
-                .orElseThrow(() -> new FastCodeException(String.format("未找到对应appid=[%s]的配置，请核实！", appId)));
+                .orElseThrow(() -> new FastCodeException(String.format("未找到对应appid=[%s]的配置，请核实！", appName)));
     }
 
-    public static WxPayService getPayService(String appId) {
-        return Optional.ofNullable(payServices).map(services -> Optional.of(payServices.get(appId))).
+    public static WxPayService getPayService(String appName) {
+        return Optional.ofNullable(payServices).map(services -> Optional.of(payServices.get(appName))).
                 orElseThrow(() -> new FastCodeException("未启用小程序配置"))
-                .orElseThrow(() -> new FastCodeException(String.format("未找到对应appid=[%s]的配置，请核实！", appId)));
+                .orElseThrow(() -> new FastCodeException(String.format("未找到对应appid=[%s]的配置，请核实！", appName)));
     }
 }

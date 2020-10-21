@@ -1,10 +1,10 @@
 package com.dandandog.framework.captcha.filter;
 
+import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.captcha.exception.CaptchaVerifyException;
 import com.dandandog.framework.captcha.model.BaseCaptcha;
 import com.dandandog.framework.common.exception.FrameworkException;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -34,14 +34,16 @@ public class CaptchaAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         try {
-            if (StringUtils.equals("/login", request.getRequestURI())
-                    && StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
+            if (StrUtil.equals("/login", request.getServletPath())
+                    && StrUtil.equalsIgnoreCase(request.getMethod(), "post")) {
                 String code = obtainCode(request);
                 BaseCaptcha captcha = obtainCaptcha(request);
                 if (captcha == null) {
                     throw new CaptchaVerifyException("captcha disabled");
                 }
-                if (!captcha.verify(code)) {
+                boolean isVerify = captcha.verify(code);
+                this.cleanCaptcha(request);
+                if (!isVerify) {
                     throw new CaptchaVerifyException("captcha error");
                 }
             }
@@ -59,6 +61,10 @@ public class CaptchaAuthenticationFilter extends GenericFilterBean {
     @Nullable
     protected BaseCaptcha obtainCaptcha(HttpServletRequest request) {
         return (BaseCaptcha) request.getSession().getAttribute(this.captchaParameter);
+    }
+
+    private void cleanCaptcha(HttpServletRequest request) {
+        request.getSession().removeAttribute(this.captchaParameter);
     }
 
 

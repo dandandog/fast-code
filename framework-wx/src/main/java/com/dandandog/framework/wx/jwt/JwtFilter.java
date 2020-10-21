@@ -2,7 +2,7 @@ package com.dandandog.framework.wx.jwt;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.dandandog.framework.common.model.ApiErrorCode;
-import com.dandandog.framework.wx.service.TokenService;
+import com.dandandog.framework.wx.service.WxTokenService;
 import com.dandandog.framework.wx.utils.JwtHeaderUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @AllArgsConstructor
 public class JwtFilter extends AuthenticatingFilter {
 
-    private final TokenService tokenService;
+    private final WxTokenService tokenService;
 
     /**
      * 将 token 转成 JwtToken对象
@@ -38,7 +38,7 @@ public class JwtFilter extends AuthenticatingFilter {
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
         try {
             String token = JwtHeaderUtil.getAuthHeader();
-            return tokenService.generateJwtToken(token);
+            return tokenService.buildJwtToken(token);
         } catch (AuthenticationException e) {
             request.setAttribute("shiroLoginFailure", ApiErrorCode.NOT_LOGIN);
             String url = WebUtils.toHttp(request).getRequestURI();
@@ -67,7 +67,7 @@ public class JwtFilter extends AuthenticatingFilter {
     }
 
     /**
-     * 此方法调用登陆，验证逻辑,期间executeLogin 里面会调用 createToken方法
+     * 此方法调用登陆，验证逻辑,期间executeLogin 里面会调用 createToken方法并执行登入操作
      *
      * @param request     ServletRequest
      * @param response    ServletResponse
