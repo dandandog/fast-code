@@ -1,9 +1,10 @@
 package com.dandandog.framework.wx.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.dandandog.framework.common.exception.TokenException;
+import com.dandandog.framework.common.model.ApiErrorCode;
 import com.dandandog.framework.wx.config.properties.JwtProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -50,7 +51,7 @@ public class JwtHeaderUtil {
         if (StrUtil.isEmpty(token)) {
             token = request.getParameter(tokenHeader);
             if (StrUtil.isEmpty(token)) {
-                throw new AuthenticationException("Token cannot be empty");
+                throw new TokenException(ApiErrorCode.NOT_TOKEN);
             }
         }
         return token;

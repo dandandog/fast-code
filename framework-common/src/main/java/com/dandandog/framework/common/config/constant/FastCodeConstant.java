@@ -20,6 +20,11 @@ public class FastCodeConstant {
     }
 
     /**
+     * 自定义异常key
+     */
+    public final static String ERROR_KEY = "apiFailure";
+
+    /**
      * swagger文档标题
      */
     public final static String SWAGGER_TITLE = "Fast Code API Documentation";

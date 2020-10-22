@@ -3,9 +3,7 @@ package com.dandandog.framework.common.exception;
 import com.dandandog.framework.common.model.ApiErrorCode;
 
 /**
- * @author Jirath
- * @date 2020/4/9
- * @description:
+ * @author JohnnyLiu
  */
 public class TokenException extends FastCodeException {
 
@@ -18,6 +16,6 @@ public class TokenException extends FastCodeException {
     }
 
     public TokenException(ApiErrorCode apiCode) {
-        super(apiCode.getMsg());
+        super(apiCode);
     }
 }

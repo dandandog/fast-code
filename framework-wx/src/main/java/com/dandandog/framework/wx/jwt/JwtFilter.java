@@ -1,6 +1,7 @@
 package com.dandandog.framework.wx.jwt;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.dandandog.framework.common.config.constant.FastCodeConstant;
+import com.dandandog.framework.common.exception.TokenException;
 import com.dandandog.framework.common.model.ApiErrorCode;
 import com.dandandog.framework.wx.service.WxTokenService;
 import com.dandandog.framework.wx.utils.JwtHeaderUtil;
@@ -15,7 +16,6 @@ import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -30,7 +30,7 @@ public class JwtFilter extends AuthenticatingFilter {
     /**
      * 将 token 转成 JwtToken对象
      *
-     * @param request  ServletRequest
+     * @param request ServletRequest
      * @param response ServletResponse
      * @return AuthenticationToken
      */
@@ -39,12 +39,10 @@ public class JwtFilter extends AuthenticatingFilter {
         try {
             String token = JwtHeaderUtil.getAuthHeader();
             return tokenService.buildJwtToken(token);
-        } catch (AuthenticationException e) {
-            request.setAttribute("shiroLoginFailure", ApiErrorCode.NOT_LOGIN);
-            String url = WebUtils.toHttp(request).getRequestURI();
-            log.debug("isAccessAllowed url:{}", url);
-            throw new TokenExpiredException(ApiErrorCode.NOT_LOGIN.getMsg());
+        } catch (TokenException e) {
+            request.setAttribute(FastCodeConstant.ERROR_KEY, e.getApiErrorCode());
         }
+        return null;
     }
 
     /**
@@ -56,12 +54,7 @@ public class JwtFilter extends AuthenticatingFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
-        HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-        HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
-        // 返回401
-        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        // 设置响应码为401或者直接输出消息
-        String url = httpServletRequest.getRequestURI();
+        String url = WebUtils.toHttp(request).getRequestURI();
         log.debug("onAccessDenied url：{}", url);
         return false;
     }
@@ -118,6 +111,7 @@ public class JwtFilter extends AuthenticatingFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         log.error("登录失败，token:" + token + ",error:" + e.getMessage(), e);
+        request.setAttribute(FastCodeConstant.ERROR_KEY, ApiErrorCode.LOGIN_EXCEPTION);
         return false;
     }
 

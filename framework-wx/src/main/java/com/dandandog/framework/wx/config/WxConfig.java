@@ -53,7 +53,7 @@ public class WxConfig {
 
     private void initMaConfig() {
         List<WxMaProperties> miniApps = this.properties.getMiniApps();
-        if (CollUtil.isNotEmpty(miniApps)) {
+        if (CollUtil.isEmpty(miniApps)) {
             log.warn("微信小程序 - 未找到相关配置文件");
             return;
         }
@@ -70,7 +70,7 @@ public class WxConfig {
 
     private void initPayConfig() {
         List<WxPayProperties> pays = this.properties.getPays();
-        if (CollUtil.isNotEmpty(pays)) {
+        if (CollUtil.isEmpty(pays)) {
             log.warn("微信支付 - 未找到相关配置文件");
             return;
         }
@@ -87,13 +87,13 @@ public class WxConfig {
     }
 
     public static WxMaService getMaService(String appName) {
-        return Optional.ofNullable(maServices).map(services -> Optional.of(maServices.get(appName))).
+        return Optional.ofNullable(maServices).map(services -> Optional.ofNullable(maServices.get(appName))).
                 orElseThrow(() -> new FastCodeException("未启用小程序配置"))
                 .orElseThrow(() -> new FastCodeException(String.format("未找到对应appid=[%s]的配置，请核实！", appName)));
     }
 
     public static WxPayService getPayService(String appName) {
-        return Optional.ofNullable(payServices).map(services -> Optional.of(payServices.get(appName))).
+        return Optional.ofNullable(payServices).map(services -> Optional.ofNullable(payServices.get(appName))).
                 orElseThrow(() -> new FastCodeException("未启用小程序配置"))
                 .orElseThrow(() -> new FastCodeException(String.format("未找到对应appid=[%s]的配置，请核实！", appName)));
     }

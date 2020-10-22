@@ -102,7 +102,9 @@ public class SecurityConfig {
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         chainDefinition.addPathDefinition("/**/login", "anon");
-        chainDefinition.addPathDefinition("/logout", "logout");
+        chainDefinition.addPathDefinition("/**/doc.html/**", "anon");
+        chainDefinition.addPathDefinition("/**/logout", "logout");
+        chainDefinition.addPathDefinition("/v1/**", "jwt");
         //authTokenChainDefinition(chainDefinition);
         log.debug("Shiro intercept path:{}", chainDefinition.getFilterChainMap());
         return chainDefinition;

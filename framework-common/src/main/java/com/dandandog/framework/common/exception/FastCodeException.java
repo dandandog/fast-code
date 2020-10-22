@@ -1,6 +1,7 @@
 package com.dandandog.framework.common.exception;
 
 
+import com.dandandog.framework.common.model.ApiErrorCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,6 +14,7 @@ public class FastCodeException extends RuntimeException {
 
     private Integer errorCode;
     private String message;
+    private ApiErrorCode apiErrorCode;
 
     public FastCodeException() {
         super();
@@ -28,6 +30,12 @@ public class FastCodeException extends RuntimeException {
         this.errorCode = errorCode;
         this.message = message;
     }
+
+    public FastCodeException(ApiErrorCode apiErrorCode) {
+        super(apiErrorCode.getMsg());
+        this.apiErrorCode = apiErrorCode;
+    }
+
 
     public FastCodeException(String message, Throwable cause) {
         super(message, cause);

@@ -13,6 +13,12 @@ public enum ApiErrorCode implements IErrorCode {
 
 
     /**
+     * 没有令牌
+     **/
+    NOT_TOKEN(20300, "没有令牌"),
+
+
+    /**
      * 操作失败
      **/
     FAILED(50000, "操作失败"),
@@ -20,7 +26,7 @@ public enum ApiErrorCode implements IErrorCode {
     /**
      * 登录失败
      **/
-    LOGIN_EXCEPTION(40000, "请求错误"),
+    LOGIN_EXCEPTION(40000, "登录失败"),
 
     /**
      * 非法访问
@@ -45,6 +51,11 @@ public enum ApiErrorCode implements IErrorCode {
      * 刷新token
      **/
     TOKEN_REFRESH(40600, "刷新token"),
+
+    /**
+     * 操作失败
+     **/
+    UNKNOWN(50000, "未知错误异常"),
 
     /**
      * 系统异常

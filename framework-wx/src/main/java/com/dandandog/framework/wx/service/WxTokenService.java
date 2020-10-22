@@ -20,10 +20,10 @@ public interface WxTokenService {
     /**
      * 创建token
      *
-     * @param code 微信登入code
+     * @param sessionKey 微信登入sessionKey ,
      * @return 返回新的token
      */
-    String generateToken(String code) throws WxErrorException;
+    String generateToken(String sessionKey, String openId) throws WxErrorException;
 
     /**
      * 构建build
