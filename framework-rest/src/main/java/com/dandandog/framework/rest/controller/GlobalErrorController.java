@@ -3,7 +3,7 @@ package com.dandandog.framework.rest.controller;
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import com.dandandog.framework.common.model.IError;
 import com.dandandog.framework.rest.model.ApiErrorCode;
-import com.dandandog.framework.rest.model.ApiResponse;
+import com.dandandog.framework.rest.model.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,17 +27,17 @@ public class GlobalErrorController implements ErrorController {
 
     @RequestMapping(ERROR_PATH)
     @ResponseStatus(value = OK)
-    public ApiResponse<IError> error(HttpServletRequest request, HttpServletResponse response) {
+    public ApiResult<IError> error(HttpServletRequest request, HttpServletResponse response) {
         int status = response.getStatus();
         switch (status) {
             case HttpServletResponse.SC_BAD_REQUEST:
-                return ApiResponse.failed(ApiErrorCode.LOGIN_EXCEPTION);
+                return ApiResult.failed(ApiErrorCode.LOGIN_EXCEPTION);
             case HttpServletResponse.SC_UNAUTHORIZED:
-                return ApiResponse.failed(ApiErrorCode.UNAUTHORIZED);
+                return ApiResult.failed(ApiErrorCode.UNAUTHORIZED);
             case HttpServletResponse.SC_FORBIDDEN:
-                return ApiResponse.failed(ApiErrorCode.NOT_PERMISSION);
+                return ApiResult.failed(ApiErrorCode.NOT_PERMISSION);
             case HttpServletResponse.SC_NOT_FOUND:
-                return ApiResponse.failed(ApiErrorCode.NOT_FOUND);
+                return ApiResult.failed(ApiErrorCode.NOT_FOUND);
             default:
                 break;
         }
@@ -47,7 +47,7 @@ public class GlobalErrorController implements ErrorController {
             exception = ApiErrorCode.UNKNOWN;
         }
 
-        return ApiResponse.failed(exception, null);
+        return ApiResult.failed(exception, null);
     }
 
     @Override

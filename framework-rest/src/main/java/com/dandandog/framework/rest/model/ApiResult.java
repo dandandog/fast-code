@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author JohnnyLiu
  */
 @Data
-public class ApiResponse<T> implements Serializable {
+public class ApiResult<T> implements Serializable {
 
     @ApiModelProperty(value = "自定义响应状态码", example = "20000")
     private long code;
@@ -24,16 +24,16 @@ public class ApiResponse<T> implements Serializable {
     private T data;
 
 
-    public ApiResponse() {
+    public ApiResult() {
     }
 
-    public ApiResponse(IError errorCode) {
+    public ApiResult(IError errorCode) {
         errorCode = (IError) Optional.ofNullable(errorCode).orElse(ApiErrorCode.FAILED);
         this.code = errorCode.getCode();
         this.msg = errorCode.getMsg();
     }
 
-    public static <T> ApiResponse<T> ok(T data) {
+    public static <T> ApiResult<T> ok(T data) {
         ApiErrorCode aec = ApiErrorCode.SUCCESS;
         if (data instanceof Boolean && Boolean.FALSE.equals(data)) {
             aec = ApiErrorCode.FAILED;
@@ -42,28 +42,28 @@ public class ApiResponse<T> implements Serializable {
         return restResult(data, aec);
     }
 
-    public static <T> ApiResponse<T> failed(String msg, T data) {
+    public static <T> ApiResult<T> failed(String msg, T data) {
         return restResult(data, ApiErrorCode.FAILED.getCode(), msg);
     }
 
-    public static <T> ApiResponse<T> failed(String msg) {
+    public static <T> ApiResult<T> failed(String msg) {
         return restResult(null, ApiErrorCode.FAILED.getCode(), msg);
     }
 
-    public static <T> ApiResponse<T> failed(IError errorCode, T data) {
+    public static <T> ApiResult<T> failed(IError errorCode, T data) {
         return restResult(data, errorCode);
     }
 
-    public static <T> ApiResponse<T> failed(IError errorCode) {
+    public static <T> ApiResult<T> failed(IError errorCode) {
         return restResult(null, errorCode);
     }
 
-    public static <T> ApiResponse<T> restResult(T data, IError errorCode) {
+    public static <T> ApiResult<T> restResult(T data, IError errorCode) {
         return restResult(data, errorCode.getCode(), errorCode.getMsg());
     }
 
-    private static <T> ApiResponse<T> restResult(T data, long code, String msg) {
-        ApiResponse<T> apiResult = new ApiResponse<>();
+    private static <T> ApiResult<T> restResult(T data, long code, String msg) {
+        ApiResult<T> apiResult = new ApiResult<>();
         apiResult.setCode(code);
         apiResult.setData(data);
         apiResult.setMsg(msg);
@@ -94,23 +94,23 @@ public class ApiResponse<T> implements Serializable {
         return this.msg;
     }
 
-    public ApiResponse<T> setCode(final long code) {
+    public ApiResult<T> setCode(final long code) {
         this.code = code;
         return this;
     }
 
-    public ApiResponse<T> setData(final T data) {
+    public ApiResult<T> setData(final T data) {
         this.data = data;
         return this;
     }
 
-    public ApiResponse<T> setMsg(final String msg) {
+    public ApiResult<T> setMsg(final String msg) {
         this.msg = msg;
         return this;
     }
 
     protected boolean canEqual(final Object other) {
-        return other instanceof ApiResponse;
+        return other instanceof ApiResult;
     }
 
 }

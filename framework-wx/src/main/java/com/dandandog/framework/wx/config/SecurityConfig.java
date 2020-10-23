@@ -3,7 +3,7 @@ package com.dandandog.framework.wx.config;
 import com.dandandog.framework.wx.jwt.JwtCredentialsMatcher;
 import com.dandandog.framework.wx.jwt.JwtFilter;
 import com.dandandog.framework.wx.jwt.JwtRealm;
-import com.dandandog.framework.wx.service.WxTokenService;
+import com.dandandog.framework.wx.service.AuthTokenService;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class SecurityConfig {
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilter(WxTokenService tokenService) {
+    public ShiroFilterFactoryBean shiroFilter(AuthTokenService tokenService) {
         // 必须配置 SecurityManager
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
@@ -130,7 +130,7 @@ public class SecurityConfig {
      *
      * @return Map
      */
-    private Map<String, Filter> filterMap(WxTokenService tokenService) {
+    private Map<String, Filter> filterMap(AuthTokenService tokenService) {
         Map<String, Filter> filters = new HashMap<>(1);
         filters.put("jwt", new JwtFilter(tokenService));
         return filters;
