@@ -1,6 +1,6 @@
 package com.dandandog.framework.rest.controller;
 
-import com.dandandog.framework.common.model.IErrorCode;
+import com.dandandog.framework.common.model.IError;
 import com.dandandog.framework.rest.model.ApiResponse;
 
 public class ApiController {
@@ -13,7 +13,7 @@ public class ApiController {
         return ApiResponse.failed(msg);
     }
 
-    protected <T> ApiResponse<T> failed(IErrorCode errorCode) {
+    protected <T> ApiResponse<T> failed(IError errorCode) {
         return ApiResponse.failed(errorCode);
     }
 }

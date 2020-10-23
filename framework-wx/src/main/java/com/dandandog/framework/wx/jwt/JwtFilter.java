@@ -2,7 +2,7 @@ package com.dandandog.framework.wx.jwt;
 
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import com.dandandog.framework.common.exception.TokenException;
-import com.dandandog.framework.common.model.ApiErrorCode;
+import com.dandandog.framework.wx.model.WxErrorCode;
 import com.dandandog.framework.wx.service.WxTokenService;
 import com.dandandog.framework.wx.utils.JwtHeaderUtil;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,7 @@ import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -30,19 +31,15 @@ public class JwtFilter extends AuthenticatingFilter {
     /**
      * 将 token 转成 JwtToken对象
      *
-     * @param request ServletRequest
+     * @param request  ServletRequest
      * @param response ServletResponse
      * @return AuthenticationToken
      */
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
-        try {
-            String token = JwtHeaderUtil.getAuthHeader();
-            return tokenService.buildJwtToken(token);
-        } catch (TokenException e) {
-            request.setAttribute(FastCodeConstant.ERROR_KEY, e.getApiErrorCode());
-        }
-        return null;
+        HttpServletRequest httpRequest = WebUtils.toHttp(request);
+        String token = JwtHeaderUtil.getAuthHeader(httpRequest);
+        return tokenService.buildJwtToken(token);
     }
 
     /**
@@ -56,7 +53,8 @@ public class JwtFilter extends AuthenticatingFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
         String url = WebUtils.toHttp(request).getRequestURI();
         log.debug("onAccessDenied url：{}", url);
-        return false;
+        request.setAttribute(FastCodeConstant.ERROR_KEY, WxErrorCode.NOT_TOKEN);
+        throw new TokenException(WxErrorCode.NOT_TOKEN);
     }
 
     /**
@@ -70,13 +68,16 @@ public class JwtFilter extends AuthenticatingFilter {
     @SneakyThrows
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        String url = WebUtils.toHttp(request).getRequestURI();
-        log.debug("isAccessAllowed url:{}", url);
+        // 如果是login 方法就放行不进行登入校验
         if (this.isLoginRequest(request, response)) {
             return true;
         }
-        boolean allowed = executeLogin(request, response);
-        return allowed || super.isPermissive(mappedValue);
+        try {
+            boolean allowed = executeLogin(request, response);
+            return allowed || super.isPermissive(mappedValue);
+        } catch (AuthenticationException e) {
+            return false;
+        }
     }
 
     /**
@@ -93,6 +94,7 @@ public class JwtFilter extends AuthenticatingFilter {
         String url = WebUtils.toHttp(request).getRequestURI();
         log.debug("鉴权成功,token:{},url:{}", token, url);
         String newToken = tokenService.refreshToken((JwtToken) token);
+        log.debug("刷新Token,newToken:{},url:{}", newToken, url);
         HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
         JwtHeaderUtil.setAuthHeader(httpServletResponse, newToken);
         return true;
@@ -111,8 +113,8 @@ public class JwtFilter extends AuthenticatingFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         log.error("登录失败，token:" + token + ",error:" + e.getMessage(), e);
-        request.setAttribute(FastCodeConstant.ERROR_KEY, ApiErrorCode.LOGIN_EXCEPTION);
-        return false;
+        request.setAttribute(FastCodeConstant.ERROR_KEY, WxErrorCode.TOKEN_DISABLED);
+        throw new TokenException(WxErrorCode.TOKEN_DISABLED);
     }
 
 }

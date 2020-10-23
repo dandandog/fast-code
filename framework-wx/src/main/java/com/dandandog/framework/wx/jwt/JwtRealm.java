@@ -2,7 +2,7 @@ package com.dandandog.framework.wx.jwt;
 
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.common.exception.TokenException;
-import com.dandandog.framework.common.model.ApiErrorCode;
+import com.dandandog.framework.wx.model.WxErrorCode;
 import com.dandandog.framework.wx.utils.JwtTokenUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -48,14 +48,14 @@ public class JwtRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
         JwtToken jwtToken = (JwtToken) token;
         if (jwtToken == null) {
-            throw new TokenException("jwtToken不能为null");
+            throw new TokenException(WxErrorCode.NOT_TOKEN);
         }
         String uniqueId = JwtTokenUtil.getUniqueId(jwtToken.getToken());
         if (StrUtil.isBlank(uniqueId)) {
-            throw new TokenException("uniqueId 不能为Null");
+            throw new TokenException(WxErrorCode.TOKEN_DISABLED);
         }
         if (JwtTokenUtil.isExpired(jwtToken.getToken())) {
-            throw new TokenException(ApiErrorCode.NOT_PERMISSION);
+            throw new TokenException(WxErrorCode.TOKEN_EXPIRED);
         }
         return new SimpleAuthenticationInfo(jwtToken.getToken(), jwtToken.getSecret(), getName());
     }

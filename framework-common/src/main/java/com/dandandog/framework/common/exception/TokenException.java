@@ -1,6 +1,6 @@
 package com.dandandog.framework.common.exception;
 
-import com.dandandog.framework.common.model.ApiErrorCode;
+import com.dandandog.framework.common.model.IError;
 
 /**
  * @author JohnnyLiu
@@ -15,7 +15,7 @@ public class TokenException extends FastCodeException {
         super(errorCode, message);
     }
 
-    public TokenException(ApiErrorCode apiCode) {
-        super(apiCode);
+    public TokenException(IError iErrorEnum) {
+        super(iErrorEnum);
     }
 }

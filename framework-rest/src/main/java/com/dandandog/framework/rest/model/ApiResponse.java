@@ -1,7 +1,6 @@
 package com.dandandog.framework.rest.model;
 
-import com.dandandog.framework.common.model.ApiErrorCode;
-import com.dandandog.framework.common.model.IErrorCode;
+import com.dandandog.framework.common.model.IError;
 import com.dandandog.framework.rest.exception.ApiException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,8 +27,8 @@ public class ApiResponse<T> implements Serializable {
     public ApiResponse() {
     }
 
-    public ApiResponse(IErrorCode errorCode) {
-        errorCode = (IErrorCode) Optional.ofNullable(errorCode).orElse(ApiErrorCode.FAILED);
+    public ApiResponse(IError errorCode) {
+        errorCode = (IError) Optional.ofNullable(errorCode).orElse(ApiErrorCode.FAILED);
         this.code = errorCode.getCode();
         this.msg = errorCode.getMsg();
     }
@@ -43,15 +42,23 @@ public class ApiResponse<T> implements Serializable {
         return restResult(data, aec);
     }
 
+    public static <T> ApiResponse<T> failed(String msg, T data) {
+        return restResult(data, ApiErrorCode.FAILED.getCode(), msg);
+    }
+
     public static <T> ApiResponse<T> failed(String msg) {
         return restResult(null, ApiErrorCode.FAILED.getCode(), msg);
     }
 
-    public static <T> ApiResponse<T> failed(IErrorCode errorCode) {
+    public static <T> ApiResponse<T> failed(IError errorCode, T data) {
+        return restResult(data, errorCode);
+    }
+
+    public static <T> ApiResponse<T> failed(IError errorCode) {
         return restResult(null, errorCode);
     }
 
-    public static <T> ApiResponse<T> restResult(T data, IErrorCode errorCode) {
+    public static <T> ApiResponse<T> restResult(T data, IError errorCode) {
         return restResult(data, errorCode.getCode(), errorCode.getMsg());
     }
 

@@ -1,8 +1,8 @@
 package com.dandandog.framework.common.model;
 
-public interface IErrorCode {
+public interface IError {
 
-    long getCode();
+    Integer getCode();
 
     String getMsg();
 }

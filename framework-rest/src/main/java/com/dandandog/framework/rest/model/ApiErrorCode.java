@@ -1,21 +1,17 @@
-package com.dandandog.framework.common.model;
+package com.dandandog.framework.rest.model;
 
 import cn.hutool.core.util.EnumUtil;
+import com.dandandog.framework.common.model.IError;
 
 /**
  * @author JohnnyLiu
  */
-public enum ApiErrorCode implements IErrorCode {
+public enum ApiErrorCode implements IError {
     /**
      * 操作成功
      **/
     SUCCESS(20000, "操作成功"),
 
-
-    /**
-     * 没有令牌
-     **/
-    NOT_TOKEN(20300, "没有令牌"),
 
 
     /**
@@ -47,10 +43,7 @@ public enum ApiErrorCode implements IErrorCode {
      **/
     NOT_FOUND(40400, "你请求的资源不存在"),
 
-    /**
-     * 刷新token
-     **/
-    TOKEN_REFRESH(40600, "刷新token"),
+
 
     /**
      * 操作失败
@@ -101,21 +94,13 @@ public enum ApiErrorCode implements IErrorCode {
      * 没有访问权限
      **/
     UNAUTHORIZED_EXCEPTION(51060, "没有访问权限"),
-    /**
-     * JWT Token解析异常
-     **/
-    JWT_DECODE_EXCEPTION(51070, "Token解析异常"),
 
-    /**
-     * JWT Token解析异常
-     **/
-    TOKEN_EXCEPTION(51070, "Token异常"),
 
     HTTP_REQUEST_METHOD_NOT_SUPPORTED_EXCEPTION(51080, "METHOD NOT SUPPORTED"),
 
     ;
 
-    private final long code;
+    private final Integer code;
     private final String msg;
 
     ApiErrorCode(final int code, final String msg) {
@@ -127,7 +112,7 @@ public enum ApiErrorCode implements IErrorCode {
         return EnumUtil.likeValueOf(ApiErrorCode.class, code);
     }
 
-    public long getCode() {
+    public Integer getCode() {
         return code;
     }
 

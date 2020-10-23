@@ -1,12 +1,14 @@
 package com.dandandog.framework.rest.controller;
 
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
-import com.dandandog.framework.common.exception.TokenException;
-import com.dandandog.framework.common.model.ApiErrorCode;
+import com.dandandog.framework.common.model.IError;
+import com.dandandog.framework.rest.model.ApiErrorCode;
 import com.dandandog.framework.rest.model.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +21,13 @@ import static org.springframework.http.HttpStatus.OK;
  */
 @ApiIgnore
 @RestController
-@ControllerAdvice
 @Slf4j
 public class GlobalErrorController implements ErrorController {
     private static final String ERROR_PATH = "/error";
 
     @RequestMapping(ERROR_PATH)
     @ResponseStatus(value = OK)
-    public ApiResponse error(HttpServletRequest request, HttpServletResponse response) {
+    public ApiResponse<IError> error(HttpServletRequest request, HttpServletResponse response) {
         int status = response.getStatus();
         switch (status) {
             case HttpServletResponse.SC_BAD_REQUEST:
@@ -41,23 +42,18 @@ public class GlobalErrorController implements ErrorController {
                 break;
         }
 
-        ApiErrorCode exception = (ApiErrorCode) request.getAttribute(FastCodeConstant.ERROR_KEY);
+        IError exception = (IError) request.getAttribute(FastCodeConstant.ERROR_KEY);
         if (exception == null) {
             exception = ApiErrorCode.UNKNOWN;
         }
 
-        return ApiResponse.failed(exception);
+        return ApiResponse.failed(exception, null);
     }
 
     @Override
     public String getErrorPath() {
         log.error("errorPath....");
         return ERROR_PATH;
-    }
-
-    @ExceptionHandler(TokenException.class)
-    public ApiResponse customException(TokenException e) {
-        return ApiResponse.failed(e.getApiErrorCode());
     }
 
 }

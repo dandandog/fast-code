@@ -18,7 +18,6 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,15 +32,12 @@ import java.util.Map;
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private WxTokenService tokenService;
-
     @Bean
-    public ShiroFilterFactoryBean shiroFilter() {
+    public ShiroFilterFactoryBean shiroFilter(WxTokenService tokenService) {
         // 必须配置 SecurityManager
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
-        shiroFilterFactoryBean.setFilters(filterMap());
+        shiroFilterFactoryBean.setFilters(filterMap(tokenService));
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition().getFilterChainMap());
         return shiroFilterFactoryBean;
     }
@@ -101,11 +97,18 @@ public class SecurityConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/**/login", "anon");
-        chainDefinition.addPathDefinition("/**/doc.html/**", "anon");
-        chainDefinition.addPathDefinition("/**/logout", "logout");
-        chainDefinition.addPathDefinition("/v1/**", "jwt");
-        //authTokenChainDefinition(chainDefinition);
+        chainDefinition.addPathDefinition("/v1/wx/login", "anon");
+        chainDefinition.addPathDefinition("/swagger-resources/**", "anon");
+        chainDefinition.addPathDefinition("/favicon.ico", "anon");
+        chainDefinition.addPathDefinition("/api-docs", "anon");
+        chainDefinition.addPathDefinition("/doc.html", "anon");
+        chainDefinition.addPathDefinition("/api-docs-ext", "anon");
+        chainDefinition.addPathDefinition("/webjars/**", "anon");
+        chainDefinition.addPathDefinition("/v2/**", "anon");
+        chainDefinition.addPathDefinition("/swagger-ui.html", "anon");
+        chainDefinition.addPathDefinition("/logout", "logout");
+
+        chainDefinition.addPathDefinition("/**", "jwt");
         log.debug("Shiro intercept path:{}", chainDefinition.getFilterChainMap());
         return chainDefinition;
     }
@@ -127,15 +130,10 @@ public class SecurityConfig {
      *
      * @return Map
      */
-    private Map<String, Filter> filterMap() {
+    private Map<String, Filter> filterMap(WxTokenService tokenService) {
         Map<String, Filter> filters = new HashMap<>(1);
-        filters.put("jwt", jwtFilter());
+        filters.put("jwt", new JwtFilter(tokenService));
         return filters;
-    }
-
-    @Bean
-    public JwtFilter jwtFilter() {
-        return new JwtFilter(tokenService);
     }
 
 
