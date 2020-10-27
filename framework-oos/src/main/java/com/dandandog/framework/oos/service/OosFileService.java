@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author JohnnyLiu
  */
-public interface FileService {
+public interface OosFileService {
 
     /**
      * 查询所有桶

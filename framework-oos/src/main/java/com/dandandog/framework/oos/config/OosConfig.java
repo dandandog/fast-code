@@ -1,7 +1,7 @@
 package com.dandandog.framework.oos.config;
 
 import com.dandandog.framework.oos.config.properties.OosProperties;
-import com.dandandog.framework.oos.service.FileService;
+import com.dandandog.framework.oos.service.OosFileService;
 import com.dandandog.framework.oos.service.impl.MinioServiceImpl;
 import com.dandandog.framework.oos.service.impl.QiniuServiceImpl;
 import lombok.AllArgsConstructor;
@@ -22,8 +22,8 @@ public class OosConfig {
     private final OosProperties oosProperties;
 
     @Bean
-    public FileService fileService() {
-        FileService service;
+    public OosFileService fileService() {
+        OosFileService service;
         switch (oosProperties.getType()) {
             case Minio:
                 service = new MinioServiceImpl(oosProperties);

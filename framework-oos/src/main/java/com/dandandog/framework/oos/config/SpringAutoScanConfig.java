@@ -7,10 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
  * @author JohnnyLiu
  */
 @Slf4j
-@ComponentScan("com.dandandog.framework.mapstruct")
+@ComponentScan("com.dandandog.framework.oos")
 public class SpringAutoScanConfig {
 
     public SpringAutoScanConfig() {
-        log.debug("Framework mapstruct ");
+        log.debug("Framework oos");
     }
 }

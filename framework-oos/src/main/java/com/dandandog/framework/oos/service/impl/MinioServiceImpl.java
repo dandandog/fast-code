@@ -3,7 +3,7 @@ package com.dandandog.framework.oos.service.impl;
 import com.dandandog.framework.oos.model.OosBucket;
 import com.dandandog.framework.oos.model.OosItem;
 import com.dandandog.framework.oos.config.properties.OosProperties;
-import com.dandandog.framework.oos.service.FileService;
+import com.dandandog.framework.oos.service.OosFileService;
 import io.minio.MinioClient;
 
 import java.io.InputStream;
@@ -14,13 +14,14 @@ import java.util.List;
  * @author JohnnyLiu
  */
 
-public class MinioServiceImpl implements FileService {
+public class MinioServiceImpl implements OosFileService {
 
-    private OosProperties properties;
+    private final OosProperties properties;
 
     private final MinioClient client;
 
     public MinioServiceImpl(OosProperties properties) {
+        this.properties = properties;
         client = MinioClient.builder()
                 .endpoint(properties.getEndpoint())
                 .credentials(properties.getAccessKey(), properties.getSecretKey())
