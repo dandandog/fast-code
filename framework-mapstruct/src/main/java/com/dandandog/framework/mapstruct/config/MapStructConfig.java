@@ -23,7 +23,7 @@ public class MapStructConfig {
 
     private final Map<String, StandardMapper> resources;
 
-    private final List<IMapper> iMappers;
+    private final List<IMapper<?, ?>> iMappers;
 
 
     @Bean
@@ -33,7 +33,7 @@ public class MapStructConfig {
 
     @Bean
     public MapperUtil mapperUtil() {
-        Map<Class<?>, IMapper> bindings = iMappers.stream().collect(Collectors.toMap(iMapper -> ClassUtil.getTypeArgument(iMapper.getClass()), iMapper -> iMapper));
+        Map<Class<?>, IMapper<?, ?>> bindings = iMappers.stream().collect(Collectors.toMap(iMapper -> ClassUtil.getTypeArgument(iMapper.getClass()), iMapper -> iMapper));
         return new MapperUtil(bindings);
     }
 
