@@ -3,7 +3,7 @@ package com.dandandog.framework.mapstruct.qualifier;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.mapstruct.config.properties.MapStructProperties;
-import com.dandandog.framework.mapstruct.model.Url;
+import com.dandandog.framework.mapstruct.model.MapperUrl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Qualifier;
@@ -40,13 +40,13 @@ public class QualifierUrl {
     }
 
     @AddPrefix
-    public Url addPrefix(String urlStr) {
-        return StrUtil.isNotBlank(urlStr) ? new Url(StrUtil.addPrefixIfNot(urlStr, properties.getUrlDomain())) : null;
+    public MapperUrl addPrefix(String urlStr) {
+        return StrUtil.isNotBlank(urlStr) ? new MapperUrl(StrUtil.addPrefixIfNot(urlStr, properties.getUrlDomain())) : null;
     }
 
     @DelPrefix
-    public String delPrefix(Url url) {
-        return ObjectUtil.isNotNull(url) ? StrUtil.removePrefix(url.getValue(), properties.getUrlDomain()) : null;
+    public String delPrefix(MapperUrl url) {
+        return ObjectUtil.isNotNull(url) ? StrUtil.removePrefix(url, properties.getUrlDomain()) : null;
     }
 
 }

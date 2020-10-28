@@ -1,8 +1,7 @@
 package com.dandandog.framework.mapstruct.config;
 
-import com.dandandog.framework.mapstruct.FromToKey;
-import com.dandandog.framework.mapstruct.MapperRepo;
-import com.dandandog.framework.mapstruct.StandardMapper;
+import cn.hutool.core.util.ClassUtil;
+import com.dandandog.framework.mapstruct.*;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,9 +23,18 @@ public class MapStructConfig {
 
     private final Map<String, StandardMapper> resources;
 
+    private final List<IMapper> iMappers;
+
+
     @Bean
     public MapperRepo mapperRepo() {
         return new MapperRepo(bindings(), listBindings());
+    }
+
+    @Bean
+    public MapperUtil mapperUtil() {
+        Map<Class<?>, IMapper> bindings = iMappers.stream().collect(Collectors.toMap(iMapper -> ClassUtil.getTypeArgument(iMapper.getClass()), iMapper -> iMapper));
+        return new MapperUtil(bindings);
     }
 
 

@@ -98,7 +98,7 @@ public class QiniuServiceImpl implements OosFileService {
         try {
             Response response = uploadManager.put(stream, itemName, token, null, null);
             DefaultPutRet putRet = JSONUtil.toBean(response.bodyString(), DefaultPutRet.class);
-            return putRet.key;
+            return StrUtil.addPrefixIfNot(putRet.key, "/");
         } catch (QiniuException e) {
             e.printStackTrace();
             return null;
