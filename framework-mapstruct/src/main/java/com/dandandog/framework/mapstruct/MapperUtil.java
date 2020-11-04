@@ -1,6 +1,5 @@
 package com.dandandog.framework.mapstruct;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
 import com.dandandog.framework.mapstruct.model.MapperEntity;
 import com.google.common.collect.Lists;
@@ -38,16 +37,20 @@ public final class MapperUtil {
     }
 
     public static <F, T extends MapperEntity<F>> Collection<T> mapToAll(List<F> fromList) {
-        Class<?> fClass = CollUtil.getElementType(fromList);
-        IMapper<F, T> mapper = hasMapper(fClass);
-        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(mapper::mapTo).collect(Collectors.toList());
+        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> {
+            Class<?> fClass = f.getClass();
+            IMapper<F, T> mapper = hasMapper(fClass);
+            return mapper.mapTo(f);
+        }).collect(Collectors.toList());
     }
 
     public static <F, T extends MapperEntity<F>> Collection<F> mapFromAll(List<T> fromList) {
-        Class<?> tClass = CollUtil.getElementType(fromList);
-        Class<?> fClass = ClassUtil.getTypeArgument(tClass);
-        IMapper<F, T> mapper = hasMapper(fClass);
-        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(mapper::mapFrom).collect(Collectors.toList());
+        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(t -> {
+            Class<?> tClass = t.getClass();
+            Class<?> fClass = ClassUtil.getTypeArgument(tClass);
+            IMapper<F, T> mapper = hasMapper(fClass);
+            return mapper.mapFrom(t);
+        }).collect(Collectors.toList());
     }
 
 
