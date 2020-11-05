@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,17 +22,16 @@ public class MapStructConfig {
 
     @Bean
     public MapperUtil mapperUtil() {
-        Map<Class<?>, IMapper<?, ?>> bindings = Optional.ofNullable(iMappers).
+        Map<FromToKey, IMapper<?, ?>> bindings = Optional.ofNullable(iMappers).
                 orElse(Lists.newArrayList()).stream()
-                .collect(Collectors.toMap(iMapper -> ClassUtil.getTypeArgument(iMapper.getClass()), iMapper -> iMapper));
+                .collect(Collectors.toMap(this::createFromToKey, iMapper -> iMapper));
         return new MapperUtil(bindings);
     }
 
 
     private FromToKey createFromToKey(IMapper<?, ?> value) {
-        ParameterizedType parameterized = (ParameterizedType) ((Class<?>) value.getClass().getGenericInterfaces()[0]).getGenericInterfaces()[0];
-        Class<?> fromClass = (Class<?>) parameterized.getActualTypeArguments()[0];
-        Class<?> toClass = (Class<?>) parameterized.getActualTypeArguments()[1];
+        Class<?> fromClass = ClassUtil.getTypeArgument(value.getClass(), 0);
+        Class<?> toClass = ClassUtil.getTypeArgument(value.getClass(), 1);
         return new FromToKey(fromClass, toClass);
     }
 

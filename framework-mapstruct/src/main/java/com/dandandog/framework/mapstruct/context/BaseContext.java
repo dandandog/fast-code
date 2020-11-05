@@ -18,7 +18,9 @@ public interface BaseContext {
      * @param t      映射类
      */
     @BeforeMapping
-    void before(@MappingTarget Object target, @TargetType Class<?> t);
+    default void before(@MappingTarget Object target, @TargetType Class<?> t) {
+
+    }
 
     /**
      * 映射后
@@ -27,5 +29,6 @@ public interface BaseContext {
      * @param t      映射类
      */
     @AfterMapping
-    void after(@MappingTarget Object target, @TargetType Class<?> t);
+    default void after(@MappingTarget Object target, @TargetType Class<?> t) {
+    }
 }

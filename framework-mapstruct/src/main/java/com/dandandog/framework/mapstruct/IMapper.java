@@ -1,13 +1,12 @@
 package com.dandandog.framework.mapstruct;
 
 import com.dandandog.framework.mapstruct.context.BaseContext;
-import com.dandandog.framework.mapstruct.model.MapperEntity;
 import org.mapstruct.Context;
 
 /**
  * @author JohnnyLiu
  */
-public interface IMapper<F, T extends MapperEntity<F>> {
+public interface IMapper<F, T> {
 
     T mapTo(F f);
 
