@@ -28,42 +28,57 @@ public final class MapperUtil {
                 new FrameworkException(StrUtil.format("FromToKey {} 不存在", fromToKey)));
     }
 
-    public static <F, T extends MapperEntity<F>> T map(F from, Class<T> tClass) {
+    public static <F, T extends MapperEntity> T map(F from, Class<T> tClass) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(from.getClass(), tClass));
         return mapper.mapTo(from);
     }
 
-    public static <F, T extends MapperEntity<F>> T map(F from, Class<T> tClass, BaseContext baseContext) {
+    public static <F, T extends MapperEntity> T map(F from, Class<T> tClass, BaseContext baseContext) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(from.getClass(), tClass));
-        return mapper.mapTo(from, baseContext);
+        return mapper.mapContextTo(from, baseContext);
     }
 
-
-    public static <F, T extends MapperEntity<F>> F map(T to, Class<F> fClass) {
+    public static <F, T extends MapperEntity> F map(T to, Class<F> fClass) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(fClass, to.getClass()));
         return mapper.mapFrom(to);
     }
 
-    public static <F, T extends MapperEntity<F>> F map(T to, Class<F> fClass, BaseContext baseContext) {
+    public static <F, T extends MapperEntity> F map(T to, Class<F> fClass, BaseContext baseContext) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(fClass, to.getClass()));
-        return mapper.mapFrom(to, baseContext);
+        return mapper.mapContextFrom(to, baseContext);
     }
 
-
-    public static <F, T extends MapperEntity<F>> Collection<T> mapToAll(List<F> fromList, Class<T> tClass) {
+    public static <F, T extends MapperEntity> Collection<T> mapToAll(List<F> fromList, Class<T> tClass) {
         return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> map(f, tClass)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperEntity<F>> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext baseContext) {
+    public static <F, T extends MapperEntity> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext baseContext) {
         return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> map(f, tClass, baseContext)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperEntity<F>> Collection<F> mapFromAll(List<T> toList, Class<F> fClass) {
+    public static <F, T extends MapperEntity> Collection mapFromAll(List<T> toList, Class<F> fClass) {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperEntity<F>> Collection<F> mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
+    public static <F, T extends MapperEntity> Collection mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass, baseContext)).collect(Collectors.toList());
+    }
+
+    public static <F, T> T merge(Class<T> to, F... merges) {
+        T t = null;
+        for (F from : merges) {
+            IMapper<F, T> mapper = hasMapper(new FromToKey(from.getClass(), to));
+            t = t == null ? mapper.mapTo(from) : mapper.updateTo(from, t);
+        }
+        return t;
+    }
+
+    public static <F, T> T merge(T t, F... merges) {
+        for (F from : merges) {
+            IMapper<F, T> mapper = hasMapper(new FromToKey(from.getClass(), t.getClass()));
+            t = mapper.updateTo(from, t);
+        }
+        return t;
     }
 
 }

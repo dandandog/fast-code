@@ -3,7 +3,7 @@ package com.dandandog.framework.mapstruct.model;
 import lombok.Data;
 
 @Data
-public class MapperEntity<T> {
+public class MapperEntity {
 
     private String id;
 
