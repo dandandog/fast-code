@@ -1,8 +1,10 @@
 package com.dandandog.framework.mapstruct.qualifier;
 
-import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.mapstruct.config.properties.MapStructProperties;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Qualifier;
@@ -13,7 +15,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author JohnnyLiu
@@ -41,17 +43,13 @@ public class QualifierArr {
     }
 
     @Split
-    public String[] split(String in) {
-        return StrUtil.isNotBlank(in) ? StrUtil.split(in, properties.getSeparator()) : null;
+    public List<String> split(String in) {
+        return StrUtil.isNotBlank(in) ? Splitter.on(properties.getSeparator()).trimResults().omitEmptyStrings().splitToList(in) : null;
     }
 
     @Join
-    public String join(String[] in) {
-        if (ArrayUtil.isNotEmpty(in)) {
-            return null;
-        }
-        Arrays.sort(in);
-        return StrUtil.join(properties.getSeparator(), in);
+    public String join(List<String> in) {
+        return CollUtil.isNotEmpty(in) ? Joiner.on(properties.getSeparator()).skipNulls().join(in) : null;
     }
 
 }

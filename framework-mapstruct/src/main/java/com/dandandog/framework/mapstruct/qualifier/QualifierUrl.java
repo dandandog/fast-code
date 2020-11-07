@@ -30,22 +30,22 @@ public class QualifierUrl {
     @Qualifier
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface AddPrefix {
+    public @interface AddDomain {
     }
 
     @Qualifier
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface DelPrefix {
+    public @interface DelDomain {
     }
 
-    @AddPrefix
-    public MapperUrl addPrefix(String urlStr) {
+    @AddDomain
+    public MapperUrl addDomain(String urlStr) {
         return StrUtil.isNotBlank(urlStr) ? new MapperUrl(StrUtil.addPrefixIfNot(urlStr, properties.getUrlDomain())) : null;
     }
 
-    @DelPrefix
-    public String delPrefix(MapperUrl url) {
+    @DelDomain
+    public String delDomain(MapperUrl url) {
         return ObjectUtil.isNotNull(url) ? StrUtil.removePrefix(url, properties.getUrlDomain()) : null;
     }
 

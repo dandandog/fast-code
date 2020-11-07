@@ -3,7 +3,7 @@ package com.dandandog.framework.mapstruct;
 import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.common.exception.FrameworkException;
 import com.dandandog.framework.mapstruct.context.BaseContext;
-import com.dandandog.framework.mapstruct.model.MapperEntity;
+import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
 
 import java.util.Collection;
@@ -28,39 +28,39 @@ public final class MapperUtil {
                 new FrameworkException(StrUtil.format("FromToKey {} 不存在", fromToKey)));
     }
 
-    public static <F, T extends MapperEntity> T map(F from, Class<T> tClass) {
+    public static <F, T extends MapperVo> T map(F from, Class<T> tClass) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(from.getClass(), tClass));
         return mapper.mapTo(from);
     }
 
-    public static <F, T extends MapperEntity> T map(F from, Class<T> tClass, BaseContext baseContext) {
+    public static <F, T extends MapperVo> T map(F from, Class<T> tClass, BaseContext baseContext) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(from.getClass(), tClass));
         return mapper.mapContextTo(from, baseContext);
     }
 
-    public static <F, T extends MapperEntity> F map(T to, Class<F> fClass) {
+    public static <F, T extends MapperVo> F map(T to, Class<F> fClass) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(fClass, to.getClass()));
         return mapper.mapFrom(to);
     }
 
-    public static <F, T extends MapperEntity> F map(T to, Class<F> fClass, BaseContext baseContext) {
+    public static <F, T extends MapperVo> F map(T to, Class<F> fClass, BaseContext baseContext) {
         IMapper<F, T> mapper = hasMapper(new FromToKey(fClass, to.getClass()));
         return mapper.mapContextFrom(to, baseContext);
     }
 
-    public static <F, T extends MapperEntity> Collection<T> mapToAll(List<F> fromList, Class<T> tClass) {
+    public static <F, T extends MapperVo> Collection<T> mapToAll(List<F> fromList, Class<T> tClass) {
         return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> map(f, tClass)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperEntity> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext baseContext) {
+    public static <F, T extends MapperVo> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext baseContext) {
         return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> map(f, tClass, baseContext)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperEntity> Collection mapFromAll(List<T> toList, Class<F> fClass) {
+    public static <F, T extends MapperVo> Collection mapFromAll(List<T> toList, Class<F> fClass) {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperEntity> Collection mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
+    public static <F, T extends MapperVo> Collection mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass, baseContext)).collect(Collectors.toList());
     }
 
