@@ -56,11 +56,11 @@ public final class MapperUtil {
         return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> map(f, tClass, baseContext)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperVo> Collection mapFromAll(List<T> toList, Class<F> fClass) {
+    public static <F, T extends MapperVo> Collection<F> mapFromAll(List<T> toList, Class<F> fClass) {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass)).collect(Collectors.toList());
     }
 
-    public static <F, T extends MapperVo> Collection mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
+    public static <F, T extends MapperVo> Collection<F> mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass, baseContext)).collect(Collectors.toList());
     }
 
