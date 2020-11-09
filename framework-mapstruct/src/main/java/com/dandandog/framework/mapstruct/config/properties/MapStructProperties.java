@@ -13,7 +13,7 @@ public class MapStructProperties {
 
     private String urlDomain;
 
-    private String separator;
+    private String separator = ",";
 
 
 }
