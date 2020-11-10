@@ -6,7 +6,7 @@ import me.chanjar.weixin.common.error.WxErrorException;
 /**
  * @author JohnnyLiu
  */
-public interface AuthTokenService {
+public interface WxTokenService {
 
 
     /**

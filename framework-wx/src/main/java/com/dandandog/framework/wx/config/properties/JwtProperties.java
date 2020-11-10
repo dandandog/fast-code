@@ -32,7 +32,7 @@ public class JwtProperties {
     /**
      * taken 启动刷新
      */
-    private boolean enableRefresh = true;
+    private boolean enableRefresh = false;
 
 
     private String uniqueId = FastCodeConstant.JWT_UNIQUE_ID;

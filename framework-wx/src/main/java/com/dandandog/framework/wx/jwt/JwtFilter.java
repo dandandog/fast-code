@@ -3,7 +3,7 @@ package com.dandandog.framework.wx.jwt;
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import com.dandandog.framework.common.exception.TokenException;
 import com.dandandog.framework.wx.model.WxErrorCode;
-import com.dandandog.framework.wx.service.AuthTokenService;
+import com.dandandog.framework.wx.service.WxTokenService;
 import com.dandandog.framework.wx.utils.JwtHeaderUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -26,7 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 @AllArgsConstructor
 public class JwtFilter extends AuthenticatingFilter {
 
-    private final AuthTokenService tokenService;
+    private final WxTokenService tokenService;
+
 
     /**
      * 将 token 转成 JwtToken对象

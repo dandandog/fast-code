@@ -1,9 +1,10 @@
 package com.dandandog.framework.wx.config;
 
+import com.dandandog.framework.wx.config.properties.JwtProperties;
 import com.dandandog.framework.wx.jwt.JwtCredentialsMatcher;
 import com.dandandog.framework.wx.jwt.JwtFilter;
 import com.dandandog.framework.wx.jwt.JwtRealm;
-import com.dandandog.framework.wx.service.AuthTokenService;
+import com.dandandog.framework.wx.service.WxTokenService;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
@@ -18,6 +19,7 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,10 +32,11 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
+@EnableConfigurationProperties(JwtProperties.class)
 public class SecurityConfig {
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilter(AuthTokenService tokenService) {
+    public ShiroFilterFactoryBean shiroFilter(WxTokenService tokenService) {
         // 必须配置 SecurityManager
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
@@ -69,7 +72,6 @@ public class SecurityConfig {
         return subjectDAO;
     }
 
-
     @Bean
     public ModularRealmAuthenticator authenticator() {
         ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
@@ -79,7 +81,6 @@ public class SecurityConfig {
         return authenticator;
     }
 
-
     @Bean
     public JwtRealm jwtRealm() {
         JwtRealm realm = new JwtRealm();
@@ -87,7 +88,6 @@ public class SecurityConfig {
         realm.setCredentialsMatcher(new JwtCredentialsMatcher());
         return realm;
     }
-
 
     /**
      * URL拦截连
@@ -130,7 +130,7 @@ public class SecurityConfig {
      *
      * @return Map
      */
-    private Map<String, Filter> filterMap(AuthTokenService tokenService) {
+    private Map<String, Filter> filterMap(WxTokenService tokenService) {
         Map<String, Filter> filters = new HashMap<>(1);
         filters.put("jwt", new JwtFilter(tokenService));
         return filters;
