@@ -212,12 +212,6 @@ public class FastCodeConstant {
     public static final int JWT_REFRESH_TOKEN_CODE = 460;
 
     /**
-     * JWT 请求头token标记
-     */
-    public static final String JWT_TOKEN_HEADER = "Authorization";
-
-
-    /**
      * JWT 刷新倒计时
      */
     public static final int JWT_TOKEN_REFRESH_COUNTDOWN = 10 * 60;

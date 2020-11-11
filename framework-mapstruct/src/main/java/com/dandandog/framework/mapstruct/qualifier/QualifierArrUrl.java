@@ -57,4 +57,5 @@ public class QualifierArrUrl {
                 StrUtil.removePrefix(mapperUrl, properties.getUrlDomain())).collect(Collectors.toList()) : Lists.newArrayList();
         return CollUtil.isNotEmpty(urls) ? Joiner.on(properties.getSeparator()).skipNulls().join(urls) : null;
     }
+
 }

@@ -39,14 +39,14 @@ public final class MapperUtil {
         return mapper.mapContextTo(from, baseContext);
     }
 
-    public static <F, T> F mapFrom(T from, Class<F> tClass) {
-        IMapper<F, T> mapper = getMapper(new FromToKey(from.getClass(), tClass));
-        return mapper.mapFrom(from);
+    public static <F, T> F mapFrom(T to, Class<F> fClass) {
+        IMapper<F, T> mapper = getMapper(new FromToKey(fClass, to.getClass()));
+        return mapper.mapFrom(to);
     }
 
-    public static <F, T> F mapFrom(T from, Class<F> tClass, BaseContext baseContext) {
-        IMapper<F, T> mapper = getMapper(new FromToKey(from.getClass(), tClass));
-        return mapper.mapContextFrom(from, baseContext);
+    public static <F, T> F mapFrom(T to, Class<F> fClass, BaseContext baseContext) {
+        IMapper<F, T> mapper = getMapper(new FromToKey(fClass, to.getClass()));
+        return mapper.mapContextFrom(to, baseContext);
     }
 
     public static <F extends IEntity, T extends MapperVo> T map(F from, Class<T> tClass) {

@@ -92,12 +92,15 @@ public class JwtFilter extends AuthenticatingFilter {
      */
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) {
-        String url = WebUtils.toHttp(request).getRequestURI();
-        log.debug("鉴权成功,token:{},url:{}", token, url);
-        String newToken = tokenService.refreshToken((JwtToken) token);
-        log.debug("刷新Token,newToken:{},url:{}", newToken, url);
-        HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
-        JwtHeaderUtil.setAuthHeader(httpServletResponse, newToken);
+        //TODO
+        if (false) {
+            String url = WebUtils.toHttp(request).getRequestURI();
+            log.debug("鉴权成功,token:{},url:{}", token, url);
+            String newToken = tokenService.refreshToken((JwtToken) token);
+            log.debug("刷新Token,newToken:{},url:{}", newToken, url);
+            HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
+            JwtHeaderUtil.setAuthHeader(httpServletResponse, newToken);
+        }
         return true;
     }
 

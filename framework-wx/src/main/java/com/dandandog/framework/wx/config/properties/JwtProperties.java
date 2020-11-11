@@ -26,7 +26,7 @@ public class JwtProperties {
     /**
      * taken 头标记
      */
-    private String tokenHeader = FastCodeConstant.JWT_TOKEN_HEADER;
+    private String tokenHeader = FastCodeConstant.API_ACCESS_KEY_HEADER_NAME;
 
 
     /**
