@@ -1,4 +1,4 @@
-package com.dandandog.framework.rest.annotation;
+package com.dandandog.framework.core.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

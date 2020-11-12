@@ -88,6 +88,9 @@ public final class MapperUtil {
     public static <F, T> T merge(Class<T> to, F... merges) {
         T t = null;
         for (F from : merges) {
+            if (from == null) {
+                continue;
+            }
             IMapper<F, T> mapper = getMapper(new FromToKey(from.getClass(), to));
             t = t == null ? mapper.mapTo(from) : mapper.updateTo(from, t);
         }
@@ -96,6 +99,9 @@ public final class MapperUtil {
 
     public static <F, T> T merge(T t, F... merges) {
         for (F from : merges) {
+            if (from == null) {
+                continue;
+            }
             IMapper<F, T> mapper = getMapper(new FromToKey(from.getClass(), t.getClass()));
             t = mapper.updateTo(from, t);
         }
