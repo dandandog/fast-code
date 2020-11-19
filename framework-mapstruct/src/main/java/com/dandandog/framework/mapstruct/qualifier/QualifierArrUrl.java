@@ -46,6 +46,9 @@ public class QualifierArrUrl {
 
     @AddDomain
     public List<MapperUrl> addDomain(String in) {
+        if (StrUtil.isBlank(in)) {
+            return Lists.newArrayList();
+        }
         List<String> urlStr = Splitter.on(properties.getSeparator()).trimResults().omitEmptyStrings().splitToList(in);
         return CollUtil.isNotEmpty(urlStr) ? urlStr.stream().map(s ->
                 new MapperUrl(StrUtil.addPrefixIfNot(s, properties.getUrlDomain()))).collect(Collectors.toList()) : null;
@@ -53,6 +56,9 @@ public class QualifierArrUrl {
 
     @DelDomain
     public String delDomain(List<MapperUrl> in) {
+        if (CollUtil.isEmpty(in)) {
+            return "";
+        }
         List<String> urls = CollUtil.isNotEmpty(in) ? in.stream().map(mapperUrl ->
                 StrUtil.removePrefix(mapperUrl, properties.getUrlDomain())).collect(Collectors.toList()) : Lists.newArrayList();
         return CollUtil.isNotEmpty(urls) ? Joiner.on(properties.getSeparator()).skipNulls().join(urls) : null;
