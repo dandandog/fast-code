@@ -69,20 +69,20 @@ public final class MapperUtil {
         return mapper.mapContextFrom(to, baseContext);
     }
 
-    public static <F extends IEntity, T extends MapperVo> Collection<T> mapToAll(List<F> fromList, Class<T> tClass) {
-        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> map(f, tClass)).collect(Collectors.toList());
+    public static <F, T> Collection<T> mapToAll(List<F> fromList, Class<T> tClass) {
+        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> mapTo(f, tClass)).collect(Collectors.toList());
     }
 
-    public static <F extends IEntity, T extends MapperVo> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext baseContext) {
-        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> map(f, tClass, baseContext)).collect(Collectors.toList());
+    public static <F, T> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext baseContext) {
+        return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> mapTo(f, tClass, baseContext)).collect(Collectors.toList());
     }
 
-    public static <F extends IEntity, T extends MapperVo> Collection<F> mapFromAll(List<T> toList, Class<F> fClass) {
-        return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass)).collect(Collectors.toList());
+    public static <F, T> Collection<F> mapFromAll(List<T> toList, Class<F> fClass) {
+        return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> mapFrom(t, fClass)).collect(Collectors.toList());
     }
 
-    public static <F extends IEntity, T extends MapperVo> Collection<F> mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
-        return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> map(t, fClass, baseContext)).collect(Collectors.toList());
+    public static <F, T> Collection<F> mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
+        return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> mapFrom(t, fClass, baseContext)).collect(Collectors.toList());
     }
 
     public static <F, T> T merge(Class<T> to, F... merges) {

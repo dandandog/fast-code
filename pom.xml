@@ -22,6 +22,7 @@
         <module>framework-captcha</module>
         <module>framework-wx</module>
         <module>framework-oos</module>
+        <module>framework-task</module>
     </modules>
 
 
@@ -307,6 +308,11 @@
             <dependency>
                 <groupId>com.dandandog.fastcode</groupId>
                 <artifactId>framework-oos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dandandog.fastcode</groupId>
+                <artifactId>framework-task</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- module end -->
