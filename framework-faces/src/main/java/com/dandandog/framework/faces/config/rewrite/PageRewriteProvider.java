@@ -38,11 +38,12 @@ public class PageRewriteProvider extends HttpConfigurationProvider {
                 .addRule(Join.path(properties.getNotFound()).to(StrUtil.addSuffixIfNot(properties.getNotFound(), ".faces")))
                 .addRule(Join.path("/{path}").to(StrUtil.addSuffixIfNot("/{path}", ".faces")))
                 .addRule(Join.path("/{path}?{params}").to(StrUtil.addSuffixIfNot("/{path}", ".faces?{params}")))
+                .addRule(Join.path("/app/{path}").to(StrUtil.addSuffixIfNot("/app/{path}", ".faces")))
+                .addRule(Join.path("/app/{path}?{params}").to(StrUtil.addSuffixIfNot("/app/{path}", ".faces?{params}")))
                 .addRule(Join.path("/auth/{path}").to(StrUtil.addSuffixIfNot("/auth/{path}", ".faces")))
                 .addRule(Join.path("/auth/{path}?{params}").to(StrUtil.addSuffixIfNot("/auth/{path}", ".faces?{params}")))
                 .addRule(Join.path("/gift/{path}").to(StrUtil.addSuffixIfNot("/gift/{path}", ".faces")))
                 .addRule(Join.path("/gift/{path}?{params}").to(StrUtil.addSuffixIfNot("/gift/{path}", ".faces?{params}")))
-
                 ;
     }
 
