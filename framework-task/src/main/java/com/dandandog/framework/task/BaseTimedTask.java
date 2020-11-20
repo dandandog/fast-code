@@ -11,7 +11,7 @@ import java.util.concurrent.DelayQueue;
  */
 public abstract class BaseTimedTask implements ITimedTask, InitializingBean {
 
-    protected DelayQueue<ITask> queue = new DelayQueue<>();
+    protected DelayQueue<DelayedTask> queue = new DelayQueue<>();
 
     @Resource
     private ThreadPoolTaskExecutor executorService;
@@ -25,14 +25,14 @@ public abstract class BaseTimedTask implements ITimedTask, InitializingBean {
 
     protected abstract void init();
 
-    public void addTask(ITask task) {
+    public void addTask(DelayedTask task) {
         queue.offer(task);
     }
 
     private Runnable task() {
         return () -> {
             while (queue.size() != 0) {
-                ITask task = null;
+                DelayedTask task = null;
                 try {
                     task = queue.take();
                 } catch (InterruptedException e) {

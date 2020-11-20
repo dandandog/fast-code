@@ -11,17 +11,9 @@ import java.util.concurrent.TimeUnit;
  * @author JohnnyLiu
  */
 @Data
-public class ITask implements Delayed {
+public class DelayedTask implements Delayed {
 
-    private LocalDateTime expiredTime;
-
-    private Object sendData;
-
-
-    public ITask(LocalDateTime expiredTime, Object sendData) {
-        this.expiredTime = expiredTime;
-        this.sendData = sendData;
-    }
+    protected LocalDateTime expiredTime;
 
     @Override
     public long getDelay(TimeUnit unit) {
@@ -32,7 +24,7 @@ public class ITask implements Delayed {
 
     @Override
     public int compareTo(Delayed o) {
-        return this.getExpiredTime().compareTo(((ITask) o).getExpiredTime());
+        return this.getExpiredTime().compareTo(((DelayedTask) o).getExpiredTime());
     }
 
 

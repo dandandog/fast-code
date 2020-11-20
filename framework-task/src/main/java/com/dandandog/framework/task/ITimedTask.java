@@ -5,8 +5,8 @@ package com.dandandog.framework.task;
  */
 public interface ITimedTask {
 
-    void addTask(ITask task);
+    void addTask(DelayedTask task);
 
-    void runTask(ITask task);
+    void runTask(DelayedTask task);
 
 }
