@@ -13,24 +13,19 @@ public enum WxErrorCode implements IError {
     NOT_TOKEN(20300, "没有令牌"),
 
     /**
-     * 刷新token
-     **/
-    TOKEN_REFRESH(40600, "刷新token"),
-
-    /**
      * JWT Token解析异常
      **/
-    JWT_DECODE_EXCEPTION(51070, "Token解析异常"),
+    JWT_DECODE_EXCEPTION(20300, "Token解析异常"),
 
     /**
      * Token 失效
      **/
-    TOKEN_DISABLED(51070, "Token失效"),
+    TOKEN_DISABLED(20300, "Token失效"),
 
     /**
      * JWT Token超时
      **/
-    TOKEN_EXPIRED(51070, "Token超时"),
+    TOKEN_EXPIRED(20300, "Token超时"),
 
     /**
      * JWT Token超时

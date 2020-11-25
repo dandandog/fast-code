@@ -1,7 +1,7 @@
 package com.dandandog.framework.wx.jwt;
 
 import cn.hutool.core.util.StrUtil;
-import com.dandandog.framework.common.exception.TokenException;
+import com.dandandog.framework.wx.exception.WxTokenException;
 import com.dandandog.framework.wx.model.WxErrorCode;
 import com.dandandog.framework.wx.utils.JwtTokenUtil;
 import lombok.SneakyThrows;
@@ -19,11 +19,6 @@ import org.apache.shiro.subject.PrincipalCollection;
  */
 @Slf4j
 public class JwtRealm extends AuthorizingRealm {
-
-
-    public JwtRealm() {
-        log.debug("JwtRealm");
-    }
 
     /**
      * 注意坑点 : 必须重写此方法，不然Shiro会报错
@@ -48,14 +43,14 @@ public class JwtRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
         JwtToken jwtToken = (JwtToken) token;
         if (jwtToken == null) {
-            throw new TokenException(WxErrorCode.NOT_TOKEN);
+            throw new WxTokenException(WxErrorCode.NOT_TOKEN);
         }
         String uniqueId = JwtTokenUtil.getUniqueId(jwtToken.getToken());
         if (StrUtil.isBlank(uniqueId)) {
-            throw new TokenException(WxErrorCode.TOKEN_DISABLED);
+            throw new WxTokenException(WxErrorCode.TOKEN_DISABLED);
         }
         if (JwtTokenUtil.isExpired(jwtToken.getToken())) {
-            throw new TokenException(WxErrorCode.TOKEN_EXPIRED);
+            throw new WxTokenException(WxErrorCode.TOKEN_EXPIRED);
         }
         return new SimpleAuthenticationInfo(jwtToken.getToken(), jwtToken.getSecret(), getName());
     }

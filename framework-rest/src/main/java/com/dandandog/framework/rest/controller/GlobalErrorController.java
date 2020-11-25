@@ -14,6 +14,8 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Optional;
+
 import static org.springframework.http.HttpStatus.OK;
 
 /**
@@ -39,15 +41,9 @@ public class GlobalErrorController implements ErrorController {
             case HttpServletResponse.SC_NOT_FOUND:
                 return ApiResult.failed(ApiErrorCode.NOT_FOUND);
             default:
-                break;
+                IError error = Optional.ofNullable((IError) request.getAttribute(FastCodeConstant.ERROR_KEY)).orElse(ApiErrorCode.UNKNOWN);
+                return ApiResult.failed(error, null);
         }
-
-        IError exception = (IError) request.getAttribute(FastCodeConstant.ERROR_KEY);
-        if (exception == null) {
-            exception = ApiErrorCode.UNKNOWN;
-        }
-
-        return ApiResult.failed(exception, null);
     }
 
     @Override

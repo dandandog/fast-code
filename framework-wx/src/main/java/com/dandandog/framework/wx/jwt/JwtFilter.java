@@ -2,6 +2,7 @@ package com.dandandog.framework.wx.jwt;
 
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import com.dandandog.framework.common.exception.TokenException;
+import com.dandandog.framework.wx.exception.WxTokenException;
 import com.dandandog.framework.wx.model.WxErrorCode;
 import com.dandandog.framework.wx.service.WxTokenService;
 import com.dandandog.framework.wx.utils.JwtHeaderUtil;
@@ -117,8 +118,10 @@ public class JwtFilter extends AuthenticatingFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         log.error("登录失败，token:" + token + ",error:" + e.getMessage(), e);
-        request.setAttribute(FastCodeConstant.ERROR_KEY, WxErrorCode.TOKEN_DISABLED);
-        throw new TokenException(WxErrorCode.TOKEN_DISABLED);
+        WxTokenException tokenException = (WxTokenException) e;
+        request.setAttribute(FastCodeConstant.ERROR_KEY, tokenException.getError());
+        // throw new TokenException(WxErrorCode.TOKEN_DISABLED);
+        return false;
     }
 
 }
