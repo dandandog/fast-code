@@ -1,5 +1,7 @@
 package com.dandandog.framework.wx.jwt;
 
+import com.dandandog.framework.wx.exception.WxTokenException;
+import com.dandandog.framework.wx.model.WxErrorCode;
 import com.dandandog.framework.wx.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -20,8 +22,7 @@ public class JwtCredentialsMatcher implements CredentialsMatcher {
         try {
             return JwtTokenUtil.verifyToken(token, salt);
         } catch (Exception e) {
-            log.error("JWT Token CredentialsMatch Exception:" + e.getMessage(), e);
+            throw new WxTokenException(WxErrorCode.JWT_DECODE_EXCEPTION);
         }
-        return false;
     }
 }

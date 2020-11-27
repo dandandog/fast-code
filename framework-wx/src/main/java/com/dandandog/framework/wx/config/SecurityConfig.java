@@ -97,7 +97,7 @@ public class SecurityConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/app/token", "anon");
+
         chainDefinition.addPathDefinition("/swagger-resources/**", "anon");
         chainDefinition.addPathDefinition("/favicon.ico", "anon");
         chainDefinition.addPathDefinition("/api-docs", "anon");
@@ -108,22 +108,12 @@ public class SecurityConfig {
         chainDefinition.addPathDefinition("/swagger-ui.html", "anon");
         chainDefinition.addPathDefinition("/logout", "logout");
 
+        chainDefinition.addPathDefinition("/app/token", "anon");
         chainDefinition.addPathDefinition("/**", "jwt");
+
         log.debug("Shiro intercept path:{}", chainDefinition.getFilterChainMap());
         return chainDefinition;
     }
-
-
-//    private void authTokenChainDefinition(DefaultShiroFilterChainDefinition chainDefinition) {
-//        Reflections reflections = new Reflections(new ConfigurationBuilder().forPackages("com.xiaoxiang.baby", "pers.alawn.fastcode")
-//                .addScanners(new FieldAnnotationsScanner())
-//                .addScanners(new TypeAnnotationsScanner()));
-//        Set<Class<?>> typeClass = reflections.getTypesAnnotatedWith(AuthTokenController.class);
-//        typeClass.forEach(aClass -> {
-//            AuthTokenController authToken = AnnotationUtil.getAnnotation(aClass, AuthTokenController.class);
-//            Arrays.stream(authToken.value()).forEach(url -> chainDefinition.addPathDefinition(url + "/**", authToken.definition()));
-//        });
-//    }
 
     /**
      * shiro  filter
