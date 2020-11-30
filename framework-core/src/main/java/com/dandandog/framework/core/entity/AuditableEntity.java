@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AuditableEntity extends BaseEntity {
+public class AuditableEntity extends AbstractEntity {
 
     @TableField(value = "creator", fill = FieldFill.INSERT)
     protected String creator;
