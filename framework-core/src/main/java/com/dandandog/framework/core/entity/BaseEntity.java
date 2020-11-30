@@ -2,7 +2,6 @@ package com.dandandog.framework.core.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.dandandog.framework.common.model.IEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +19,6 @@ public class BaseEntity implements IEntity, Serializable {
 
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
     protected String id;
-
-    @TableLogic
-    protected Boolean del = Boolean.FALSE;
 
     @Override
     public boolean equals(Object obj) {
