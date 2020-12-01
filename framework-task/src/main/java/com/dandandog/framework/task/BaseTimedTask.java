@@ -31,14 +31,16 @@ public abstract class BaseTimedTask implements ITimedTask, InitializingBean {
 
     private Runnable task() {
         return () -> {
-            while (queue.size() != 0) {
-                DelayedTask task = null;
-                try {
-                    task = queue.take();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            while (true) {
+                if (queue.size() != 0) {
+                    DelayedTask task = null;
+                    try {
+                        task = queue.take();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    runTask(task);
                 }
-                runTask(task);
             }
         };
     }
