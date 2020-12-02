@@ -25,6 +25,7 @@ public abstract class BaseTimedTask implements ITimedTask, InitializingBean {
 
     protected abstract void init();
 
+    @Override
     public void addTask(DelayedTask task) {
         queue.offer(task);
     }

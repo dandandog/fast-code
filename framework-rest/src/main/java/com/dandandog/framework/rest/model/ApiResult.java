@@ -28,17 +28,13 @@ public class ApiResult<T> implements Serializable {
     }
 
     public ApiResult(IError errorCode) {
-        errorCode = (IError) Optional.ofNullable(errorCode).orElse(ApiErrorCode.FAILED);
+        errorCode = Optional.ofNullable(errorCode).orElse(ApiErrorCode.FAILED);
         this.code = errorCode.getCode();
         this.msg = errorCode.getMsg();
     }
 
-    public static <T> ApiResult<T> ok(T data) {
+    public static <T> ApiResult<T> success(T data) {
         ApiErrorCode aec = ApiErrorCode.SUCCESS;
-        if (data instanceof Boolean && Boolean.FALSE.equals(data)) {
-            aec = ApiErrorCode.FAILED;
-        }
-
         return restResult(data, aec);
     }
 
