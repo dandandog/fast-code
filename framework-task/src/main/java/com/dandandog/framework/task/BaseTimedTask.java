@@ -45,6 +45,4 @@ public abstract class BaseTimedTask implements ITimedTask, InitializingBean {
             }
         };
     }
-
-
 }

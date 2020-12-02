@@ -23,6 +23,7 @@
         <module>framework-wx</module>
         <module>framework-oos</module>
         <module>framework-task</module>
+        <module>framework-3api</module>
     </modules>
 
 
@@ -319,6 +320,11 @@
             <dependency>
                 <groupId>com.dandandog.fastcode</groupId>
                 <artifactId>framework-task</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dandandog.fastcode</groupId>
+                <artifactId>framework-3api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- module end -->
