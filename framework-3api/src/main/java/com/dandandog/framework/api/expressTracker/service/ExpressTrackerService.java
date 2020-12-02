@@ -1,5 +1,7 @@
 package com.dandandog.framework.api.expressTracker.service;
 
+import com.dandandog.framework.api.expressTracker.entity.ExpressTrackerInfo;
+
 /**
  * @author JohnnyLiu
  */
@@ -15,5 +17,5 @@ public interface ExpressTrackerService {
      */
     String getOrderTracesByJson(String expCode, String expNo) throws Exception;
 
-
+    ExpressTrackerInfo getOrderTracesByObj(String expCode, String expNo) throws Exception;
 }

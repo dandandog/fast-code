@@ -1,5 +1,7 @@
 package com.dandandog.framework.api.expressTracker.api;
 
+import cn.hutool.json.JSONUtil;
+import com.dandandog.framework.api.expressTracker.entity.ExpressTrackerInfo;
 import com.dandandog.framework.api.expressTracker.service.ExpressTrackerService;
 
 import java.io.*;
@@ -46,6 +48,12 @@ public class KdniaoTrackQueryAPI implements ExpressTrackerService {
         params.put("DataType", "2");
 
         return sendPost(reqURL, params);
+    }
+
+    @Override
+    public ExpressTrackerInfo getOrderTracesByObj(String expCode, String expNo) throws Exception {
+        String json = getOrderTracesByJson(expCode, expNo);
+        return JSONUtil.toBean(json, ExpressTrackerInfo.class);
     }
 
     /**
