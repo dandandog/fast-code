@@ -4,7 +4,6 @@ import com.dandandog.framework.api.config.properties.ExpressTrackerProperties;
 import com.dandandog.framework.api.expressTracker.api.KdniaoTrackQueryAPI;
 import com.dandandog.framework.api.expressTracker.service.ExpressTrackerService;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @AllArgsConstructor
 @EnableConfigurationProperties({ExpressTrackerProperties.class})
-@ConditionalOnProperty(prefix = "fast-code.express-tracker")
 public class ExpressTrackerConfig {
+
 
     private final ExpressTrackerProperties properties;
 
