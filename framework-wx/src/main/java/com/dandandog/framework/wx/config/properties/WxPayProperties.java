@@ -38,5 +38,9 @@ public class WxPayProperties {
      * apiclient_cert.p12文件的绝对路径，或者如果放在项目中，请以classpath:开头指定
      */
     private String keyPath;
+    /**
+     * 微信支付异步回调地址
+     */
+    private String notify;
 
 }

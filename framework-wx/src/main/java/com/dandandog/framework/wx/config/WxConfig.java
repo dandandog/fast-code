@@ -82,6 +82,7 @@ public class WxConfig {
                 setSubAppId(properties.getSubAppId());
                 setSubMchId(properties.getSubMchId());
                 setKeyPath(properties.getKeyPath());
+                setNotifyUrl(properties.getNotify());
             }});
         }}));
     }
