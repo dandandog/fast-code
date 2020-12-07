@@ -138,32 +138,32 @@ public class FastCodeConstant {
     /**
      * 登入页
      */
-    public static final String LOGIN_PAGE = "/login";
+    public static final String LOGIN_PAGE = "/login.faces";
 
     /**
      * 登入失败页
      */
-    public static final String LOGIN_FAILED_PAGE = "/login?error=true";
+    public static final String LOGIN_FAILED_PAGE = "/login.faces?error=true";
 
     /**
      * 首页
      */
-    public static final String INDEX_PAGE = "/index";
+    public static final String INDEX_PAGE = "/index.faces";
 
     /**
      * 500页
      */
-    public static final String ERROR_PAGE = "/error";
+    public static final String ERROR_PAGE = "/error.faces";
 
     /**
      * 404页
      */
-    public static final String NOT_FOUND_PAGE = "/404";
+    public static final String NOT_FOUND_PAGE = "/404.faces";
 
     /**
      * access页
      */
-    public static final String ACCESS_PAGE = "/access";
+    public static final String ACCESS_PAGE = "/access.faces";
 
     /**
      * 页面后缀
