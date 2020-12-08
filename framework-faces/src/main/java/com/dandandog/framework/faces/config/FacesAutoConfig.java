@@ -9,16 +9,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import javax.faces.webapp.FacesServlet;
-import javax.servlet.ServletContext;
+import javax.servlet.MultipartConfigElement;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,6 +60,18 @@ public class FacesAutoConfig {
         initParameters.put("forceEncoding", "true");
         filterBean.setInitParameters(initParameters);
         return filterBean;
+    }
+
+    @Bean
+    MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        String location = System.getProperty("user.dir") + "/data/tmp";
+        File tmpFile = new File(location);
+        if (!tmpFile.exists()) {
+            tmpFile.mkdirs();
+        }
+        factory.setLocation(location);
+        return factory.createMultipartConfig();
     }
 
     @Bean
