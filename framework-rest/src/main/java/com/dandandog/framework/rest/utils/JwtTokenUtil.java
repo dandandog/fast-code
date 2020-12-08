@@ -1,4 +1,4 @@
-package com.dandandog.framework.wx.utils;
+package com.dandandog.framework.rest.utils;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
@@ -10,7 +10,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.dandandog.framework.common.utils.DateTimeUtil;
-import com.dandandog.framework.wx.config.properties.JwtProperties;
+import com.dandandog.framework.rest.config.properties.JwtProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
-package com.dandandog.framework.wx.jwt;
+package com.dandandog.framework.rest.jwt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.dandandog.framework.common.utils.IpUtil;
-import com.dandandog.framework.wx.utils.JwtTokenUtil;
+import com.dandandog.framework.rest.utils.JwtTokenUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.shiro.authc.HostAuthenticationToken;

@@ -12,7 +12,10 @@ public enum ApiErrorCode implements IError {
      **/
     SUCCESS(20000, "操作成功"),
 
-
+    /**
+     * Token 失效
+     **/
+    TOKEN_DISABLED(20300, "Token失效"),
 
     /**
      * 操作失败
@@ -42,7 +45,6 @@ public enum ApiErrorCode implements IError {
      * 你请求的资源不存在
      **/
     NOT_FOUND(40400, "你请求的资源不存在"),
-
 
 
     /**
@@ -112,6 +114,7 @@ public enum ApiErrorCode implements IError {
         return EnumUtil.likeValueOf(ApiErrorCode.class, code);
     }
 
+    @Override
     public Integer getCode() {
         return code;
     }

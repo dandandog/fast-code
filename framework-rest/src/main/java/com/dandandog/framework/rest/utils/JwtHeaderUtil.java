@@ -1,6 +1,6 @@
-package com.dandandog.framework.wx.utils;
+package com.dandandog.framework.rest.utils;
 
-import com.dandandog.framework.wx.config.properties.JwtProperties;
+import com.dandandog.framework.rest.config.properties.JwtProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,6 @@ public class JwtHeaderUtil {
         tokenHeader = jwtProperties.getTokenHeader();
         log.debug("tokenHead:{}", tokenHeader);
     }
-
-    /**
-     * 从请求头或者请求参数中
-     *
-     * @return String
-     */
 
     /**
      * 从请求头或者请求参数中

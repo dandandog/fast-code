@@ -35,7 +35,6 @@ public class WxConfig {
 
     private final WxProperties properties;
 
-
     private static Map<String, WxMaService> maServices = Maps.newConcurrentMap();
 
     private static Map<String, WxPayService> payServices = Maps.newConcurrentMap();

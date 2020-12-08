@@ -1,11 +1,11 @@
-package com.dandandog.framework.wx.jwt;
+package com.dandandog.framework.rest.jwt;
 
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import com.dandandog.framework.common.exception.TokenException;
-import com.dandandog.framework.wx.exception.WxTokenException;
-import com.dandandog.framework.wx.model.WxErrorCode;
-import com.dandandog.framework.wx.service.WxTokenService;
-import com.dandandog.framework.wx.utils.JwtHeaderUtil;
+import com.dandandog.framework.rest.exception.JwtTokenException;
+import com.dandandog.framework.rest.model.ApiErrorCode;
+import com.dandandog.framework.rest.service.JwtTokenService;
+import com.dandandog.framework.rest.utils.JwtHeaderUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 @AllArgsConstructor
 public class JwtFilter extends AuthenticatingFilter {
 
-    private final WxTokenService tokenService;
+    private final JwtTokenService tokenService;
 
 
     /**
@@ -55,8 +55,8 @@ public class JwtFilter extends AuthenticatingFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
         String url = WebUtils.toHttp(request).getRequestURI();
         log.debug("onAccessDenied url：{}", url);
-        request.setAttribute(FastCodeConstant.ERROR_KEY, WxErrorCode.NOT_TOKEN);
-        throw new TokenException(WxErrorCode.NOT_TOKEN);
+        request.setAttribute(FastCodeConstant.ERROR_KEY, ApiErrorCode.TOKEN_DISABLED);
+        throw new TokenException(ApiErrorCode.TOKEN_DISABLED);
     }
 
     /**
@@ -118,9 +118,8 @@ public class JwtFilter extends AuthenticatingFilter {
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
         log.error("登录失败，token:" + token + ",error:" + e.getMessage(), e);
-        WxTokenException tokenException = (WxTokenException) e;
+        JwtTokenException tokenException = (JwtTokenException) e;
         request.setAttribute(FastCodeConstant.ERROR_KEY, tokenException.getError());
-        // throw new TokenException(WxErrorCode.TOKEN_DISABLED);
         return false;
     }
 

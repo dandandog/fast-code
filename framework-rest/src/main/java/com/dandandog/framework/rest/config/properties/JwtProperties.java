@@ -1,4 +1,4 @@
-package com.dandandog.framework.wx.config.properties;
+package com.dandandog.framework.rest.config.properties;
 
 import com.dandandog.framework.common.config.constant.FastCodeConstant;
 import lombok.Data;
@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "fast-code.jwt")
 public class JwtProperties {
+
+    /**
+     * 使用JWT
+     */
+    private boolean enabled;
 
     /**
      * 密钥

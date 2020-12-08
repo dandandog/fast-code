@@ -1,7 +1,7 @@
-package com.dandandog.framework.wx.config.security;
+package com.dandandog.framework.rest.config.security;
 
 import com.dandandog.framework.common.components.security.IAuthenticationFacade;
-import com.dandandog.framework.wx.utils.JwtTokenUtil;
+import com.dandandog.framework.rest.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;

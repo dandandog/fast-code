@@ -1,12 +1,14 @@
-package com.dandandog.framework.wx.service;
+package com.dandandog.framework.rest.service;
 
-import com.dandandog.framework.wx.jwt.JwtToken;
-import me.chanjar.weixin.common.error.WxErrorException;
+import com.dandandog.framework.rest.exception.JwtTokenException;
+import com.dandandog.framework.rest.jwt.JwtToken;
+
+import java.util.Map;
 
 /**
  * @author JohnnyLiu
  */
-public interface WxTokenService {
+public interface JwtTokenService {
 
 
     /**
@@ -23,7 +25,7 @@ public interface WxTokenService {
      * @param sessionKey 微信登入sessionKey ,
      * @return 返回新的token
      */
-    String generateToken(String sessionKey, String openId) throws WxErrorException;
+    String generateToken(String sessionKey, String openId) throws JwtTokenException;
 
     /**
      * 构建build
@@ -33,5 +35,12 @@ public interface WxTokenService {
      */
     JwtToken buildJwtToken(String token);
 
+
+    /**
+     * token白名单
+     *
+     * @return 返回 JwtToken对象
+     */
+    Map<String, String> tokenFilterList();
 
 }

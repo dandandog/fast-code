@@ -12,6 +12,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "fast-code.wx")
 public class WxProperties {
 
+    boolean enabled;
+
     List<WxMaProperties> miniApps;
 
     List<WxPayProperties> pays;
