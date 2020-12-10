@@ -70,7 +70,6 @@ public class SecurityConfig {
         chainDefinition.addPathDefinition("/swagger-resources/**", "anon");
         chainDefinition.addPathDefinition("/favicon.ico", "anon");
         chainDefinition.addPathDefinition("/api-docs", "anon");
-        chainDefinition.addPathDefinition("/mall/prod/order/wxNotify", "anon");
         chainDefinition.addPathDefinition("/doc.html", "anon");
         chainDefinition.addPathDefinition("/api-docs-ext", "anon");
         chainDefinition.addPathDefinition("/webjars/**", "anon");
