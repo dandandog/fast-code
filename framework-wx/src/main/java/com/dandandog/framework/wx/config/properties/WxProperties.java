@@ -14,6 +14,10 @@ public class WxProperties {
 
     boolean enabled;
 
+    String evn = "developer";
+
+    String defApp;
+
     List<WxMaProperties> miniApps;
 
     List<WxPayProperties> pays;

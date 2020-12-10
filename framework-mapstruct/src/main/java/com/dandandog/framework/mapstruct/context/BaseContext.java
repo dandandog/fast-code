@@ -8,27 +8,48 @@ import org.mapstruct.TargetType;
 /**
  * @author JohnnyLiu
  */
-public interface BaseContext {
+public interface BaseContext<T> {
 
 
     /**
-     * 映射前
+     * 实体映射前
      *
      * @param target 映射对象
      * @param t      映射类
      */
     @BeforeMapping
-    default void before(@MappingTarget Object target, @TargetType Class<?> t) {
-
+    default void beforeMapping(@MappingTarget Object target, @TargetType Class<?> t) {
+        before((T) target, (Class<T>) t);
     }
 
     /**
-     * 映射后
+     * 实现泛型转换
+     *
+     * @param target
+     * @param t
+     */
+    default void before(T target, Class<T> t) {
+
+    }
+
+
+    /**
+     * 实体映射后
      *
      * @param target 映射对象
      * @param t      映射类
      */
     @AfterMapping
-    default void after(@MappingTarget Object target, @TargetType Class<?> t) {
+    default void afterMapping(@MappingTarget Object target, @TargetType Class<?> t) {
+        after((T) target, (Class<T>) t);
+    }
+
+    /**
+     * 实现泛型转换
+     *
+     * @param target
+     * @param t
+     */
+    default void after(T target, Class<T> t) {
     }
 }

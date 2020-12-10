@@ -38,7 +38,7 @@ public interface IMapper<From, To> {
      * @return 映射对象
      */
 
-    To mapContextTo(From from, @Context BaseContext context);
+    To mapContextTo(From from, @Context BaseContext<To> context);
 
 
     /**
@@ -49,7 +49,7 @@ public interface IMapper<From, To> {
      * @return from 原对象
      */
     @InheritInverseConfiguration(name = "mapContextTo")
-    From mapContextFrom(To to, @Context BaseContext context);
+    From mapContextFrom(To to, @Context BaseContext<From> context);
 
     /**
      * Update the object.

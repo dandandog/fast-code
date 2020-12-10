@@ -1,5 +1,6 @@
 package com.dandandog.framework.rest.config;
 
+import cn.hutool.json.JSONUtil;
 import com.dandandog.framework.rest.jwt.JwtCredentialsMatcher;
 import com.dandandog.framework.rest.jwt.JwtFilter;
 import com.dandandog.framework.rest.jwt.JwtRealm;
@@ -79,7 +80,7 @@ public class SecurityConfig {
         chainDefinition.addPathDefinitions(tokenService.tokenFilterList());
         chainDefinition.addPathDefinition("/**", "jwt");
 
-        log.debug("Shiro intercept path:{}", chainDefinition.getFilterChainMap());
+        log.debug("Shiro intercept path:{}", JSONUtil.toJsonPrettyStr(chainDefinition.getFilterChainMap()));
         return chainDefinition;
     }
 

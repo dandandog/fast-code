@@ -34,7 +34,7 @@ public final class MapperUtil {
         return mapper.mapTo(from);
     }
 
-    public static <F, T> T mapTo(F from, Class<T> tClass, BaseContext baseContext) {
+    public static <F, T> T mapTo(F from, Class<T> tClass, BaseContext<T> baseContext) {
         IMapper<F, T> mapper = getMapper(new FromToKey(from.getClass(), tClass));
         return mapper.mapContextTo(from, baseContext);
     }
@@ -44,7 +44,7 @@ public final class MapperUtil {
         return mapper.mapFrom(to);
     }
 
-    public static <F, T> F mapFrom(T to, Class<F> fClass, BaseContext baseContext) {
+    public static <F, T> F mapFrom(T to, Class<F> fClass, BaseContext<F> baseContext) {
         IMapper<F, T> mapper = getMapper(new FromToKey(fClass, to.getClass()));
         return mapper.mapContextFrom(to, baseContext);
     }
@@ -54,7 +54,7 @@ public final class MapperUtil {
         return mapper.mapTo(from);
     }
 
-    public static <F extends IEntity, T extends MapperVo> T map(F from, Class<T> tClass, BaseContext baseContext) {
+    public static <F extends IEntity, T extends MapperVo> T map(F from, Class<T> tClass, BaseContext<T> baseContext) {
         IMapper<F, T> mapper = getMapper(new FromToKey(from.getClass(), tClass));
         return mapper.mapContextTo(from, baseContext);
     }
@@ -64,7 +64,7 @@ public final class MapperUtil {
         return mapper.mapFrom(to);
     }
 
-    public static <F extends IEntity, T extends MapperVo> F map(T to, Class<F> fClass, BaseContext baseContext) {
+    public static <F extends IEntity, T extends MapperVo> F map(T to, Class<F> fClass, BaseContext<F> baseContext) {
         IMapper<F, T> mapper = getMapper(new FromToKey(fClass, to.getClass()));
         return mapper.mapContextFrom(to, baseContext);
     }
@@ -73,7 +73,7 @@ public final class MapperUtil {
         return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> mapTo(f, tClass)).collect(Collectors.toList());
     }
 
-    public static <F, T> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext baseContext) {
+    public static <F, T> Collection<T> mapToAll(List<F> fromList, Class<T> tClass, BaseContext<T> baseContext) {
         return Optional.ofNullable(fromList).orElse(Lists.newArrayList()).stream().map(f -> mapTo(f, tClass, baseContext)).collect(Collectors.toList());
     }
 
@@ -81,7 +81,7 @@ public final class MapperUtil {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> mapFrom(t, fClass)).collect(Collectors.toList());
     }
 
-    public static <F, T> Collection<F> mapFromAll(List<T> toList, Class<F> fClass, BaseContext baseContext) {
+    public static <F, T> Collection<F> mapFromAll(List<T> toList, Class<F> fClass, BaseContext<F> baseContext) {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> mapFrom(t, fClass, baseContext)).collect(Collectors.toList());
     }
 
