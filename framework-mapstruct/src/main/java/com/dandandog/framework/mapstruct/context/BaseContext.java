@@ -8,6 +8,7 @@ import org.mapstruct.TargetType;
 /**
  * @author JohnnyLiu
  */
+@SuppressWarnings("unchecked")
 public interface BaseContext<T> {
 
 
