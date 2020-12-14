@@ -24,6 +24,7 @@
         <module>framework-oos</module>
         <module>framework-task</module>
         <module>framework-3api</module>
+        <module>framework-mq</module>
     </modules>
 
 
@@ -127,6 +128,11 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring-boot.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!-- spring-boot end -->
 
@@ -325,6 +331,11 @@
             <dependency>
                 <groupId>com.dandandog.fastcode</groupId>
                 <artifactId>framework-3api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dandandog.fastcode</groupId>
+                <artifactId>framework-mq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- module end -->
