@@ -96,6 +96,14 @@ public class WxUtil {
     public static void sendSubscribeMsg(WxMsgTemplate template) throws WxErrorException {
         ArrayList<WxMaSubscribeMessage.Data> messages = Lists.newArrayList();
         template.getData().forEach((key, value) -> {
+            char[] chars = value.toCharArray();
+            if (chars.length >= 20) {
+                value = "";
+                for (int i = 0; i < 16; i++) {
+                    value += chars[i];
+                }
+                value += "...";
+            }
             messages.add(new WxMaSubscribeMessage.Data(key, value));
         });
         getMsgService().sendSubscribeMsg(WxMaSubscribeMessage.builder()
