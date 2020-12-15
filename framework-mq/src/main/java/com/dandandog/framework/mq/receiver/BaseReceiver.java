@@ -5,17 +5,13 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-@Component
-public class BaseReceiver<T> {
+/**
+ * @author Johnny
+ */
 
-    private final String queue;
-
-    public BaseReceiver(IQueueEnum queueEnum) {
-        this.queue = queueEnum.getName();
-    }
+public abstract class BaseReceiver<T> {
 
 
-    @RabbitListener(queues = queue)
     @RabbitHandler
     public void handle(T t) {
 
