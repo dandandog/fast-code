@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * @author Johnny
+ */
 @Component
 public class BaseSender {
 
@@ -30,5 +33,4 @@ public class BaseSender {
         Duration delayTimes = Duration.between(LocalDateTime.now(), delayDataTime);
         this.sendDelayMessage(queue, data, delayTimes.toMillis());
     }
-
 }
