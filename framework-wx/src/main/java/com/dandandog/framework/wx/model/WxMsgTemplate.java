@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Map;
  */
 @Data
 @Accessors(chain = true)
-public class WxMsgTemplate {
+public class WxMsgTemplate implements Serializable {
 
     private String id;
 

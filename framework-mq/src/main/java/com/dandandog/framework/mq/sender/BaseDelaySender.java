@@ -1,6 +1,6 @@
 package com.dandandog.framework.mq.sender;
 
-import com.dandandog.framework.mq.model.IQueueEnum;
+import com.dandandog.framework.mq.model.ImqBinding;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,25 +12,28 @@ import java.time.LocalDateTime;
  * @author Johnny
  */
 @Component
-public class BaseSender {
+public abstract class BaseDelaySender<T extends ImqBinding> {
 
 
     private final AmqpTemplate amqpTemplate;
 
+    private final T binding;
+
     @Autowired
-    public BaseSender(AmqpTemplate amqpTemplate) {
+    public BaseDelaySender(AmqpTemplate amqpTemplate, T binding) {
         this.amqpTemplate = amqpTemplate;
+        this.binding = binding;
     }
 
-    public <T> void sendDelayMessage(IQueueEnum queue, T data, long delayTimes) {
-        amqpTemplate.convertAndSend(queue.getExchange(), queue.getRouteKey(), data, message -> {
+    public void sendDelayMessage(Object data, long delayTimes) {
+        amqpTemplate.convertAndSend(binding.getExchange(), binding.getRouteKey(), data, message -> {
             message.getMessageProperties().setHeader("x-delay", delayTimes);
             return message;
         });
     }
 
-    public <T> void sendDelayMessage(IQueueEnum queue, T data, LocalDateTime delayDataTime) {
+    public void sendDelayMessage(Object data, LocalDateTime delayDataTime) {
         Duration delayTimes = Duration.between(LocalDateTime.now(), delayDataTime);
-        this.sendDelayMessage(queue, data, delayTimes.toMillis());
+        this.sendDelayMessage(data, delayTimes.toMillis());
     }
 }
