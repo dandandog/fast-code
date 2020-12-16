@@ -109,6 +109,7 @@ public class WxUtil {
         getMsgService().sendSubscribeMsg(WxMaSubscribeMessage.builder()
                 .templateId(template.getId())
                 .data(messages)
+                .page(template.getPage())
                 .toUser(template.getToUser())
                 .miniprogramState(evn)
                 .build());
