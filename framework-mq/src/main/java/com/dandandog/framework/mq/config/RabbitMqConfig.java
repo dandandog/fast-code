@@ -40,7 +40,7 @@ public class RabbitMqConfig implements InitializingBean {
                 bindingMap.put(binding.getExchange(), binding);
             });
 
-            bindingMap.keys().forEach(exchangeName -> {
+            bindingMap.keySet().forEach(exchangeName -> {
                 CustomExchange customExchange = buildCustomExchange(exchangeName);
                 bindingMap.get(exchangeName).forEach(binding -> {
                     Queue queue = buildPluginQueue(binding.getQueue());
