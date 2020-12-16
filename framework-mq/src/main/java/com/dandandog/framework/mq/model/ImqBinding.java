@@ -1,9 +1,13 @@
 package com.dandandog.framework.mq.model;
 
+import lombok.Data;
+
 /**
  * @author Johnny
  */
-public interface IQueueEnum {
+
+public interface ImqBinding {
+
 
     /**
      * 获取交换机名称
@@ -17,7 +21,7 @@ public interface IQueueEnum {
      *
      * @return 队列名称
      */
-    String getName();
+    String getQueue();
 
     /**
      * 获取路由键
@@ -25,4 +29,5 @@ public interface IQueueEnum {
      * @return 路由键
      */
     String getRouteKey();
+
 }
