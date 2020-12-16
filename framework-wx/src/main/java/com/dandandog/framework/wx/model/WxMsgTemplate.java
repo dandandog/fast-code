@@ -18,6 +18,8 @@ public class WxMsgTemplate implements Serializable {
 
     private String toUser;
 
+    private String page;
+
     private Map<String, String> data = Maps.newHashMap();
 
 
