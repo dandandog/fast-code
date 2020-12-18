@@ -157,34 +157,34 @@ public class FacesController {
         return getResponse().getLocale();
     }
 
-    public String getMessage(String code, Object[] args) {
+    public String getMessage(String code, Object... args) {
         return this.messageSource.getMessage(code, args, getLocale());
     }
 
-    public String getMessage(String code, Object[] args, String defaultMessage) {
+    public String getMessage(String code, String defaultMessage, Object... args) {
         return this.messageSource.getMessage(code, args, defaultMessage, getLocale());
     }
 
-    protected void addMessages(String code, Object[] args, FacesMessage.Severity severity) {
+    protected void addMessages(String code, FacesMessage.Severity severity, Object... args) {
         FacesMessage facesMessage = new FacesMessage(getMessage(code, args));
         facesMessage.setSeverity(severity);
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
     }
 
-    protected void infoMessages(String code, Object[] args) {
-        this.addMessages(code, args, FacesMessage.SEVERITY_INFO);
+    protected void infoMessages(String code, Object... args) {
+        this.addMessages(code, FacesMessage.SEVERITY_INFO, args);
     }
 
-    protected void warnMessages(String code, Object[] args) {
-        this.addMessages(code, args, FacesMessage.SEVERITY_WARN);
+    protected void warnMessages(String code, Object... args) {
+        this.addMessages(code, FacesMessage.SEVERITY_WARN, args);
     }
 
-    protected void errorMessages(String code, Object[] args) {
-        this.addMessages(code, args, FacesMessage.SEVERITY_ERROR);
+    protected void errorMessages(String code, Object... args) {
+        this.addMessages(code, FacesMessage.SEVERITY_ERROR, args);
     }
 
-    protected void fatalMessages(String code, Object[] args) {
-        this.addMessages(code, args, FacesMessage.SEVERITY_FATAL);
+    protected void fatalMessages(String code, Object... args) {
+        this.addMessages(code, FacesMessage.SEVERITY_FATAL, args);
     }
 
 
