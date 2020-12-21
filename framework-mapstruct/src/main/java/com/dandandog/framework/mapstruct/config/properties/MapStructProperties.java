@@ -4,6 +4,8 @@ package com.dandandog.framework.mapstruct.config.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * @author JohnnyLiu
  */
@@ -12,6 +14,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class MapStructProperties {
 
     private String urlDomain;
+
+    private String[] whiteListDomains;
 
     private String separator = ",";
 

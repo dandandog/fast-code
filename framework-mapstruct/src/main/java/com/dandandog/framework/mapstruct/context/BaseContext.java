@@ -1,5 +1,8 @@
 package com.dandandog.framework.mapstruct.context;
 
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.TypeUtil;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.MappingTarget;
@@ -20,7 +23,10 @@ public interface BaseContext<T> {
      */
     @BeforeMapping
     default void beforeMapping(@MappingTarget Object target, @TargetType Class<?> t) {
-        before((T) target, (Class<T>) t);
+        Class<?> typeArgument = ClassUtil.getTypeArgument(this.getClass());
+        if (ObjectUtil.equal(t, typeArgument) && ObjectUtil.equal(target.getClass(), typeArgument)) {
+            before((T) target, (Class<T>) t);
+        }
     }
 
     /**
@@ -42,7 +48,10 @@ public interface BaseContext<T> {
      */
     @AfterMapping
     default void afterMapping(@MappingTarget Object target, @TargetType Class<?> t) {
-        after((T) target, (Class<T>) t);
+        Class<?> typeArgument = ClassUtil.getTypeArgument(this.getClass());
+        if (ObjectUtil.equal(t, typeArgument) && ObjectUtil.equal(target.getClass(), typeArgument)) {
+            after((T) target, (Class<T>) t);
+        }
     }
 
     /**

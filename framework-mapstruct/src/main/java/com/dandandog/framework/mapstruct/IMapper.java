@@ -2,6 +2,7 @@ package com.dandandog.framework.mapstruct;
 
 import com.dandandog.framework.mapstruct.context.BaseContext;
 import org.mapstruct.Context;
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.MappingTarget;
 
@@ -37,7 +38,7 @@ public interface IMapper<From, To> {
      * @param context 填充内容
      * @return 映射对象
      */
-
+    @InheritConfiguration(name = "mapTo")
     To mapContextTo(From from, @Context BaseContext<To> context);
 
 
@@ -58,6 +59,7 @@ public interface IMapper<From, To> {
      * @param to   映射对象
      * @return 映射对象
      */
+    @InheritConfiguration(name = "mapTo")
     To updateTo(From from, @MappingTarget To to);
 
 
