@@ -8,6 +8,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.dandandog.framework.common.exception.FastCodeException;
 import com.dandandog.framework.wx.model.WxMsgTemplate;
+import com.github.binarywang.wxpay.service.EntPayService;
 import com.github.binarywang.wxpay.service.RedpackService;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.google.common.collect.Lists;
@@ -87,6 +88,10 @@ public class WxUtil {
 
     public static WxMaMsgService getMsgService() {
         return getMaService().getMsgService();
+    }
+
+    public static EntPayService getEntPayService() {
+        return getPayService().getEntPayService();
     }
 
     public static RedpackService getRedpackService() {
