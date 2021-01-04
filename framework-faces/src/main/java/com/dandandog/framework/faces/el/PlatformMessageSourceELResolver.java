@@ -1,5 +1,6 @@
 package com.dandandog.framework.faces.el;
 
+import cn.hutool.core.util.ArrayUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.web.jsf.FacesContextUtils;
 
@@ -10,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author JohnnyLiu
@@ -69,8 +71,9 @@ public class PlatformMessageSourceELResolver extends ELResolver {
             SystemMessageSource systemMessageSource = (SystemMessageSource) base;
             MessageSource messageSource = systemMessageSource.getMessageSource();
             String systemName = systemMessageSource.getSystemName();
-            String message = messageSource.getMessage(systemName + "." + property.toString(), null, null,
-                    getResponse().getLocale());
+            String code = getCode(systemName, property);
+            Object[] params = getParams(property);
+            String message = messageSource.getMessage(code, params, code, getResponse().getLocale());
             if (message != null) {
                 return message;
             }
@@ -116,5 +119,25 @@ public class PlatformMessageSourceELResolver extends ELResolver {
 
     private HttpServletResponse getResponse() {
         return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+    }
+
+    private String getCode(String systemName, Object property) {
+        if (property instanceof List) {
+            List list = (List) property;
+            return systemName + "." + list.get(0).toString();
+        }
+        return systemName + "." + property.toString();
+    }
+
+    private Object[] getParams(Object property) {
+        if (property instanceof List) {
+            List list = (List) property;
+            if (list.get(1) instanceof List) {
+                List paramList = (List) list.get(1);
+                return ArrayUtil.toArray(paramList, Object.class);
+            }
+            return new Object[] {list.get(1)};
+        }
+        return null;
     }
 }
