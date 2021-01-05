@@ -42,4 +42,8 @@ public class BaseEntity implements IEntity, Serializable {
         }
         return this.getId().hashCode();
     }
+
+    public void cleanId() {
+        setId(null);
+    }
 }
