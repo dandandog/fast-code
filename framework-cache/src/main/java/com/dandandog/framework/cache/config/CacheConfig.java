@@ -65,6 +65,7 @@ public class CacheConfig extends CachingConfigurerSupport {
         return new SimpleCacheErrorHandler();
     }
 
+    @Override
     @Bean
     public CacheManager cacheManager() {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
