@@ -31,7 +31,7 @@ public class MybatisConfig {
         // 乐观锁
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         // 排序
-        //interceptor.addInnerInterceptor(new SortInnerInterceptor());
+        // interceptor.addInnerInterceptor(new SortInnerInterceptor());
         return interceptor;
     }
 

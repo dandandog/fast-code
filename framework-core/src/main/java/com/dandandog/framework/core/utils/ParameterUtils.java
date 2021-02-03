@@ -1,5 +1,6 @@
 package com.dandandog.framework.core.utils;
 
+import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
@@ -21,7 +22,7 @@ public class ParameterUtils {
      * @param parameterObject 参数对象
      * @return 分页参数
      */
-    public static Optional<QueryWrapper> findWrapper(Object parameterObject) {
+    public static Optional<AbstractWrapper> findWrapper(Object parameterObject) {
         if (parameterObject != null) {
             if (parameterObject instanceof Map) {
                 Map<?, ?> parameterMap = (Map<?, ?>) parameterObject;

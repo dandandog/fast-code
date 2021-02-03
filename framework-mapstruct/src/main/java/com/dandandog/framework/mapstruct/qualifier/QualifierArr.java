@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.mapstruct.config.properties.MapStructProperties;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Qualifier;
@@ -44,12 +45,16 @@ public class QualifierArr {
 
     @Split
     public List<String> split(String in) {
-        return StrUtil.isNotBlank(in) ? Splitter.on(properties.getSeparator()).trimResults().omitEmptyStrings().splitToList(in) : null;
+        if (StrUtil.isNotBlank(in)) {
+            List<String> strings = Splitter.on(properties.getSeparator()).trimResults().omitEmptyStrings().splitToList(in);
+            return Lists.newArrayList(strings);
+        }
+        return Lists.newArrayList();
     }
 
     @Join
     public String join(List<String> in) {
-        return CollUtil.isNotEmpty(in) ? Joiner.on(properties.getSeparator()).skipNulls().join(in) : null;
+        return CollUtil.isNotEmpty(in) ? Joiner.on(properties.getSeparator()).skipNulls().join(in) : "";
     }
 
 }
