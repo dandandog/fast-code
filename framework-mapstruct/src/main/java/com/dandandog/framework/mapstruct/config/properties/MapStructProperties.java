@@ -1,6 +1,7 @@
 package com.dandandog.framework.mapstruct.config.properties;
 
 
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -17,7 +18,7 @@ public class MapStructProperties {
 
     private String[] whiteListDomains;
 
-    private String separator = ",";
+    private String separator = StrUtil.COMMA;
 
 
 }
