@@ -7,10 +7,7 @@ import com.dandandog.framework.mapstruct.context.BaseContext;
 import com.dandandog.framework.mapstruct.model.MapperVo;
 import com.google.common.collect.Lists;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -24,8 +21,8 @@ public final class MapperUtil {
         MapperUtil.bindings = bindings;
     }
 
-    protected static IMapper getMapper(FromToKey fromToKey) {
-        return Optional.ofNullable(bindings.get(fromToKey)).orElseThrow(() ->
+    protected static <F, T> IMapper<F, T> getMapper(FromToKey fromToKey) {
+        return (IMapper<F, T>) Optional.ofNullable(bindings.get(fromToKey)).orElseThrow(() ->
                 new FrameworkException(StrUtil.format("FromToKey {} 不存在", fromToKey)));
     }
 
@@ -56,7 +53,7 @@ public final class MapperUtil {
 
     public static <F extends IEntity, T extends MapperVo> T map(F from, Class<T> tClass, BaseContext<T> baseContext) {
         IMapper<F, T> mapper = getMapper(new FromToKey(from.getClass(), tClass));
-        return mapper.mapContextTo(from, baseContext);
+        return Optional.ofNullable(baseContext).map(context -> mapper.mapContextTo(from, context)).orElse(mapper.mapTo(from));
     }
 
     public static <F extends IEntity, T extends MapperVo> F map(T to, Class<F> fClass) {
@@ -66,7 +63,7 @@ public final class MapperUtil {
 
     public static <F extends IEntity, T extends MapperVo> F map(T to, Class<F> fClass, BaseContext<F> baseContext) {
         IMapper<F, T> mapper = getMapper(new FromToKey(fClass, to.getClass()));
-        return mapper.mapContextFrom(to, baseContext);
+        return Optional.ofNullable(baseContext).map(context -> mapper.mapContextFrom(to, context)).orElse(mapper.mapFrom(to));
     }
 
     public static <F, T> Collection<T> mapToAll(List<F> fromList, Class<T> tClass) {

@@ -30,15 +30,7 @@ public class MybatisConfig {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         // 乐观锁
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
-        // 排序
-        // interceptor.addInnerInterceptor(new SortInnerInterceptor());
         return interceptor;
-    }
-
-
-    @Bean
-    public ConfigurationCustomizer configurationCustomizer() {
-        return configuration -> configuration.setUseDeprecatedExecutor(false);
     }
 
     /**
@@ -48,7 +40,6 @@ public class MybatisConfig {
      */
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer customizer() {
-        log.debug("loading mybatis config Jackson2ObjectMapperBuilderCustomizer....");
         return builder -> builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     }
 }

@@ -42,7 +42,8 @@
         <dynamic-datasource-spring-boot-starter.version>3.2.0</dynamic-datasource-spring-boot-starter.version>
         <h2.version>1.4.200</h2.version>
         <mysql.version>8.0.21</mysql.version>
-        <joinfaces.version>4.3.3</joinfaces.version>
+        <joinfaces.version>4.4.3</joinfaces.version>
+        <primefaces.version>10.0.0-RC2</primefaces.version>
         <omega-theme.version>2.0.1</omega-theme.version>
 
         <weixin-java.version>3.9.0</weixin-java.version>
@@ -179,6 +180,16 @@
                 <version>${joinfaces.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>${primefaces.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces.extensions</groupId>
+                <artifactId>primefaces-extensions</artifactId>
+                <version>${primefaces.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.primefaces.themes</groupId>
