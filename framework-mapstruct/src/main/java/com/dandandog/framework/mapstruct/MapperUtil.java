@@ -82,7 +82,7 @@ public final class MapperUtil {
         return Optional.ofNullable(toList).orElse(Lists.newArrayList()).stream().map(t -> mapFrom(t, fClass, baseContext)).collect(Collectors.toList());
     }
 
-    public static <F, T> T merge(Class<T> to, F... merges) {
+    public static <F, T> T mergeTo(Class<T> to, F... merges) {
         T t = null;
         for (F from : merges) {
             if (from == null) {
@@ -94,7 +94,7 @@ public final class MapperUtil {
         return t;
     }
 
-    public static <F, T> T merge(T t, F... merges) {
+    public static <F, T> T mergeTo(T t, F... merges) {
         for (F from : merges) {
             if (from == null) {
                 continue;
@@ -104,5 +104,29 @@ public final class MapperUtil {
         }
         return t;
     }
+
+    public static <F, T> F mergeFrom(Class<F> from, T... merges) {
+        F f = null;
+        for (T to : merges) {
+            if (to == null) {
+                continue;
+            }
+            IMapper<F, T> mapper = getMapper(new FromToKey(from, to.getClass()));
+            f = f == null ? mapper.mapFrom(to) : mapper.updateFrom(to, f);
+        }
+        return f;
+    }
+
+    public static <F, T> F mergeFrom(F f, T... merges) {
+        for (T to : merges) {
+            if (to == null) {
+                continue;
+            }
+            IMapper<F, T> mapper = getMapper(new FromToKey(f.getClass(), to.getClass()));
+            f = mapper.updateFrom(to, f);
+        }
+        return f;
+    }
+
 
 }
