@@ -14,6 +14,7 @@ import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.MultipartConfigElement;
@@ -71,6 +72,10 @@ public class FacesAutoConfig {
             tmpFile.mkdirs();
         }
         factory.setLocation(location);
+        DataSize maxSize = DataSize.ofMegabytes(10);
+        DataSize requestMaxSize = DataSize.ofMegabytes(30);
+        factory.setMaxFileSize(maxSize);
+        factory.setMaxRequestSize(requestMaxSize);
         return factory.createMultipartConfig();
     }
 
