@@ -8,6 +8,7 @@ import com.dandandog.framework.faces.utils.MessageUtil;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.primefaces.PrimeFaces;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -32,19 +33,16 @@ public abstract class AbstractMessageAspect {
         String messageCodePrefix = properties.getCodePrefix();
         String title = getMessageDetail(messageCodePrefix + properties.getTitle());
         StringBuilder messageCode = new StringBuilder(messageCodePrefix);
-
-        String messageDetail;
-
+        FacesMessage.Severity severity = FacesMessage.SEVERITY_INFO;
+        String messageDetail = "null";
         try {
             Object result = joinPoint.proceed();
-            if (messageRequired.growl()) {
-                messageCode.append(messageRequired.type().getSuccessCode());
-                messageDetail = getMessageDetail(messageCode.toString(), result);
-                MessageUtil.showMessageGrowl(title, messageDetail, FacesMessage.SEVERITY_INFO);
-            }
+            messageCode.append(messageRequired.type().getSuccessCode());
+            messageDetail = getMessageDetail(messageCode.toString(), result);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
+            severity = FacesMessage.SEVERITY_ERROR;
             if ((e instanceof MessageResolvableException)) {
                 MessageResolvableException e1 = (MessageResolvableException) e;
                 messageDetail = getMessageDetail(e1.getCategory() + "." + e1.getErrorCode(), e1.getParameters());
@@ -53,10 +51,18 @@ public abstract class AbstractMessageAspect {
                 String detail = getMessageDetail(messageCodePrefix + "contactTheAdmin");
                 messageDetail = getMessageDetail(messageCode.toString(), detail);
             }
-            MessageUtil.showMessageDialog(title, messageDetail, FacesMessage.SEVERITY_ERROR);
         } finally {
-            if (messageRequired.growl()) {
-                renderMessages();
+            MessageUtil.addMessage(messageRequired.notice().getClientId(), title, messageDetail, severity);
+            switch (messageRequired.notice()) {
+                case ALL:
+                    updateAll();
+                    break;
+                case GROWL:
+                    updateGrowl();
+                    break;
+                case MESSAGES:
+                    updateMessages();
+                    break;
             }
         }
         return null;
@@ -80,5 +86,9 @@ public abstract class AbstractMessageAspect {
         return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
     }
 
-    protected abstract void renderMessages();
+    protected abstract void updateAll();
+
+    protected abstract void updateGrowl();
+
+    protected abstract void updateMessages();
 }

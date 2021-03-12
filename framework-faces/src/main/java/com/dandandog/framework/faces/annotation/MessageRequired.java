@@ -12,5 +12,5 @@ public @interface MessageRequired {
 
     MessageType type() default MessageType.OPERATION;
 
-    boolean growl() default true;
+    MessageNotice notice() default MessageNotice.GROWL;
 }
