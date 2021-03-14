@@ -11,7 +11,6 @@ import lombok.Getter;
 @Getter
 public enum MessageNotice {
 
-    GROWL("growl"), MESSAGES("messages"), ALL(null);
+    GROWL, MESSAGES, ALL;
 
-    private final String clientId;
 }

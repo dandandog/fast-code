@@ -1,10 +1,6 @@
 package com.dandandog.framework.faces.utils;
 
 
-import cn.hutool.core.util.StrUtil;
-import com.dandandog.framework.faces.config.properties.MessageProperties;
-import org.primefaces.PrimeFaces;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
@@ -14,18 +10,16 @@ import javax.faces.context.FacesContext;
  * @author JohnnyLiu
  */
 @Component
-
-@EnableConfigurationProperties(MessageProperties.class)
 public class MessageUtil {
 
 
-    public static void addMessage(String clientId, String title, String message, FacesMessage.Severity severity) {
-        addMessage(clientId, new FacesMessage(severity, title, message));
+    public static void addMessage(String title, String message, FacesMessage.Severity severity) {
+        addMessage(new FacesMessage(severity, title, message));
     }
 
-    public static void addMessage(String clientId, FacesMessage facesMessage) {
+    public static void addMessage(FacesMessage facesMessage) {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(clientId, facesMessage);
+        context.addMessage(null, facesMessage);
         if (facesMessage.getSeverity().equals(FacesMessage.SEVERITY_ERROR)) {
             context.validationFailed();
         }

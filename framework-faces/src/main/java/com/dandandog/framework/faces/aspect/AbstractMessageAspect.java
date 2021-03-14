@@ -8,7 +8,6 @@ import com.dandandog.framework.faces.utils.MessageUtil;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.primefaces.PrimeFaces;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -30,53 +29,43 @@ public abstract class AbstractMessageAspect {
 
     @Around("@annotation(messageRequired)")
     public Object showMessage(ProceedingJoinPoint joinPoint, MessageRequired messageRequired) throws Throwable {
-        String messageCodePrefix = properties.getCodePrefix();
-        String title = getMessageDetail(messageCodePrefix + properties.getTitle());
-        StringBuilder messageCode = new StringBuilder(messageCodePrefix);
+        String title = getMessageDetail(properties.getTitle());
         FacesMessage.Severity severity = FacesMessage.SEVERITY_INFO;
-        String messageDetail = "null";
+        String messageDetail;
         try {
             Object result = joinPoint.proceed();
-            messageCode.append(messageRequired.type().getSuccessCode());
-            messageDetail = getMessageDetail(messageCode.toString(), result);
+            messageDetail = getMessageDetail(messageRequired.type().getSuccessCode(), result);
+            MessageUtil.addMessage(title, messageDetail, severity);
+            successShow();
             return result;
         } catch (Exception e) {
             e.printStackTrace();
             severity = FacesMessage.SEVERITY_ERROR;
             if ((e instanceof MessageResolvableException)) {
                 MessageResolvableException e1 = (MessageResolvableException) e;
-                messageDetail = getMessageDetail(e1.getCategory() + "." + e1.getErrorCode(), e1.getParameters());
+                messageDetail = getMessageDetail(e1.getCategory(), e1.getErrorCode(), e1.getParameters());
+                MessageUtil.addMessage(title, messageDetail, severity);
+                resolvableShow();
             } else {
-                messageCode.append(messageRequired.type().getFailedCode());
-                String detail = getMessageDetail(messageCodePrefix + "contactTheAdmin");
-                messageDetail = getMessageDetail(messageCode.toString(), detail);
-            }
-        } finally {
-            MessageUtil.addMessage(messageRequired.notice().getClientId(), title, messageDetail, severity);
-            switch (messageRequired.notice()) {
-                case ALL:
-                    updateAll();
-                    break;
-                case GROWL:
-                    updateGrowl();
-                    break;
-                case MESSAGES:
-                    updateMessages();
-                    break;
+                String detail = getMessageDetail("contactTheAdmin");
+                messageDetail = getMessageDetail(messageRequired.type().getFailedCode(), detail);
+                MessageUtil.addMessage(title, messageDetail, severity);
+                errorShow();
             }
         }
         return null;
     }
 
-    private String getMessageDetail(String messageCode, Object... detail) {
-        String msg = null;
+    private String getMessageDetail(String code, Object... detail) {
+        return getMessageDetail(null, code, detail);
+    }
+
+    private String getMessageDetail(String prefix, String code, Object... detail) {
+        prefix = StrUtil.emptyToDefault(prefix, properties.getCodePrefix());
+        String msg = prefix + code;
         try {
-            msg = this.messageSource.getMessage(messageCode, detail, getResponse().getLocale());
+            msg = this.messageSource.getMessage(msg, detail, getResponse().getLocale());
         } catch (NoSuchMessageException ignored) {
-        } finally {
-            if (StrUtil.isBlank(msg)) {
-                msg = messageCode;
-            }
         }
         return msg;
     }
@@ -86,9 +75,9 @@ public abstract class AbstractMessageAspect {
         return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
     }
 
-    protected abstract void updateAll();
+    protected abstract void successShow();
 
-    protected abstract void updateGrowl();
+    protected abstract void errorShow();
 
-    protected abstract void updateMessages();
+    protected abstract void resolvableShow();
 }
