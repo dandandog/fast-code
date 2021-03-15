@@ -72,10 +72,10 @@ public class FacesAutoConfig {
             tmpFile.mkdirs();
         }
         factory.setLocation(location);
-        DataSize maxSize = DataSize.ofMegabytes(10);
-        DataSize requestMaxSize = DataSize.ofMegabytes(30);
-        factory.setMaxFileSize(maxSize);
-        factory.setMaxRequestSize(requestMaxSize);
+//        DataSize maxSize = DataSize.ofMegabytes(10);
+//        DataSize requestMaxSize = DataSize.ofMegabytes(30);
+//        factory.setMaxFileSize(maxSize);
+//        factory.setMaxRequestSize(requestMaxSize);
         return factory.createMultipartConfig();
     }
 

@@ -62,6 +62,7 @@ public abstract class AbstractMessageAspect {
 
     private String getMessageDetail(String prefix, String code, Object... detail) {
         prefix = StrUtil.emptyToDefault(prefix, properties.getCodePrefix());
+        prefix = StrUtil.addSuffixIfNot(prefix, ".");
         String msg = prefix + code;
         try {
             msg = this.messageSource.getMessage(msg, detail, getResponse().getLocale());
