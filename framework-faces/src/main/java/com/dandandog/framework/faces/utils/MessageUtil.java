@@ -13,13 +13,13 @@ import javax.faces.context.FacesContext;
 public class MessageUtil {
 
 
-    public static void addMessage(String title, String message, FacesMessage.Severity severity) {
-        addMessage(new FacesMessage(severity, title, message));
+    public static void addMessage(String clientId, String title, String message, FacesMessage.Severity severity) {
+        addMessage(clientId, new FacesMessage(severity, title, message));
     }
 
-    public static void addMessage(FacesMessage facesMessage) {
+    public static void addMessage(String clientId, FacesMessage facesMessage) {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, facesMessage);
+        context.addMessage(clientId, facesMessage);
         if (facesMessage.getSeverity().equals(FacesMessage.SEVERITY_ERROR)) {
             context.validationFailed();
         }

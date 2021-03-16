@@ -35,8 +35,9 @@ public abstract class AbstractMessageAspect {
         try {
             Object result = joinPoint.proceed();
             messageDetail = getMessageDetail(messageRequired.type().getSuccessCode(), result);
-            MessageUtil.addMessage(title, messageDetail, severity);
-            successShow();
+            if (!messageRequired.errorOnly()) {
+                MessageUtil.addMessage(successShow(), title, messageDetail, severity);
+            }
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,13 +45,11 @@ public abstract class AbstractMessageAspect {
             if ((e instanceof MessageResolvableException)) {
                 MessageResolvableException e1 = (MessageResolvableException) e;
                 messageDetail = getMessageDetail(e1.getCategory(), e1.getErrorCode(), e1.getParameters());
-                MessageUtil.addMessage(title, messageDetail, severity);
-                resolvableShow();
+                MessageUtil.addMessage(resolvableShow(), title, messageDetail, severity);
             } else {
                 String detail = getMessageDetail("contactTheAdmin");
                 messageDetail = getMessageDetail(messageRequired.type().getFailedCode(), detail);
-                MessageUtil.addMessage(title, messageDetail, severity);
-                errorShow();
+                MessageUtil.addMessage(errorShow(), title, messageDetail, severity);
             }
         }
         return null;
@@ -76,9 +75,9 @@ public abstract class AbstractMessageAspect {
         return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
     }
 
-    protected abstract void successShow();
+    protected abstract String successShow();
 
-    protected abstract void errorShow();
+    protected abstract String errorShow();
 
-    protected abstract void resolvableShow();
+    protected abstract String resolvableShow();
 }
