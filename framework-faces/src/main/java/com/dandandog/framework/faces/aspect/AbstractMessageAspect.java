@@ -48,7 +48,7 @@ public abstract class AbstractMessageAspect {
                 MessageUtil.addMessage(resolvableShow(), title, messageDetail, severity);
             } else {
                 String detail = getMessageDetail("contactTheAdmin");
-                messageDetail = getMessageDetail(messageRequired.type().getFailedCode(), detail);
+                messageDetail = getMessageDetail(messageRequired.type().getFailedCode(), new Object[] {detail});
                 MessageUtil.addMessage(errorShow(), title, messageDetail, severity);
             }
         }

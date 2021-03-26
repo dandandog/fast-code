@@ -2,8 +2,10 @@ package com.dandandog.framework.faces.config;
 
 import com.dandandog.framework.faces.config.properties.PageProperties;
 import com.dandandog.framework.faces.event.JsfConfigureListener;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.primefaces.webapp.FileUploadChunksServlet;
 import org.primefaces.webapp.filter.FileUploadFilter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.server.ErrorPage;
@@ -11,10 +13,10 @@ import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.unit.DataSize;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.MultipartConfigElement;
@@ -33,6 +35,8 @@ public class FacesAutoConfig {
 
     private final PageProperties properties;
 
+    private final static String TMP = System.getProperty("user.dir") + "/data/tmp";
+
     @Bean
     public ServletListenerRegistrationBean<JsfConfigureListener> jsfConfigureListenerBean() {
         return new ServletListenerRegistrationBean<>(new JsfConfigureListener());
@@ -42,14 +46,16 @@ public class FacesAutoConfig {
     public FilterRegistrationBean<FileUploadFilter> fileUploadFilter() {
         FilterRegistrationBean<FileUploadFilter> filterBean = new FilterRegistrationBean<>(
                 new FileUploadFilter());
-        Map<String, String> initParameters = new HashMap<>(2);
+        Map<String, String> initParameters = new HashMap<>(3);
         initParameters.put("thresholdSize", "5242880");
         initParameters.put("encoding", "UTF-8");
+        initParameters.put("uploadDirectory", TMP);
         filterBean.setInitParameters(initParameters);
         filterBean.setName("PrimeFaces FileUpload Filter");
         filterBean.addServletNames("Faces Servlet");
         return filterBean;
     }
+
 
     @Bean
     public FilterRegistrationBean<CharacterEncodingFilter> encodingFilter() {
@@ -66,16 +72,10 @@ public class FacesAutoConfig {
     @Bean
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        String location = System.getProperty("user.dir") + "/data/tmp";
-        File tmpFile = new File(location);
-        if (!tmpFile.exists()) {
-            tmpFile.mkdirs();
+        File tmpFile = new File(TMP);
+        if (tmpFile.exists() && tmpFile.mkdirs()) {
+            factory.setLocation(TMP);
         }
-        factory.setLocation(location);
-//        DataSize maxSize = DataSize.ofMegabytes(10);
-//        DataSize requestMaxSize = DataSize.ofMegabytes(30);
-//        factory.setMaxFileSize(maxSize);
-//        factory.setMaxRequestSize(requestMaxSize);
         return factory.createMultipartConfig();
     }
 
