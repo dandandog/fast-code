@@ -1,5 +1,7 @@
 package com.dandandog.framework.rest.config;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.dandandog.framework.rest.jwt.JwtCredentialsMatcher;
 import com.dandandog.framework.rest.jwt.JwtFilter;
@@ -26,6 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author JohnnyLiu
@@ -76,8 +79,18 @@ public class SecurityConfig {
         chainDefinition.addPathDefinition("/v2/**", "anon");
         chainDefinition.addPathDefinition("/swagger-ui.html", "anon");
         chainDefinition.addPathDefinition("/logout", "logout");
-        chainDefinition.addPathDefinitions(tokenService.tokenFilterList());
-        chainDefinition.addPathDefinition("/**", "jwt");
+        Map<String, String> map = tokenService.tokenFilterList();
+        String url = "/**";
+        AtomicReference<String> urlValue = new AtomicReference<>("jwt");
+        if (MapUtil.isNotEmpty(map)) {
+            map.forEach((key, value) -> {
+                if (StrUtil.equals(key, url)) {
+                    urlValue.set(value);
+                }
+            });
+            chainDefinition.addPathDefinitions(map);
+        }
+        chainDefinition.addPathDefinition("/**", urlValue.get());
 
         log.debug("Shiro intercept path:{}", JSONUtil.toJsonPrettyStr(chainDefinition.getFilterChainMap()));
         return chainDefinition;
