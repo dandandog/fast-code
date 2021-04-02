@@ -25,6 +25,7 @@
         <module>framework-task</module>
         <module>framework-3api</module>
         <module>framework-mq</module>
+        <module>framework-ali</module>
     </modules>
 
 
@@ -47,6 +48,8 @@
         <omega-theme.version>2.0.1</omega-theme.version>
 
         <weixin-java.version>3.9.0</weixin-java.version>
+        <alipay-easysdk.versioin>2.1.2</alipay-easysdk.versioin>
+
         <java-jwt.version>3.10.0</java-jwt.version>
 
         <knife4j-spring-boot-starter.version>2.0.4</knife4j-spring-boot-starter.version>
@@ -212,6 +215,14 @@
                 <version>${weixin-java.version}</version>
             </dependency>
             <!--wechat api end-->
+
+            <!-- ali api start-->
+            <dependency>
+                <groupId>com.alipay.sdk</groupId>
+                <artifactId>alipay-easysdk</artifactId>
+                <version>${alipay-easysdk.versioin}</version>
+            </dependency>
+            <!--ali api end-->
 
             <!-- jwt start-->
             <dependency>
