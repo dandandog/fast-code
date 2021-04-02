@@ -377,6 +377,11 @@
                 <artifactId>framework-mq</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.dandandog.fastcode</groupId>
+                <artifactId>framework-ali</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- module end -->
         </dependencies>
     </dependencyManagement>
