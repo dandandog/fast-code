@@ -21,14 +21,14 @@ public abstract class IPageAdapter<T> {
      * @param filters  过滤条件
      * @return 分页结果
      */
-    protected abstract PageResult<T> queryPage(int current, int pageSize, Collection<SortMeta> sorts, Collection<FilterMeta> filters);
+    public abstract PageResult<T> queryPage(int current, int pageSize, Collection<SortMeta> sorts, Collection<FilterMeta> filters);
 
 
     /**
      * @param id 唯一标识
      * @return vo
      */
-    protected T queryOne(String id) {
+    public T queryOne(String id) {
         throw new UnsupportedOperationException("getRowData(String rowKey) must be implemented");
     }
 }
