@@ -12,7 +12,7 @@ import org.mapstruct.TargetType;
  * @author JohnnyLiu
  */
 @SuppressWarnings("unchecked")
-public interface BaseContext<T> {
+public abstract class BaseContext<T> extends AbstractContext<T> {
 
 
     /**
@@ -22,21 +22,11 @@ public interface BaseContext<T> {
      * @param t      映射类
      */
     @BeforeMapping
-    default void beforeMapping(@MappingTarget Object target, @TargetType Class<?> t) {
+    public void enterBefore(@MappingTarget Object target, @TargetType Class<?> t) {
         Class<?> typeArgument = ClassUtil.getTypeArgument(this.getClass());
         if (ObjectUtil.equal(t, typeArgument) && ObjectUtil.equal(target.getClass(), typeArgument)) {
             before((T) target, (Class<T>) t);
         }
-    }
-
-    /**
-     * 实现泛型转换
-     *
-     * @param target
-     * @param t
-     */
-    default void before(T target, Class<T> t) {
-
     }
 
 
@@ -47,19 +37,10 @@ public interface BaseContext<T> {
      * @param t      映射类
      */
     @AfterMapping
-    default void afterMapping(@MappingTarget Object target, @TargetType Class<?> t) {
+    public void enterAfter(@MappingTarget Object target, @TargetType Class<?> t) {
         Class<?> typeArgument = ClassUtil.getTypeArgument(this.getClass());
         if (ObjectUtil.equal(t, typeArgument) && ObjectUtil.equal(target.getClass(), typeArgument)) {
             after((T) target, (Class<T>) t);
         }
-    }
-
-    /**
-     * 实现泛型转换
-     *
-     * @param target
-     * @param t
-     */
-    default void after(T target, Class<T> t) {
     }
 }
