@@ -49,7 +49,7 @@ public class PageDataModel<T extends IEntity> extends LazyDataModel<T> {
 
     @Override
     public List<T> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-        PageResult<T> result = adapter.queryPage(getPage(first, pageSize), pageSize, sortBy.values(), filterBy.values());
+        PageResult<T> result = adapter.queryPage(getPage(first, pageSize), pageSize, sortBy, filterBy);
         this.setRowCount(result.getTotal());
         return result;
     }
