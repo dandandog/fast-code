@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CronJobEntity extends BaseJobEntity {
+public class CronTaskJob extends TaskJob {
 
     /**
      * cron表达式

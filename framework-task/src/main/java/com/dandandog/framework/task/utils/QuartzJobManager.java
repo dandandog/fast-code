@@ -1,9 +1,11 @@
 package com.dandandog.framework.task.utils;
 
-import com.dandandog.framework.task.entity.BaseJobEntity;
-import com.dandandog.framework.task.entity.CronJobEntity;
-import com.dandandog.framework.task.entity.SimpleJobEntity;
+import com.dandandog.framework.task.entity.TaskJob;
+import com.dandandog.framework.task.entity.CronTaskJob;
+import com.dandandog.framework.task.entity.QuartzJob;
+import com.dandandog.framework.task.entity.SimpleTaskJob;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +21,7 @@ public class QuartzJobManager {
 
     private final String JOB_NAME = "TASK_";
 
-    @Resource
+    @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
 
     /**
@@ -32,18 +34,18 @@ public class QuartzJobManager {
     /**
      * 获取 jobkey
      */
-    public JobKey getJobKey(Long jobId) {
+    public JobKey getJobKey(String jobId) {
         return JobKey.jobKey(JOB_NAME + jobId);
     }
 
     /**
      * 获取 triggerKey
      */
-    public TriggerKey getTriggerKey(Long jobId) {
+    public TriggerKey getTriggerKey(String jobId) {
         return TriggerKey.triggerKey(JOB_NAME + jobId);
     }
 
-    public Trigger getTrigger(Scheduler scheduler, Long jobId) {
+    public Trigger getTrigger(Scheduler scheduler, String jobId) {
         try {
             return scheduler.getTrigger(getTriggerKey(jobId));
         } catch (SchedulerException e) {
@@ -57,19 +59,19 @@ public class QuartzJobManager {
      * @param jobEntity 任务实体类（对应自定义的数据库任务表）
      * @return Date 返回创建任务成功后执行时间
      */
-    public Date createScheduleJob(BaseJobEntity jobEntity) {
+    public Date createScheduleJob(TaskJob jobEntity) {
         try {
             Scheduler scheduler = getScheduler();
-            JobDetail jobDetail = JobBuilder.newJob(jobEntity.getJobClass()).withIdentity(getJobKey(jobEntity.getJobId())).build();
+            JobDetail jobDetail = JobBuilder.newJob(QuartzJob.class).withIdentity(getJobKey(jobEntity.getId())).build();
             ScheduleBuilder<?> scheduleBuilder = null;
-            if (jobEntity instanceof CronJobEntity) {
-                CronJobEntity entity = (CronJobEntity) jobEntity;
+            if (jobEntity instanceof CronTaskJob) {
+                CronTaskJob entity = (CronTaskJob) jobEntity;
                 if (!CronExpression.isValidExpression(entity.getCronExpression())) {
                     throw new RuntimeException("CronExpression '");
                 }
                 scheduleBuilder = CronScheduleBuilder.cronSchedule(entity.getCronExpression()).withMisfireHandlingInstructionDoNothing();
-            } else if (jobEntity instanceof SimpleJobEntity) {
-                SimpleJobEntity entity = (SimpleJobEntity) jobEntity;
+            } else if (jobEntity instanceof SimpleTaskJob) {
+                SimpleTaskJob entity = (SimpleTaskJob) jobEntity;
                 SimpleScheduleBuilder simpleSchedule = SimpleScheduleBuilder.simpleSchedule();
                 if (entity.isForever()) {
                     simpleSchedule = simpleSchedule.repeatForever();
@@ -78,13 +80,19 @@ public class QuartzJobManager {
                         .withIntervalInSeconds(entity.getIntervalInSeconds());
             }
 
-            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(jobEntity.getJobId()))
-                    .startAt(jobEntity.getStartAt()).endAt(jobEntity.getEndAt()).withSchedule(scheduleBuilder).build();
+            TriggerBuilder<?> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(jobEntity.getId())).withSchedule(scheduleBuilder);
 
-            jobDetail.getJobDataMap().put(BaseJobEntity.JOB_PARAM_KEY, jobEntity);
-            Date startTime = scheduler.scheduleJob(jobDetail, trigger);
+            if (jobEntity.getStartAt() != null) {
+                triggerBuilder.startAt(jobEntity.getStartAt());
+            }
+            if (jobEntity.getEndAt() != null) {
+                triggerBuilder.startAt(jobEntity.getEndAt());
+            }
+
+            jobDetail.getJobDataMap().put(TaskJob.JOB_PARAM_KEY, jobEntity);
+            Date startTime = scheduler.scheduleJob(jobDetail, triggerBuilder.build());
             if (jobEntity.getStatus() == 1) {
-                pauseJob(jobEntity.getJobId());
+                pauseJob(jobEntity.getId());
             }
             return startTime;
         } catch (SchedulerException e) {
@@ -93,22 +101,22 @@ public class QuartzJobManager {
     }
 
 
-    public Date updateScheduleJob(BaseJobEntity jobEntity) {
+    public Date updateScheduleJob(TaskJob jobEntity) {
         try {
-            TriggerKey triggerKey = getTriggerKey(jobEntity.getJobId());
+            TriggerKey triggerKey = getTriggerKey(jobEntity.getId());
             Scheduler scheduler = getScheduler();
 
             Trigger trigger = null;
-            if (jobEntity instanceof CronJobEntity) {
-                CronJobEntity entity = (CronJobEntity) jobEntity;
+            if (jobEntity instanceof CronTaskJob) {
+                CronTaskJob entity = (CronTaskJob) jobEntity;
                 CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(entity.getCronExpression()).withMisfireHandlingInstructionDoNothing();
-                CronTrigger cronTrigger = (CronTrigger) getTrigger(scheduler, entity.getJobId());
+                CronTrigger cronTrigger = (CronTrigger) getTrigger(scheduler, entity.getId());
 
                 trigger = cronTrigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
-            } else if (jobEntity instanceof SimpleJobEntity) {
-                SimpleJobEntity entity = (SimpleJobEntity) jobEntity;
+            } else if (jobEntity instanceof SimpleTaskJob) {
+                SimpleTaskJob entity = (SimpleTaskJob) jobEntity;
                 SimpleScheduleBuilder simpleSchedule = SimpleScheduleBuilder.simpleSchedule();
-                SimpleTrigger simpleTrigger = (SimpleTrigger) getTrigger(scheduler, entity.getJobId());
+                SimpleTrigger simpleTrigger = (SimpleTrigger) getTrigger(scheduler, entity.getId());
                 if (entity.isForever()) {
                     simpleSchedule = simpleSchedule.repeatForever();
                 }
@@ -119,10 +127,10 @@ public class QuartzJobManager {
             }
 
             if (trigger != null) {
-                trigger.getJobDataMap().put(BaseJobEntity.JOB_PARAM_KEY, jobEntity);
+                trigger.getJobDataMap().put(TaskJob.JOB_PARAM_KEY, jobEntity);
                 Date updateTime = scheduler.rescheduleJob(triggerKey, trigger);
                 if (jobEntity.getStatus() == 1) {
-                    pauseJob(jobEntity.getJobId());
+                    pauseJob(jobEntity.getId());
                 }
                 return updateTime;
             }
@@ -133,12 +141,22 @@ public class QuartzJobManager {
     }
 
 
+    public void runJob(TaskJob taskJob) {
+        try {
+            JobDataMap dataMap = new JobDataMap();
+            dataMap.put(taskJob.JOB_PARAM_KEY, taskJob);
+            getScheduler().triggerJob(getJobKey(taskJob.getId()), dataMap);
+        } catch (SchedulerException e) {
+            throw new RuntimeException("立即执行定时任务失败", e);
+        }
+    }
+
     /**
      * 暂停任务
      *
      * @param jobId 任务jobId
      */
-    public void pauseJob(Long jobId) {
+    public void pauseJob(String jobId) {
         try {
             getScheduler().pauseJob(getJobKey(jobId));
         } catch (SchedulerException e) {
@@ -151,7 +169,7 @@ public class QuartzJobManager {
      *
      * @param jobId 任务jobId
      */
-    public void resumeJob(Long jobId) {
+    public void resumeJob(String jobId) {
         try {
             getScheduler().resumeJob(getJobKey(jobId));
         } catch (SchedulerException e) {
@@ -165,7 +183,7 @@ public class QuartzJobManager {
      * @param jobId 任务id
      * @return
      */
-    public boolean check(Long jobId) {
+    public boolean check(String jobId) {
         try {
             return getScheduler().checkExists(getJobKey(jobId));
         } catch (SchedulerException e) {
@@ -178,7 +196,7 @@ public class QuartzJobManager {
      *
      * @param jobId 定时任务id
      */
-    public void deleteScheduleJob(Long jobId) {
+    public void deleteScheduleJob(String jobId) {
         Scheduler scheduler = getScheduler();
         try {
             scheduler.pauseTrigger(getTriggerKey(jobId));
