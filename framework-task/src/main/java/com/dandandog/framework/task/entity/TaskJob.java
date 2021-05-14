@@ -1,11 +1,8 @@
 package com.dandandog.framework.task.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**

@@ -1,15 +1,14 @@
 package com.dandandog.framework.task.utils;
 
-import com.dandandog.framework.task.entity.TaskJob;
 import com.dandandog.framework.task.entity.CronTaskJob;
 import com.dandandog.framework.task.entity.QuartzJob;
 import com.dandandog.framework.task.entity.SimpleTaskJob;
+import com.dandandog.framework.task.entity.TaskJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -66,31 +65,14 @@ public class QuartzJobManager {
             ScheduleBuilder<?> scheduleBuilder = null;
             if (jobEntity instanceof CronTaskJob) {
                 CronTaskJob entity = (CronTaskJob) jobEntity;
-                if (!CronExpression.isValidExpression(entity.getCronExpression())) {
-                    throw new RuntimeException("CronExpression '");
-                }
-                scheduleBuilder = CronScheduleBuilder.cronSchedule(entity.getCronExpression()).withMisfireHandlingInstructionDoNothing();
+                scheduleBuilder = createCronSchedule(entity);
             } else if (jobEntity instanceof SimpleTaskJob) {
                 SimpleTaskJob entity = (SimpleTaskJob) jobEntity;
-                SimpleScheduleBuilder simpleSchedule = SimpleScheduleBuilder.simpleSchedule();
-                if (entity.isForever()) {
-                    simpleSchedule = simpleSchedule.repeatForever();
-                }
-                scheduleBuilder = simpleSchedule.withRepeatCount(entity.getRepeatCount())
-                        .withIntervalInSeconds(entity.getIntervalInSeconds());
+                scheduleBuilder = createSimpleSchedule(entity);
             }
-
-            TriggerBuilder<?> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(jobEntity.getId())).withSchedule(scheduleBuilder);
-
-            if (jobEntity.getStartAt() != null) {
-                triggerBuilder.startAt(jobEntity.getStartAt());
-            }
-            if (jobEntity.getEndAt() != null) {
-                triggerBuilder.startAt(jobEntity.getEndAt());
-            }
-
+            Trigger trigger = createTrigger(jobEntity, scheduleBuilder);
             jobDetail.getJobDataMap().put(TaskJob.JOB_PARAM_KEY, jobEntity);
-            Date startTime = scheduler.scheduleJob(jobDetail, triggerBuilder.build());
+            Date startTime = scheduler.scheduleJob(jobDetail, trigger);
             if (jobEntity.getStatus() == 1) {
                 pauseJob(jobEntity.getId());
             }
@@ -100,29 +82,53 @@ public class QuartzJobManager {
         }
     }
 
+    private CronScheduleBuilder createCronSchedule(CronTaskJob entity) {
+        if (!CronExpression.isValidExpression(entity.getCronExpression())) {
+            throw new RuntimeException("CronExpression '");
+        }
+        return CronScheduleBuilder.cronSchedule(entity.getCronExpression()).withMisfireHandlingInstructionDoNothing();
+    }
+
+    private SimpleScheduleBuilder createSimpleSchedule(SimpleTaskJob entity) {
+        SimpleScheduleBuilder simpleSchedule = SimpleScheduleBuilder.simpleSchedule();
+        if (entity.isForever()) {
+            simpleSchedule.repeatForever();
+        }
+        if (entity.getRepeatCount() != 0) {
+            simpleSchedule.withRepeatCount(entity.getRepeatCount());
+        }
+        if (entity.getIntervalInSeconds() != 0) {
+            simpleSchedule.withIntervalInSeconds(entity.getIntervalInSeconds());
+        }
+        return simpleSchedule;
+    }
+
+    private Trigger createTrigger(TaskJob jobEntity, ScheduleBuilder<?> scheduleBuilder) {
+        TriggerBuilder<?> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(jobEntity.getId())).withSchedule(scheduleBuilder);
+        if (jobEntity.getStartAt() != null) {
+            triggerBuilder.startAt(jobEntity.getStartAt());
+        }
+        if (jobEntity.getEndAt() != null) {
+            triggerBuilder.endAt(jobEntity.getEndAt());
+        }
+        return triggerBuilder.build();
+    }
+
 
     public Date updateScheduleJob(TaskJob jobEntity) {
         try {
             TriggerKey triggerKey = getTriggerKey(jobEntity.getId());
             Scheduler scheduler = getScheduler();
-
             Trigger trigger = null;
             if (jobEntity instanceof CronTaskJob) {
                 CronTaskJob entity = (CronTaskJob) jobEntity;
-                CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(entity.getCronExpression()).withMisfireHandlingInstructionDoNothing();
+                CronScheduleBuilder scheduleBuilder = createCronSchedule(entity);
                 CronTrigger cronTrigger = (CronTrigger) getTrigger(scheduler, entity.getId());
-
                 trigger = cronTrigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
             } else if (jobEntity instanceof SimpleTaskJob) {
                 SimpleTaskJob entity = (SimpleTaskJob) jobEntity;
-                SimpleScheduleBuilder simpleSchedule = SimpleScheduleBuilder.simpleSchedule();
+                SimpleScheduleBuilder simpleSchedule = createSimpleSchedule(entity);
                 SimpleTrigger simpleTrigger = (SimpleTrigger) getTrigger(scheduler, entity.getId());
-                if (entity.isForever()) {
-                    simpleSchedule = simpleSchedule.repeatForever();
-                }
-                simpleSchedule.withRepeatCount(entity.getRepeatCount())
-                        .withIntervalInSeconds(entity.getIntervalInSeconds());
-
                 trigger = simpleTrigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(simpleSchedule).build();
             }
 
@@ -144,7 +150,7 @@ public class QuartzJobManager {
     public void runJob(TaskJob taskJob) {
         try {
             JobDataMap dataMap = new JobDataMap();
-            dataMap.put(taskJob.JOB_PARAM_KEY, taskJob);
+            dataMap.put(TaskJob.JOB_PARAM_KEY, taskJob);
             getScheduler().triggerJob(getJobKey(taskJob.getId()), dataMap);
         } catch (SchedulerException e) {
             throw new RuntimeException("立即执行定时任务失败", e);
