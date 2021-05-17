@@ -52,10 +52,6 @@ public class FacesController {
 
     }
 
-    public void onClear() {
-        this.onEntry();
-    }
-
     public static FacesController getCurrentInstance() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String path = facesContext.getExternalContext().getRequestServletPath();

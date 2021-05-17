@@ -25,7 +25,7 @@ public class TaskJob implements Serializable {
     /**
      * spring bean名称
      */
-    private String beanName;
+    private String taskName;
 
     /**
      * 参数

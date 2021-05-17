@@ -24,6 +24,22 @@ public class SimpleTaskJob extends TaskJob {
     /**
      * 是否一直执行
      */
-    private boolean forever = true;
+    private boolean forever;
+
+
+    public SimpleTaskJob() {
+
+    }
+
+    public SimpleTaskJob(int repeatCount) {
+        this.repeatCount = repeatCount;
+    }
+
+    public SimpleTaskJob(int repeatCount, int intervalInSeconds, boolean forever) {
+        this.repeatCount = repeatCount;
+        this.intervalInSeconds = intervalInSeconds;
+        this.forever = forever;
+    }
+
 
 }

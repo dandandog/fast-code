@@ -25,7 +25,7 @@ public class QuartzJob extends QuartzJobBean {
         //数据库保存执行记录
         TaskJobLog logEntity = new TaskJobLog();
         logEntity.setJobId(taskJob.getId());
-        logEntity.setBeanName(taskJob.getBeanName());
+        logEntity.setTaskName(taskJob.getTaskName());
         logEntity.setParams(taskJob.getParams());
 
         // 任务开始执行时间
@@ -34,7 +34,7 @@ public class QuartzJob extends QuartzJobBean {
             //执行任务
             log.debug("任务准备执行，任务ID：" + taskJob.getId());
 
-            Object target = SpringContextUtil.getBean(taskJob.getBeanName());
+            Object target = SpringContextUtil.getBean(taskJob.getTaskName());
             Method method = target.getClass().getDeclaredMethod("run", String.class);
             TaskJobResult result = (TaskJobResult) method.invoke(target, taskJob.getParams());
 
