@@ -16,4 +16,7 @@ public class CronTaskJob extends TaskJob {
      */
     private String cronExpression;
 
+    public CronTaskJob() {
+        super.setType(JobType.CRON);
+    }
 }

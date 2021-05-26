@@ -1,16 +1,27 @@
 package com.dandandog.framework.task.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dandandog.framework.core.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/5/13 15:51
  */
+
 @Data
-public class TaskJob implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@TableName("task_job")
+public class TaskJob extends BaseEntity {
+
+
+    public enum JobType {
+        SIMPLE, CRON
+    }
 
     /**
      * 任务调度参数key
@@ -18,14 +29,29 @@ public class TaskJob implements Serializable {
     public static final String JOB_PARAM_KEY = "JOB_PARAM_KEY";
 
     /**
-     * 任务id
+     * 工作key
      */
-    private String id;
+    private String jobKey;
+
+    /**
+     * 工作组
+     */
+    private String jobGroup;
+
+    /**
+     * 执行器key
+     */
+    private String triggerKey;
+
+    /**
+     * 执行器组
+     */
+    private String triggerGroup;
 
     /**
      * spring bean名称
      */
-    private String taskName;
+    private String beanName;
 
     /**
      * 参数
@@ -35,21 +61,33 @@ public class TaskJob implements Serializable {
     /**
      * 任务状态
      */
-    private Integer status;
+    private int status = 0;
 
     /**
      * 开始时间
      */
-    private Date startAt;
+    private LocalDateTime startAt;
 
     /**
      * 结束时间
      */
-    private Date endAt;
+    private LocalDateTime endAt;
 
     /**
      * 备注
      */
     private String remark;
 
+    /**
+     * 类型
+     */
+    private JobType type;
+
+    public String getTriggerKey() {
+        return triggerKey == null ? getJobKey() : triggerKey;
+    }
+
+    public String getTriggerGroup() {
+        return triggerGroup == null ? getTriggerGroup() : triggerGroup;
+    }
 }

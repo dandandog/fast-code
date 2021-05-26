@@ -1,5 +1,7 @@
 package com.dandandog.framework.task.config;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -10,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
+@MapperScan(basePackages = "com.dandandog.framework.task", annotationClass = Mapper.class)
 public class QuartzConfig {
 
 //    @Bean

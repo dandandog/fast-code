@@ -1,4 +1,6 @@
-package com.dandandog.framework.task.entity;
+package com.dandandog.framework.task;
+
+import com.dandandog.framework.task.entity.TaskJobResult;
 
 /**
  * @Author: JohnnyLiu

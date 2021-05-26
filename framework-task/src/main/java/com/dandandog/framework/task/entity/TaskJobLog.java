@@ -1,6 +1,9 @@
 package com.dandandog.framework.task.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.dandandog.framework.core.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -9,7 +12,9 @@ import java.io.Serializable;
  * @Date: 2021/5/13 17:56
  */
 @Data
-public class TaskJobLog implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@TableName("task_job_log")
+public class TaskJobLog extends BaseEntity {
 
     /**
      * 任务id

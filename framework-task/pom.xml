@@ -16,6 +16,10 @@
     <dependencies>
         <dependency>
             <groupId>com.dandandog.fastcode</groupId>
+            <artifactId>framework-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dandandog.fastcode</groupId>
             <artifactId>framework-common</artifactId>
         </dependency>
         <dependency>

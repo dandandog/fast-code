@@ -28,18 +28,18 @@ public class SimpleTaskJob extends TaskJob {
 
 
     public SimpleTaskJob() {
-
+        super.setType(JobType.SIMPLE);
     }
 
     public SimpleTaskJob(int repeatCount) {
         this.repeatCount = repeatCount;
+        super.setType(JobType.SIMPLE);
     }
 
     public SimpleTaskJob(int repeatCount, int intervalInSeconds, boolean forever) {
         this.repeatCount = repeatCount;
         this.intervalInSeconds = intervalInSeconds;
         this.forever = forever;
+        super.setType(JobType.SIMPLE);
     }
-
-
 }
