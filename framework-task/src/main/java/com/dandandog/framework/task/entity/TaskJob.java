@@ -88,6 +88,6 @@ public class TaskJob extends BaseEntity {
     }
 
     public String getTriggerGroup() {
-        return triggerGroup == null ? getTriggerGroup() : triggerGroup;
+        return triggerGroup == null ? getJobGroup() : triggerGroup;
     }
 }
