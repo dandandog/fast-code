@@ -28,7 +28,7 @@ public class TaskJobServiceImpl extends ServiceImpl<TaskJobDao, TaskJob> impleme
     @Override
     @Transactional
     public void start(TaskJob taskJob) {
-        Optional<TaskJob> opt = lambdaQuery().eq(TaskJob::getJobGroup, taskJob.getJobGroup()).eq(TaskJob::getJobKey, taskJob.getJobGroup()).
+        Optional<TaskJob> opt = lambdaQuery().eq(TaskJob::getJobGroup, taskJob.getJobGroup()).eq(TaskJob::getJobKey, taskJob.getJobKey()).
                 oneOpt();
         String id = opt.map(BaseEntity::getId).orElse(null);
         taskJob.setId(id);
