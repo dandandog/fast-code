@@ -17,6 +17,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.MultipartConfigElement;
@@ -85,6 +86,7 @@ public class FacesAutoConfig {
             registry.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, properties.getNotFound()));
             registry.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, properties.getError()));
             registry.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, properties.getAccess()));
+            registry.addErrorPages(new ErrorPage(AccessDeniedException.class, properties.getAccess()));
             registry.addErrorPages(new ErrorPage(Exception.class, properties.getError()));
         };
     }

@@ -142,6 +142,10 @@ public class FacesController {
         }
     }
 
+    public void cancel(UIComponent component) {
+
+    }
+
     public UIForm getNestingForm(UIComponent component) {
         UIComponent parent = component.getParent();
         while (parent != null) {
