@@ -8,7 +8,6 @@ import org.ocpsoft.rewrite.config.Configuration;
 import org.ocpsoft.rewrite.config.ConfigurationBuilder;
 import org.ocpsoft.rewrite.config.Direction;
 import org.ocpsoft.rewrite.config.Log;
-import org.ocpsoft.rewrite.servlet.config.Forward;
 import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import org.ocpsoft.rewrite.servlet.config.Path;
 import org.ocpsoft.rewrite.servlet.config.Redirect;
@@ -34,8 +33,10 @@ public class PageRewriteProvider extends HttpConfigurationProvider {
                 .addRule()
                 .when(Direction.isInbound().and(Path.matches("/")))
                 .perform(Redirect.temporary(context.getContextPath() + properties.getIndex()))
+                .addRule().when(Direction.isInbound().and(Path.matches("/{path}")))
+                .perform(Log.message(Level.INFO, "/{path}"))
                 .addRule(Join.path("/{path}").to(StrUtil.addSuffixIfNot("/{path}", ".faces")))
-                .where("path").matches(".*").convertedBy((rewrite, evaluationContext, o) -> o.toString())
+                .where("path").matches("((?!api).)+")
                 ;
     }
 

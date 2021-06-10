@@ -143,7 +143,7 @@ public class FastCodeConstant {
     /**
      * 登入失败页
      */
-    public static final String LOGIN_FAILED_PAGE = "/login?error=true";
+    public static final String LOGIN_FAILED_PAGE = "/login.faces?error=true";
 
     /**
      * 首页
@@ -164,6 +164,11 @@ public class FastCodeConstant {
      * access页
      */
     public static final String ACCESS_PAGE = "/access";
+
+    /**
+     * 注册页
+     */
+    public static final String FORGET_PAGE = "/forget";
 
     /**
      * 页面后缀
