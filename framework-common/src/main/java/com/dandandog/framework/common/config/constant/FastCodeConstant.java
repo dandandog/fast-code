@@ -143,7 +143,7 @@ public class FastCodeConstant {
     /**
      * 登入失败页
      */
-    public static final String LOGIN_FAILED_PAGE = "/login.faces?error=true";
+    public static final String LOGIN_FAILED_PAGE = "/login?error=true";
 
     /**
      * 首页
