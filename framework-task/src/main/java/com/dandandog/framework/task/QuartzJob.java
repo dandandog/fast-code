@@ -52,8 +52,11 @@ public class QuartzJob extends QuartzJobBean {
             long times = System.currentTimeMillis() - startTime;
             logEntity.setTimes((int) times);
             logEntity.setStatus(1);
-            logEntity.setError(e.toString().substring(0, 2000));
+            logEntity.setError(e.getMessage());
             log.error("任务执行失败，任务ID：" + taskJob.getId(), e);
+            JobExecutionException e2 =
+                    new JobExecutionException(e);
+            e2.setRefireImmediately(true);
         } finally {
             logService.save(logEntity);
         }
