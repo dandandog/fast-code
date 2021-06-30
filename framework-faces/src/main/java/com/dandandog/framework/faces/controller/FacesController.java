@@ -1,5 +1,7 @@
 package com.dandandog.framework.faces.controller;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.faces.scope.FlashScope;
 import com.dandandog.framework.faces.scope.PageScope;
 import com.dandandog.framework.faces.scope.SessionScope;
@@ -27,6 +29,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author JohnnyLiu
@@ -193,5 +196,9 @@ public class FacesController {
         this.addMessages(code, FacesMessage.SEVERITY_FATAL, args);
     }
 
+    protected Optional<String> getOptParams(String key) {
+        String value = ObjectUtil.defaultIfNull(getViewScope(key), getRequestParameter(key));
+        return Optional.ofNullable(value);
+    }
 
 }
