@@ -4,6 +4,7 @@ import com.dandandog.framework.faces.scope.FlashScope;
 import com.dandandog.framework.faces.scope.PageScope;
 import com.dandandog.framework.faces.scope.SessionScope;
 import com.dandandog.framework.faces.scope.ViewScope;
+import com.dandandog.framework.faces.utils.MessageUtil;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -172,7 +173,8 @@ public class FacesController {
     protected void addMessages(String code, FacesMessage.Severity severity, Object... args) {
         FacesMessage facesMessage = new FacesMessage(getMessage(code, args));
         facesMessage.setSeverity(severity);
-        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+        /*      FacesContext.getCurrentInstance().addMessage(null, facesMessage);*/
+        MessageUtil.addMessage("messages", facesMessage);
     }
 
     protected void infoMessages(String code, Object... args) {
