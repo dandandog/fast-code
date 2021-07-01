@@ -43,6 +43,14 @@ public class WxUtil {
         WxUtil.appName = appName;
     }
 
+    public static void setAppName(String appName) {
+        WxUtil.appName = appName;
+    }
+
+    public static void setEvn(String evn) {
+        WxUtil.evn = evn;
+    }
+
 
     private static WxMaService getMaService(String appName) {
         return Optional.ofNullable(maServices).map(services -> Optional.ofNullable(maServices.get(appName))).
