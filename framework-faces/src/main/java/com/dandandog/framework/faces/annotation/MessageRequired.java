@@ -12,5 +12,7 @@ public @interface MessageRequired {
 
     MessageType type() default MessageType.OPERATION;
 
-    boolean errorOnly() default false;
+    MessageSeverity[] severity() default {MessageSeverity.INFO, MessageSeverity.WARN, MessageSeverity.ERROR, MessageSeverity.FATAL};
+
+    MessageNotice notice() default MessageNotice.DEFAULT;
 }

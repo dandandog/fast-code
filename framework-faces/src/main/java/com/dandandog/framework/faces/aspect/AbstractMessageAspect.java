@@ -1,13 +1,18 @@
 package com.dandandog.framework.faces.aspect;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import com.dandandog.framework.faces.annotation.MessageNotice;
 import com.dandandog.framework.faces.annotation.MessageRequired;
+import com.dandandog.framework.faces.annotation.MessageSeverity;
 import com.dandandog.framework.faces.config.properties.MessageProperties;
 import com.dandandog.framework.faces.exception.MessageResolvableException;
 import com.dandandog.framework.faces.utils.MessageUtil;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.primefaces.extensions.component.switchcase.Switch;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -15,6 +20,9 @@ import org.springframework.context.NoSuchMessageException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author JohnnyLiu
@@ -23,61 +31,65 @@ import javax.servlet.http.HttpServletResponse;
 @EnableConfigurationProperties(MessageProperties.class)
 public abstract class AbstractMessageAspect {
 
-    private final MessageSource messageSource;
 
     private final MessageProperties properties;
 
     @Around("@annotation(messageRequired)")
     public Object showMessage(ProceedingJoinPoint joinPoint, MessageRequired messageRequired) throws Throwable {
-        String title = getMessageDetail(properties.getTitle());
+        String title = MessageUtil.getMessageSource(properties.getTitle());
         FacesMessage.Severity severity = FacesMessage.SEVERITY_INFO;
-        String messageDetail;
+        String messageDetail = null;
+        MessageNotice notice = MessageNotice.GLOBAL;
         try {
             Object result = joinPoint.proceed();
-            messageDetail = getMessageDetail(messageRequired.type().getSuccessCode(), result);
-            if (!messageRequired.errorOnly()) {
-                MessageUtil.addMessage(successShow(), title, messageDetail, severity);
-            }
+            messageDetail = MessageUtil.getMessageSource(messageRequired.type().getSuccessCode(), result);
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
             severity = FacesMessage.SEVERITY_ERROR;
             if ((e instanceof MessageResolvableException)) {
                 MessageResolvableException e1 = (MessageResolvableException) e;
-                messageDetail = getMessageDetail(e1.getCategory(), e1.getErrorCode(), e1.getParameters());
-                MessageUtil.addMessage(resolvableShow(), title, messageDetail, severity);
+                messageDetail = MessageUtil.getMessageSource(e1.getCategory(), e1.getErrorCode(), e1.getParameters());
+                notice = MessageNotice.MESSAGE;
             } else {
-                String detail = getMessageDetail("contactTheAdmin");
-                messageDetail = getMessageDetail(messageRequired.type().getFailedCode(), new Object[] {detail});
-                MessageUtil.addMessage(errorShow(), title, messageDetail, severity);
+                e.printStackTrace();
+                String detail = MessageUtil.getMessageSource("contactTheAdmin");
+                messageDetail = MessageUtil.getMessageSource(messageRequired.type().getFailedCode(), new Object[] {detail});
+                notice = MessageNotice.DIALOG;
+            }
+        } finally {
+            notice = MessageNotice.DEFAULT.equals(messageRequired.notice()) ? notice : messageRequired.notice();
+            if (checkSeverity(severity, messageRequired.severity())) {
+                notifyScope(title, messageDetail, severity, notice);
             }
         }
         return null;
     }
 
-    private String getMessageDetail(String code, Object... detail) {
-        return getMessageDetail(null, code, detail);
+    private boolean checkSeverity(FacesMessage.Severity severity, MessageSeverity... severities) {
+        List<FacesMessage.Severity> collect = Stream.of(severities).map(MessageSeverity::getSeverity).collect(Collectors.toList());
+        return CollUtil.contains(collect, severity);
     }
 
-    private String getMessageDetail(String prefix, String code, Object... detail) {
-        prefix = StrUtil.emptyToDefault(prefix, properties.getCodePrefix());
-        prefix = StrUtil.addSuffixIfNot(prefix, ".");
-        String msg = prefix + code;
-        try {
-            msg = this.messageSource.getMessage(msg, detail, getResponse().getLocale());
-        } catch (NoSuchMessageException ignored) {
+
+    private void notifyScope(String title, String message, FacesMessage.Severity severity, MessageNotice... notices) {
+        for (MessageNotice notice : notices) {
+            switch (notice) {
+                case GLOBAL:
+                    MessageUtil.addFacesMessage(globalShow(), title, message, severity);
+                    break;
+                case MESSAGE:
+                    MessageUtil.addFacesMessage(messageShow(), title, message, severity);
+                    break;
+                case DIALOG:
+                    MessageUtil.addFacesMessage(dialogShow(), title, message, severity);
+                    break;
+            }
         }
-        return msg;
     }
 
+    protected abstract String globalShow();
 
-    private HttpServletResponse getResponse() {
-        return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-    }
+    protected abstract String messageShow();
 
-    protected abstract String successShow();
-
-    protected abstract String errorShow();
-
-    protected abstract String resolvableShow();
+    protected abstract String dialogShow();
 }

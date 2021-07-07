@@ -176,8 +176,7 @@ public class FacesController {
     protected void addMessages(String code, FacesMessage.Severity severity, Object... args) {
         FacesMessage facesMessage = new FacesMessage(getMessage(code, args));
         facesMessage.setSeverity(severity);
-        /*      FacesContext.getCurrentInstance().addMessage(null, facesMessage);*/
-        MessageUtil.addMessage("messages", facesMessage);
+        MessageUtil.addFacesMessage("messages", facesMessage);
     }
 
     protected void infoMessages(String code, Object... args) {

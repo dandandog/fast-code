@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 public enum MessageNotice {
 
-    GROWL, MESSAGES, ALL;
+    GLOBAL, MESSAGE, DIALOG, DEFAULT;
 
 }
