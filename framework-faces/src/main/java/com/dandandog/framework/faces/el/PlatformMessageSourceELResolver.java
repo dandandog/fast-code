@@ -132,7 +132,7 @@ public class PlatformMessageSourceELResolver extends ELResolver {
     private Object[] getParams(Object property) {
         if (property instanceof List) {
             List list = (List) property;
-            if (list.get(1) instanceof List) {
+            if (list.size() > 1 && list.get(1) instanceof List) {
                 List paramList = (List) list.get(1);
                 return ArrayUtil.toArray(paramList, Object.class);
             }
