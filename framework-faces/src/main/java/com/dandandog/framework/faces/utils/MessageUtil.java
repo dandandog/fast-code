@@ -53,7 +53,7 @@ public class MessageUtil {
         prefix = StrUtil.addSuffixIfNot(prefix, ".");
         String msg = prefix + code;
         try {
-            msg = messageSource.getMessage(msg, detail, getResponse().getLocale());
+            msg = messageSource.getMessage(msg, detail, null);
         } catch (NoSuchMessageException ignored) {
         }
         return msg;
