@@ -1,5 +1,6 @@
 package com.dandandog.framework.task;
 
+import com.dandandog.framework.common.utils.IpUtil;
 import com.dandandog.framework.common.utils.SpringContextUtil;
 import com.dandandog.framework.task.entity.TaskJob;
 import com.dandandog.framework.task.entity.TaskJobLog;
@@ -21,7 +22,9 @@ public class QuartzJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         TaskJob taskJob = (TaskJob) jobExecutionContext.getMergedJobDataMap().get(TaskJob.JOB_PARAM_KEY);
+
         log.info("定时器参数，{}", taskJob);
+        log.info("执行地址，{}", IpUtil.getLocalhostIp());
 
         // 获取日志服务对象Bean
         TaskJobLogService logService = SpringContextUtil.getBean(TaskJobLogService.class);
