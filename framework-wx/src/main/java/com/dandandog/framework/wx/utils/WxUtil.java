@@ -1,6 +1,7 @@
 package com.dandandog.framework.wx.utils;
 
 import cn.binarywang.wx.miniapp.api.WxMaMsgService;
+import cn.binarywang.wx.miniapp.api.WxMaSecCheckService;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.WxMaUserService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
@@ -8,7 +9,6 @@ import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.dandandog.framework.common.exception.FastCodeException;
 import com.dandandog.framework.wx.model.WxMsgTemplate;
-import com.github.binarywang.wxpay.bean.entpay.EntPayQueryRequest;
 import com.github.binarywang.wxpay.service.EntPayService;
 import com.github.binarywang.wxpay.service.RedpackService;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -97,6 +97,10 @@ public class WxUtil {
 
     public static WxMaMsgService getMsgService() {
         return getMaService().getMsgService();
+    }
+
+    public static WxMaSecCheckService getSecCheckService() {
+        return getMaService().getSecCheckService();
     }
 
     public static EntPayService getEntPayService() {
