@@ -13,7 +13,20 @@
     <packaging>jar</packaging>
     <name>fastcode :: framework :: 3api</name>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.dandandog.fastcode</groupId>
+            <artifactId>framework-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ocean.client</groupId>
+            <artifactId>java-biz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+    </dependencies>
 
 
 
