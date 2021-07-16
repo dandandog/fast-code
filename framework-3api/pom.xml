@@ -28,7 +28,7 @@
             <artifactId>java-biz</artifactId>
             <version>${ocean-client-java-biz.version}</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ocean/client/java-biz/1.0-SNAPSHOT/ocean.client.java.biz.jar</systemPath>
+            <systemPath>${project.basedir}/src/main/resources/lib/ocean.client.java.biz.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
