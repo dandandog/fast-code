@@ -12,8 +12,11 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author JohnnyLiu
@@ -49,17 +52,30 @@ public class MessageUtil {
     }
 
     public static String getMessageSource(String prefix, String code, Object... detail) {
+
         prefix = StrUtil.emptyToDefault(prefix, properties.getCodePrefix());
         prefix = StrUtil.addSuffixIfNot(prefix, ".");
         String msg = prefix + code;
         try {
-            msg = messageSource.getMessage(msg, detail, null);
+            msg = messageSource.getMessage(msg, detail, getLocale());
         } catch (NoSuchMessageException ignored) {
         }
         return msg;
     }
 
-    private static HttpServletResponse getResponse() {
-        return (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+    private static Locale getLocale() {
+        FacesContext currentInstance = FacesContext.getCurrentInstance();
+        if (currentInstance == null) {
+            return null;
+        }
+        ExternalContext externalContext = currentInstance.getExternalContext();
+        if (externalContext == null) {
+            return null;
+        }
+        HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+        if (response == null) {
+            return null;
+        }
+        return response.getLocale();
     }
 }

@@ -166,11 +166,11 @@ public class FacesController {
     }
 
     public String getMessage(String code, Object... args) {
-        return this.messageSource.getMessage(code, args, getLocale());
+        return MessageUtil.getMessageSource(code, args);
     }
 
-    public String getMessage(String code, String defaultMessage, Object... args) {
-        return this.messageSource.getMessage(code, args, defaultMessage, getLocale());
+    public String getMessage(String prefix, String code, Object... args) {
+        return MessageUtil.getMessageSource(prefix, code, args);
     }
 
     protected void addMessages(String code, FacesMessage.Severity severity, Object... args) {

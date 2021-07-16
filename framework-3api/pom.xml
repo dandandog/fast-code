@@ -13,6 +13,11 @@
     <packaging>jar</packaging>
     <name>fastcode :: framework :: 3api</name>
 
+    <properties>
+        <ocean-client-java-biz.version>1.0-SNAPSHOT</ocean-client-java-biz.version>
+        <com-alibaba-fast-json.version>1.2.48</com-alibaba-fast-json.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.dandandog.fastcode</groupId>
@@ -21,13 +26,16 @@
         <dependency>
             <groupId>ocean.client</groupId>
             <artifactId>java-biz</artifactId>
+            <version>${ocean-client-java-biz.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ocean/client/java-biz/1.0-SNAPSHOT/ocean.client.java.biz.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+            <version>${com-alibaba-fast-json.version}</version>
         </dependency>
     </dependencies>
-
 
 
 </project>
