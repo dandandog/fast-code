@@ -74,6 +74,7 @@
 
         <ocean-client-java-biz.version>1.0-SNAPSHOT</ocean-client-java-biz.version>
         <com-alibaba-fast-json.version>1.2.48</com-alibaba-fast-json.version>
+        <com-jd-open-api-sdk.version>2.0</com-jd-open-api-sdk.version>
     </properties>
 
     <dependencyManagement>
@@ -235,6 +236,15 @@
                 <version>${com-alibaba-fast-json.version}</version>
             </dependency>
             <!--ali api end-->
+
+            <!-- jd api start-->
+            <dependency>
+                <groupId>com.jd</groupId>
+                <artifactId>open-api-sdk</artifactId>
+                <version>${com-jd-open-api-sdk.version}</version>
+            </dependency>
+
+            <!-- jd api end-->
 
             <!-- jwt start-->
             <dependency>
