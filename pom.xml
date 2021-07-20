@@ -243,7 +243,6 @@
                 <artifactId>open-api-sdk</artifactId>
                 <version>${com-jd-open-api-sdk.version}</version>
             </dependency>
-
             <!-- jd api end-->
 
             <!-- jwt start-->
