@@ -75,6 +75,7 @@
         <ocean-client-java-biz.version>1.0-SNAPSHOT</ocean-client-java-biz.version>
         <com-alibaba-fast-json.version>1.2.48</com-alibaba-fast-json.version>
         <com-jd-open-api-sdk.version>2.0</com-jd-open-api-sdk.version>
+        <jackson-asl.vewsion>1.9.2</jackson-asl.vewsion>
     </properties>
 
     <dependencyManagement>
@@ -242,6 +243,16 @@
                 <groupId>com.jd</groupId>
                 <artifactId>open-api-sdk</artifactId>
                 <version>${com-jd-open-api-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>${jackson-asl.vewsion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-core-asl</artifactId>
+                <version>${jackson-asl.vewsion}</version>
             </dependency>
             <!-- jd api end-->
 
