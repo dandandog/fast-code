@@ -11,6 +11,6 @@ public class ApiProductGetPageNumDTO {
 
     private String name;
 
-    private String page_Num;
+    private String pageNum;
 
 }

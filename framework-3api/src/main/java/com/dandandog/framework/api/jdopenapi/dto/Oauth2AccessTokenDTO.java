@@ -11,14 +11,14 @@ public class Oauth2AccessTokenDTO {
 
     private String uid;
 
-    private String access_token;
+    private String accessToken;
 
-    private String refresh_token;
+    private String refreshToken;
 
     private Long time;
 
-    private Integer expires_in;
+    private Integer expiresIn;
 
-    private Long refresh_token_expires;
+    private Long refreshTokenExpires;
 
 }

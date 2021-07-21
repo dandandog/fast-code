@@ -13,11 +13,11 @@ import lombok.EqualsAndHashCode;
 @Data
 public class Oauth2RefreshTokenParam extends AbstractAPIRequest<Oauth2RefreshTokenResult> {
 
-    private String refresh_token;
+    private String refreshToken;
 
-    private String client_id;
+    private String clientId;
 
-    private String client_secret;
+    private String clientSecret;
 
     @Override
     public String getUrl() {

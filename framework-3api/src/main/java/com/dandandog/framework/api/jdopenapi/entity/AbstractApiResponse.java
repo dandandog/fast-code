@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
  * @Date: 2021/7/21 12:05
  */
 @Data
-public class AbstractApiResponse {
+public abstract class AbstractApiResponse {
 
     private boolean success;
 
@@ -18,5 +18,6 @@ public class AbstractApiResponse {
 
     private String resultMessage;
 
+    public abstract <T> T getResult();
 
 }
