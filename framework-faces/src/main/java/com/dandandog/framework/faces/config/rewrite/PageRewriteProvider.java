@@ -30,11 +30,12 @@ public class PageRewriteProvider extends HttpConfigurationProvider {
     @Override
     public Configuration getConfiguration(ServletContext context) {
         return ConfigurationBuilder.begin()
-                .addRule()
-                .when(Direction.isInbound().and(Path.matches("/")))
+                .addRule().when(Direction.isInbound().and(Path.matches("/")))
                 .perform(Redirect.temporary(context.getContextPath() + properties.getIndex()))
+
                 .addRule().when(Direction.isInbound().and(Path.matches("/{path}")))
                 .perform(Log.message(Level.INFO, "/{path}"))
+
                 .addRule(Join.path("/{path}").to(StrUtil.addSuffixIfNot("/{path}", ".faces")))
                 .where("path").matches("((?!api).)+")
                 ;

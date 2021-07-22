@@ -12,9 +12,9 @@ import lombok.Data;
 @Data
 public class Oauth2AccessTokenParam extends AbstractAPIRequest<Oauth2AccessTokenResult> {
 
-    private String grantType;
+    private String grant_type;
 
-    private String clientId;
+    private String client_id;
 
     private String timestamp;
 
