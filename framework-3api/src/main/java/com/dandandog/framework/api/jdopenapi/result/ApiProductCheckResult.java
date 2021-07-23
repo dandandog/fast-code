@@ -1,18 +1,17 @@
 package com.dandandog.framework.api.jdopenapi.result;
 
-import com.dandandog.framework.api.jdopenapi.dto.ApiPriceGetSellPriceDto;
+import com.dandandog.framework.api.jdopenapi.dto.ApiProductCheckDTO;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * @Author: JohnnyLiu
- * @Date: 2021/7/22 16:40
+ * @Date: 2021/7/23 9:32
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiPriceGetSellPriceResult extends AbstractApiResponse {
+public class ApiProductCheckResult extends AbstractApiResponse {
 
-    private ApiPriceGetSellPriceDto[] result;
-
+    private ApiProductCheckDTO[] result;
 }

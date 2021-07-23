@@ -2,21 +2,20 @@ package com.dandandog.framework.api.jdopenapi.param;
 
 import com.dandandog.framework.api.jdopenapi.entity.AbstractAPIRequest;
 import com.dandandog.framework.api.jdopenapi.result.ApiProductGetPageNumResult;
+import com.dandandog.framework.api.jdopenapi.result.ApiProductGetSimilarSkuResult;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @Author: JohnnyLiu
- * @Date: 2021/7/21 15:43
+ * @Date: 2021/7/23 11:00
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ApiProductGetPageNumParam extends AbstractAPIRequest<ApiProductGetPageNumResult> {
+public class ApiProductGetSimilarSkuParam extends AbstractAPIRequest<ApiProductGetSimilarSkuResult> {
 
-    private String queryExts;
+    private Long skuId;
 
     @Override
     public String getUrl() {
-        return "/api/product/getPageNum";
+        return "/api/product/getSimilarSku";
     }
 }

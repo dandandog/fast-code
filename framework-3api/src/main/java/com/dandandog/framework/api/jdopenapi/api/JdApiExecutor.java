@@ -31,12 +31,13 @@ public class JdApiExecutor {
         JdApiExecutor.properties = properties;
     }
 
-    public final <TResponse extends AbstractApiResponse> TResponse execute(AbstractAPIRequest<TResponse> apiRequest) {
-        String post = HttpUtil.post(BASE_URL + apiRequest.getUrl(), BeanUtil.beanToMap(apiRequest, true, true));
+    public final <TResponse extends AbstractApiResponse> TResponse execute(AbstractAPIRequest<TResponse> apiRequest, String token) {
+        apiRequest.setToken(token);
+        String post = HttpUtil.post(BASE_URL + apiRequest.getUrl(), BeanUtil.beanToMap(apiRequest));
         return JSONUtil.toBean(post, apiRequest.getResponseClass());
     }
 
-    public final <TResponse extends AbstractApiResponse> TResponse executeWithToken(AbstractAPIRequest<TResponse> apiRequest) {
+    public final <TResponse extends AbstractApiResponse> TResponse execute(AbstractAPIRequest<TResponse> apiRequest) {
         Oauth2AccessTokenResult token = getToken();
         apiRequest.setToken(token.getResult().getAccessToken());
         String post = HttpUtil.post(BASE_URL + apiRequest.getUrl(), BeanUtil.beanToMap(apiRequest));
@@ -56,7 +57,7 @@ public class JdApiExecutor {
         sign = MD5Util.getMd5Str(sign).toUpperCase();
 
         param.setSign(sign);
-        return execute(param);
+        return execute(param, null);
     }
 
 
@@ -65,7 +66,7 @@ public class JdApiExecutor {
         param.setRefresh_token(refreshToken);
         param.setClient_id(properties.getClientId());
         param.setClient_secret(properties.getClientSecret());
-        return execute(param);
+        return execute(param, null);
     }
 
 }
