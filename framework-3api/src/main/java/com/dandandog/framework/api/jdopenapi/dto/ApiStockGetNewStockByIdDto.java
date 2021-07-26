@@ -17,7 +17,7 @@ public class ApiStockGetNewStockByIdDto {
 
     private BigDecimal stockStateId;
 
-    private String StockStateDesc;
+    private String stockStateDesc;
 
     private Integer remainNum;
 

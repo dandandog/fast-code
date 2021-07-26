@@ -1,5 +1,6 @@
 package com.dandandog.framework.api.jdopenapi.result;
 
+import com.dandandog.framework.api.jdopenapi.dto.ApiOrderGetFreightDto;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,6 +11,6 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiStockGetNewStockByIdResult extends AbstractApiResponse {
-    private String result;
+public class ApiOrderGetFreightResult extends AbstractApiResponse {
+    private ApiOrderGetFreightDto result;
 }
