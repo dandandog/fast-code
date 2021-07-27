@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Author: StephenZhang
@@ -20,7 +19,7 @@ public class ApiOrderSelectJdOrderDTO {
     private Integer submitState;
     private Integer type;
     private BigDecimal freight;
-    private List<OrderDetailsSkuDTO> sku;
+    private OrderDetailsSkuDTO[] sku;
     private BigDecimal orderPrice;
     private BigDecimal orderNakedPrice;
     private BigDecimal orderTaxPrice;
@@ -32,7 +31,7 @@ public class ApiOrderSelectJdOrderDTO {
     private String name;
     private String mobile;
     private Integer paymentType;
-    private List<OrderDetailsPayDetailsDTO> payDeatails;
+    private OrderDetailsPayDetailsDTO[] payDeatails;
     private Date outTime;
     private String invoiceType;
 
