@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 public class ApiSkuParam {
-    private String skuId;
+    private Long skuId;
     private Integer num;
     private BigDecimal price;
     private Boolean bNeedGift;
