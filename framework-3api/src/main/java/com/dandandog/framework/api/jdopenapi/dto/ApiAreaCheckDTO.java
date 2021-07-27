@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class ApiAreaCheckDTO {
-    private boolean success;
+    private Boolean success;
     private Integer resultCode;
     private Integer addressId;
     private String message;
