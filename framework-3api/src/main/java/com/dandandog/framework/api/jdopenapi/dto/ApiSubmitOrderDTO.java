@@ -10,14 +10,14 @@ import java.util.List;
  * @date: 2021-07-23 14:48
  */
 @Data
-public class ApiSubmitOrderDto {
+public class ApiSubmitOrderDTO {
 
     private Long jdOrderId;
     private BigDecimal freight;
     private BigDecimal orderPrice;
     private BigDecimal orderNakedPrice;
     private BigDecimal orderTaxPrice;
-    private List<BizSkuDto> sku;
+    private List<BizSkuDTO> sku;
 
 
 }

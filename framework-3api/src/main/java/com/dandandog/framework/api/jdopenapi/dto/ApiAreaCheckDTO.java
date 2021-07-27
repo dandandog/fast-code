@@ -7,7 +7,7 @@ import lombok.Data;
  * @date: 2021-07-23 14:48
  */
 @Data
-public class ApiAreaCheckDto {
+public class ApiAreaCheckDTO {
     private boolean success;
     private Integer resultCode;
     private Integer addressId;

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @date: 2021-07-23 14:48
  */
 @Data
-public class ApiOrderGetFreightDto {
+public class ApiOrderGetFreightDTO {
 
     private BigDecimal freight;
 

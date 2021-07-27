@@ -7,7 +7,7 @@ import lombok.Data;
  * @Date: 2021/7/22 15:09
  */
 @Data
-public class CategoryItemDto {
+public class CategoryItemDTO {
     private Integer count;
 
     private Integer weight;
