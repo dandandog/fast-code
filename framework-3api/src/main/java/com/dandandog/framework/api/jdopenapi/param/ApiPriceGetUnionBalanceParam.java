@@ -13,9 +13,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ApiPriceGetUnionBalanceParam extends AbstractAPIRequest<ApiPriceGetUnionBalanceResult> {
 
-    private Integer pin;
+    private String pin;
 
-    private Integer type;
+    private String type;
 
     @Override
     public String getUrl() {
