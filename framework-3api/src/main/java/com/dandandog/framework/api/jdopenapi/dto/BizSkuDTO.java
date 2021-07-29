@@ -5,23 +5,19 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * @Author: JohnnyLiu
- * @Date: 2021/7/22 16:48
+ * @Author: StephenZhang
+ * @date: 2021-07-23 17:10
  */
 @Data
-public class ApiPriceGetSellPriceDto {
-
-    private Long skuId;
-
-    private BigDecimal jdPrice;
-
+public class BizSkuDTO {
+    private String skuId;
+    private Integer num;
+    private Integer category;
     private BigDecimal price;
-
-    private BigDecimal marketPrice;
-
+    private String name;
     private BigDecimal tax;
-
     private BigDecimal taxPrice;
-
     private BigDecimal nakedPrice;
+    private Integer type;
+    private String oid;
 }

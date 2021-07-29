@@ -1,7 +1,6 @@
 package com.dandandog.framework.api.jdopenapi.result;
 
-import com.dandandog.framework.api.jdopenapi.dto.ApiAreaCheckDto;
-import com.dandandog.framework.api.jdopenapi.dto.ApiSubmitOrderDto;
+import com.dandandog.framework.api.jdopenapi.dto.ApiSubmitOrderDTO;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,5 +12,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ApiOrderSubmitOrderResult extends AbstractApiResponse {
-    private ApiSubmitOrderDto result;
+    private ApiSubmitOrderDTO result;
 }

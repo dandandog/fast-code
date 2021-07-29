@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @date: 2021-07-23 14:48
  */
 @Data
-public class ApiStockGetNewStockByIdDto {
+public class ApiStockGetNewStockByIdDTO {
 
     private String skuId;
 

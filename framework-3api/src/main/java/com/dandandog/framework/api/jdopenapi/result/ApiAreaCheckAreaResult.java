@@ -1,6 +1,6 @@
 package com.dandandog.framework.api.jdopenapi.result;
 
-import com.dandandog.framework.api.jdopenapi.dto.ApiAreaCheckDto;
+import com.dandandog.framework.api.jdopenapi.dto.ApiAreaCheckDTO;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,5 +12,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ApiAreaCheckAreaResult extends AbstractApiResponse {
-    private ApiAreaCheckDto result;
+    private ApiAreaCheckDTO result;
 }

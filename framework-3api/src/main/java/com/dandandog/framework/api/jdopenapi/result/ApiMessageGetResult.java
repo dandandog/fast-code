@@ -1,6 +1,6 @@
 package com.dandandog.framework.api.jdopenapi.result;
 
-import com.dandandog.framework.api.jdopenapi.dto.ApiOrderGetFreightDTO;
+import com.dandandog.framework.api.jdopenapi.dto.ApiMessageGetDTO;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +11,6 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiOrderGetFreightResult extends AbstractApiResponse {
-    private ApiOrderGetFreightDTO result;
+public class ApiMessageGetResult extends AbstractApiResponse {
+    private ApiMessageGetDTO[] result;
 }

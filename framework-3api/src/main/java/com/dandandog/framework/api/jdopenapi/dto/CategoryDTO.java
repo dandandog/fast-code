@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 public class CategoryDTO {
 
-    private CategoryItemDto firstCategory;
+    private CategoryItemDTO firstCategory;
 
-    private CategoryItemDto secondCategory;
+    private CategoryItemDTO secondCategory;
 
-    private CategoryItemDto thridCategory;
+    private CategoryItemDTO thridCategory;
 
 
 }
