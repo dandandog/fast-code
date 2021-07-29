@@ -146,8 +146,8 @@ public class FacesController {
         }
     }
 
-    public void cancel(UIComponent component) {
-
+    public void close(UIComponent component) {
+        resetForm(component);
     }
 
     public UIForm getNestingForm(UIComponent component) {
