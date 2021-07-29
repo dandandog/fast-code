@@ -5,8 +5,6 @@ import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Map;
-
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/7/21 18:04
