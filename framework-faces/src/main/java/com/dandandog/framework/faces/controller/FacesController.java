@@ -56,6 +56,13 @@ public class FacesController {
 
     }
 
+    public void close(UIComponent component) {
+        resetForm(component);
+    }
+
+    public void cancel(UIComponent component) {
+    }
+
     public static FacesController getCurrentInstance() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String path = facesContext.getExternalContext().getRequestServletPath();
@@ -146,9 +153,6 @@ public class FacesController {
         }
     }
 
-    public void close(UIComponent component) {
-        resetForm(component);
-    }
 
     public UIForm getNestingForm(UIComponent component) {
         UIComponent parent = component.getParent();

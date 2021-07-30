@@ -75,7 +75,8 @@
         <ocean-client-java-biz.version>1.0-SNAPSHOT</ocean-client-java-biz.version>
         <com-alibaba-fast-json.version>1.2.48</com-alibaba-fast-json.version>
         <com-jd-open-api-sdk.version>2.0</com-jd-open-api-sdk.version>
-        <jackson-asl.vewsion>1.9.2</jackson-asl.vewsion>
+        <jackson-asl.version>1.9.2</jackson-asl.version>
+        <tiny-pinyin.version>2.0.3.RELEASE</tiny-pinyin.version>
     </properties>
 
     <dependencyManagement>
@@ -247,12 +248,12 @@
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
-                <version>${jackson-asl.vewsion}</version>
+                <version>${jackson-asl.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-core-asl</artifactId>
-                <version>${jackson-asl.vewsion}</version>
+                <version>${jackson-asl.version}</version>
             </dependency>
             <!-- jd api end-->
 
@@ -301,6 +302,13 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.github.biezhi</groupId>
+                <artifactId>TinyPinyin</artifactId>
+                <version>${tiny-pinyin.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -474,6 +482,10 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.biezhi</groupId>
+            <artifactId>TinyPinyin</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
