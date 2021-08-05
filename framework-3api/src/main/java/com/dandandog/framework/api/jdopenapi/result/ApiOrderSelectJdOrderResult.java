@@ -1,6 +1,5 @@
 package com.dandandog.framework.api.jdopenapi.result;
 
-import com.dandandog.framework.api.jdopenapi.dto.ApiOrderSelectJdOrderDTO;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,5 +11,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ApiOrderSelectJdOrderResult extends AbstractApiResponse {
-    private ApiOrderSelectJdOrderDTO result;
+    private String result;
 }

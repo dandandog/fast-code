@@ -16,7 +16,7 @@ public class OrderDetailsSkuDTO {
     private Integer category;
     private BigDecimal price;
     private BigDecimal tax;
-    private String oid;
+    private Integer oid;
     private Integer type;
     private Integer splitFreight;
     private Integer taxPrice;
