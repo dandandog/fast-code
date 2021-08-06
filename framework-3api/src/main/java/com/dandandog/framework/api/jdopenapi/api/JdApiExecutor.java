@@ -1,17 +1,30 @@
 package com.dandandog.framework.api.jdopenapi.api;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.map.MapBuilder;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.dandandog.framework.api.config.properties.JdProperties;
+import com.dandandog.framework.api.jdopenapi.dto.ResultDTO;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractAPIRequest;
 import com.dandandog.framework.api.jdopenapi.entity.AbstractApiResponse;
+import com.dandandog.framework.api.jdopenapi.entity.QueryExtsAPIRequest;
 import com.dandandog.framework.api.jdopenapi.param.Oauth2AccessTokenParam;
 import com.dandandog.framework.api.jdopenapi.param.Oauth2RefreshTokenParam;
 import com.dandandog.framework.api.jdopenapi.result.Oauth2AccessTokenResult;
 import com.dandandog.framework.api.jdopenapi.result.Oauth2RefreshTokenResult;
 import com.dandandog.framework.api.jdopenapi.utils.HttpUtil;
 import com.dandandog.framework.api.jdopenapi.utils.MD5Util;
+import com.google.common.collect.Maps;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Author: JohnnyLiu
@@ -41,7 +54,24 @@ public class JdApiExecutor {
         Oauth2AccessTokenResult token = getToken();
         apiRequest.setToken(token.getResult().getAccessToken());
         String post = HttpUtil.post(BASE_URL + apiRequest.getUrl(), BeanUtil.beanToMap(apiRequest));
-        return JSONUtil.toBean(post, apiRequest.getResponseClass());
+
+        Map<String, Object> resultExts = null;
+        JSONObject jsonObject = JSONUtil.parseObj(post);
+        if (apiRequest instanceof QueryExtsAPIRequest) {
+            QueryExtsAPIRequest<?> request = (QueryExtsAPIRequest<?>) apiRequest;
+            if (StrUtil.isNotBlank(request.getQueryExts())) {
+                String[] split = StrUtil.split(request.getQueryExts(), StrUtil.COMMA);
+                resultExts = Arrays.stream(split).collect(Collectors.toMap(k -> k, v -> jsonObject.getJSONObject("result").get(v)));
+            }
+        }
+
+        TResponse tResponse = JSONUtil.toBean(post, apiRequest.getResponseClass());
+        if (tResponse.getResult() instanceof ResultDTO) {
+            ResultDTO dto = tResponse.getResult();
+            dto.setResultExts(resultExts);
+        }
+
+        return tResponse;
     }
 
     public final Oauth2AccessTokenResult getToken() {

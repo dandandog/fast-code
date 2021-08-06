@@ -1,5 +1,6 @@
 package com.dandandog.framework.mapstruct;
 
+import cn.hutool.core.util.ObjectUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,6 +58,10 @@ public class FromToKey {
         if (to == null) {
             return other.to == null;
         } else return to.equals(other.to);
+    }
+
+    public boolean isFromToSame() {
+        return ObjectUtil.equal(from, to);
     }
 
 }

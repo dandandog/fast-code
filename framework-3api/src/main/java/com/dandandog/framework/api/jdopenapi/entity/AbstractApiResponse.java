@@ -1,9 +1,12 @@
 package com.dandandog.framework.api.jdopenapi.entity;
 
+import com.dandandog.framework.api.jdopenapi.dto.HitResultDTO;
+import com.dandandog.framework.api.jdopenapi.dto.ResultDTO;
 import lombok.Data;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * @Author: JohnnyLiu
@@ -19,5 +22,4 @@ public abstract class AbstractApiResponse {
     private String resultMessage;
 
     public abstract <T> T getResult();
-
 }

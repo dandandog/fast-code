@@ -22,7 +22,7 @@ public class MapStructConfig {
 
     @Bean
     public MapperUtil mapperUtil() {
-        Map<FromToKey, IMapper<?, ?>> bindings = Optional.ofNullable(iMappers).
+        Map<FromToKey, IMapper> bindings = Optional.ofNullable(iMappers).
                 orElse(Lists.newArrayList()).stream()
                 .collect(Collectors.toMap(this::createFromToKey, iMapper -> iMapper));
         return new MapperUtil(bindings);

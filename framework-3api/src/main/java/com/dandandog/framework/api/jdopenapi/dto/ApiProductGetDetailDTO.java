@@ -1,13 +1,16 @@
 package com.dandandog.framework.api.jdopenapi.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @Author: JohnnyLiu
  * @Date: 2021/7/21 18:05
  */
+
 @Data
-public class ApiProductGetDetailDTO {
+@EqualsAndHashCode(callSuper = true)
+public class ApiProductGetDetailDTO extends ResultDTO {
     private String brandName;
 
     private String imagePath;

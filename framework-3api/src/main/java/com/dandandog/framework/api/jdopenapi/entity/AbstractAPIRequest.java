@@ -18,9 +18,7 @@ public abstract class AbstractAPIRequest<TResponse> {
     public abstract String getUrl();
 
     public Class<TResponse> getResponseClass() {
-        Type type = this.getClass().getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
         return (Class) parameterizedType.getActualTypeArguments()[0];
     }
-
 }

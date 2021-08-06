@@ -1,6 +1,7 @@
 package com.dandandog.framework.api.jdopenapi.param;
 
 import com.dandandog.framework.api.jdopenapi.entity.AbstractAPIRequest;
+import com.dandandog.framework.api.jdopenapi.entity.QueryExtsAPIRequest;
 import com.dandandog.framework.api.jdopenapi.result.ApiProductGetDetailResult;
 import com.dandandog.framework.api.jdopenapi.result.ApiProductGetSkuByPageResult;
 import lombok.Data;
@@ -13,12 +14,9 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ApiProductGetDetailParam extends AbstractAPIRequest<ApiProductGetDetailResult> {
+public class ApiProductGetDetailParam extends QueryExtsAPIRequest<ApiProductGetDetailResult> {
 
     private String sku;
-
-    private String queryExts;
-
 
     @Override
     public String getUrl() {
