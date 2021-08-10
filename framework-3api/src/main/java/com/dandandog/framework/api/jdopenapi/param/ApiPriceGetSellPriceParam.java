@@ -1,8 +1,7 @@
 package com.dandandog.framework.api.jdopenapi.param;
 
-import com.dandandog.framework.api.jdopenapi.entity.AbstractAPIRequest;
+import com.dandandog.framework.api.jdopenapi.entity.QueryExtsAPIRequest;
 import com.dandandog.framework.api.jdopenapi.result.ApiPriceGetSellPriceResult;
-import com.dandandog.framework.api.jdopenapi.result.ApiProductGetDetailResult;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,13 +12,9 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ApiPriceGetSellPriceParam extends AbstractAPIRequest<ApiPriceGetSellPriceResult> {
-
+public class ApiPriceGetSellPriceParam extends QueryExtsAPIRequest<ApiPriceGetSellPriceResult> {
 
     private String sku;
-
-    private String queryExts;
-
 
     @Override
     public String getUrl() {
