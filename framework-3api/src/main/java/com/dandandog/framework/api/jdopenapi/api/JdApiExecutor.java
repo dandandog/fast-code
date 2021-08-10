@@ -61,7 +61,13 @@ public class JdApiExecutor {
             QueryExtsAPIRequest<?> request = (QueryExtsAPIRequest<?>) apiRequest;
             if (StrUtil.isNotBlank(request.getQueryExts())) {
                 String[] split = StrUtil.split(request.getQueryExts(), StrUtil.COMMA);
-                resultExts = Arrays.stream(split).collect(Collectors.toMap(k -> k, v -> jsonObject.getJSONObject("result").get(v)));
+                resultExts = Arrays.stream(split).collect(Collectors.toMap(k -> k, v -> {
+                    if (JSONUtil.isJsonArray(jsonObject.getStr("result"))) {
+                        return jsonObject.getJSONArray("result").stream().map(o -> JSONUtil.parseObj(o).get(v)).toArray();
+                    } else {
+                        return jsonObject.getJSONObject("result").get(v);
+                    }
+                }));
             }
         }
 
