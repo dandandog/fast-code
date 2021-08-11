@@ -2,6 +2,7 @@ package com.dandandog.framework.api.jdopenapi.dto;
 
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,6 +16,6 @@ public class SaleAttrDTO {
 
     private String saleValue;
 
-    private Set<Long> skuIds;
+    private List<Long> skuIds;
 
 }
