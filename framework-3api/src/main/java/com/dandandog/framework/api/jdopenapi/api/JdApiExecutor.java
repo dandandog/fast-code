@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -61,20 +62,25 @@ public class JdApiExecutor {
             QueryExtsAPIRequest<?> request = (QueryExtsAPIRequest<?>) apiRequest;
             if (StrUtil.isNotBlank(request.getQueryExts())) {
                 String[] split = StrUtil.split(request.getQueryExts(), StrUtil.COMMA);
-                resultExts = Arrays.stream(split).collect(Collectors.toMap(k -> k, v -> {
-                    if (JSONUtil.isJsonArray(jsonObject.getStr("result"))) {
-                        return jsonObject.getJSONArray("result").stream().map(o -> JSONUtil.parseObj(o).get(v)).toArray();
-                    } else {
-                        return jsonObject.getJSONObject("result").get(v);
-                    }
-                }));
+                resultExts = Arrays.stream(split).collect(Collectors.toMap(k -> k, v -> JSONUtil.isJsonArray(jsonObject.getStr("result"))
+                        ? jsonObject.getJSONArray("result").stream().map(o -> JSONUtil.parseObj(o).get(v)).toArray() : jsonObject.getJSONObject("result").get(v)));
             }
         }
 
         TResponse tResponse = JSONUtil.toBean(post, apiRequest.getResponseClass());
-        if (tResponse.getResult() instanceof ResultDTO) {
-            ResultDTO dto = tResponse.getResult();
-            dto.setResultExts(resultExts);
+        if (ArrayUtil.isArray(tResponse.getResult())) {
+            Object[] objs = ArrayUtil.wrap((Object) tResponse.getResult());
+            for (Object obj : objs) {
+                if (obj instanceof ResultDTO) {
+                    ResultDTO dto = (ResultDTO)obj;
+                    dto.setResultExts(resultExts);
+                }
+            }
+        } else {
+            if (tResponse.getResult() instanceof ResultDTO) {
+                ResultDTO dto = tResponse.getResult();
+                dto.setResultExts(resultExts);
+            }
         }
 
         return tResponse;
