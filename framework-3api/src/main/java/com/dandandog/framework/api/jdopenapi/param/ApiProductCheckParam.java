@@ -1,7 +1,6 @@
 package com.dandandog.framework.api.jdopenapi.param;
 
 import com.dandandog.framework.api.jdopenapi.entity.AbstractAPIRequest;
-import com.dandandog.framework.api.jdopenapi.result.ApiPriceGetSellPriceResult;
 import com.dandandog.framework.api.jdopenapi.result.ApiProductCheckResult;
 import lombok.Data;
 
