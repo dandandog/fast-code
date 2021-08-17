@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+    <!--  The default configuration-->
+    <composite:attribute name="widgetVar"/>
+    <composite:attribute name="value"/>
+    <composite:attribute name="target"/>
+    <composite:attribute name="show" default="true"/>
+    <composite:attribute name="styleClass" default="p-col-12"/>
+    <composite:attribute name="rendered" default="#{true}" type="java.lang.Boolean"/>
+    <composite:attribute name="messageSupport" default="true"/>
+    <composite:attribute name="indicateRequired" default="auto"/>
+
+    <!-- coustom attrs-->
+
+
+</composite:interface>
+
+
+<composite:implementation>
+    <h:outputScript>
+        PrimeFaces.widgets['#{cc.attrs.widgetVar}'] = {
+        show: function () {
+        $('#' + '#{cc.clientId}:labelPanel'.replace(/:/g, "\\:")).show();
+        },
+        hide: function () {
+        $('#' + '#{cc.clientId}:labelPanel'.replace(/:/g, "\\:")).hide();
+        }
+        }
+    </h:outputScript>
+
+    <p:outputPanel id="labelPanel" styleClass="framework-label p-field #{cc.attrs.styleClass} ">
+        <p:outputLabel for="#{cc.attrs.target?cc.attrs.target:'@next'}" value="#{cc.attrs.value}"
+                       style="line-height: 30px; display: block" indicateRequired="#{cc.attrs.indicateRequired}"/>
+        <composite:insertChildren/>
+        <small id="message">
+            <p:message for="#{cc.attrs.target?cc.attrs.target:'@previous'}"
+                       rendered="#{cc.attrs.messageSupport}" display="text"
+                       styleClass="ui-label-message">
+                <p:autoUpdate/>
+            </p:message>
+        </small>
+    </p:outputPanel>
+</composite:implementation>
+
+
+</html>

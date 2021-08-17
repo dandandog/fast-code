@@ -1,0 +1,185 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+    <!--    default-->
+    <composite:attribute name="rendered" default="true"/>
+    <composite:attribute name="binding" default="#{entityDialog}"/>
+    <composite:attribute name="widgetVar"
+                         default="#{fn:substringAfter(cc.clientId,':').replace(':','')}_dialog"/>
+    <composite:attribute name="header"
+                         default="#{cc.attrs.value.id == null ? msg['framework']['add'] : msg['framework']['edit']}"/>
+    <composite:attribute name="draggable" default="true"/>
+    <composite:attribute name="resizable" default="true"/>
+    <composite:attribute name="modal" default="true"/>
+    <composite:attribute name="visible" default="false"/>
+    <composite:attribute name="width" default="auto"/>
+    <composite:attribute name="height" default="auto"/>
+    <composite:attribute name="minWidth" default="650"/>
+    <composite:attribute name="minHeight" default="150"/>
+    <composite:attribute name="style"/>
+    <composite:attribute name="styleClass" default=""/>
+    <composite:attribute name="showEffect" default="fade"/>
+    <composite:attribute name="hideEffect" default="fade"/>
+    <composite:attribute name="position" default="center"/>
+    <composite:attribute name="closable" default="true"/>
+    <composite:attribute name="onShow" default=""/>
+    <composite:attribute name="onHide" default=""/>
+    <composite:attribute name="appendTo" default=""/>
+    <composite:attribute name="showHeader" default="true"/>
+    <composite:attribute name="footer" default=""/>
+    <composite:attribute name="dynamic" default="false"/>
+    <composite:attribute name="cache" default="false"/>
+    <composite:attribute name="minimizable" default="true"/>
+    <composite:attribute name="maximizable" default="true"/>
+    <composite:attribute name="closeOnEscape" default="false"/>
+    <composite:attribute name="dir" default="ltr"/>
+    <composite:attribute name="focus" default=""/>
+    <composite:attribute name="fitViewport" default="true"/>
+    <composite:attribute name="positionType" default="fixed"/>
+    <composite:attribute name="responsive" default="true"/>
+    <composite:attribute name="blockScroll" default="true"/>
+    <composite:attribute name="my" default="center"/>
+
+
+    <!-- coustom attrs-->
+    <composite:attribute name="tableWidgetVar"/>
+    <composite:attribute name="value"/>
+    <composite:attribute name="fullScreen" default="false"/>
+
+
+    <!-- close dialog-->
+    <composite:attribute name="closeAjaxSupported" default="true"/>
+    <composite:attribute name="closeListener"
+                         method-signature="void close(javax.faces.component.UIComponent)"
+                         default="#{controller.close(component)}"/>
+    <composite:attribute name="closeUpdate" default="@none"/>
+    <composite:attribute name="closeOncomplete"/>
+
+    <!-- save button-->
+    <composite:attribute name="saveSupported" default="true"/>
+    <composite:attribute name="saveDisabled" default="#{cc.attrs.value == null}"/>
+    <composite:attribute name="saveButtonText" default="#{msg['framework']['confirm']}"/>
+    <composite:attribute name="saveMethod" method-signature="void save()" default="#{controller.save}"/>
+    <composite:attribute name="saveUpdate" default="@none"/>
+    <composite:attribute name="saveComplete"/>
+
+
+    <!-- cancel button-->
+    <composite:attribute name="cancelSupported" default="true"/>
+    <composite:attribute name="cancelButtonText" default="#{msg['framework']['cancel']}"/>
+    <composite:attribute name="cancelMethod"
+                         method-signature="void cancel(javax.faces.component.UIComponent)"
+                         default="#{controller.cancel(component)}"/>
+    <composite:attribute name="cancelUpdate" default="@none"/>
+    <composite:attribute name="cancelOncomplete"
+                         default="PF('#{cc.attrs.widgetVar}').hide();"/>
+
+    <!-- other attrs -->
+    <composite:attribute name="dialogContentStyleClass" default="ui-fluid p-formgrid p-grid"/>
+    <composite:attribute name="showMessages" default="true"/>
+
+
+    <composite:facet name="button"/>
+</composite:interface>
+
+<composite:implementation>
+
+    <script>
+        function #{cc.attrs.widgetVar}_handleComplete(xhr, status, args) {
+            if (!args.validationFailed) {
+                PF('#{cc.attrs.widgetVar}').hide();
+            }
+        }
+    </script>
+
+    <p:dialog id="entityDialog"
+              rendered="#{cc.attrs.rendered}"
+              binding="#{cc.attrs.binding}"
+              widgetVar="#{cc.attrs.widgetVar}"
+              header="#{cc.attrs.header}"
+              draggable="#{cc.attrs.draggable}"
+              resizable="#{cc.attrs.resizable}"
+              modal="#{cc.attrs.modal}"
+              visible="#{cc.attrs.visible}"
+              width="#{cc.attrs.width}"
+              height="#{cc.attrs.height}"
+              minWidth="#{cc.attrs.minWidth}"
+              minHeight="#{cc.attrs.minHeight}"
+              style="#{cc.attrs.style}"
+              styleClass="#{cc.attrs.styleClass} #{cc.attrs.widgetVar}"
+              showEffect="#{cc.attrs.showEffect}"
+              hideEffect="#{cc.attrs.hideEffect}"
+              position="#{cc.attrs.position}"
+              closable="#{cc.attrs.closable}"
+              onShow="#{cc.attrs.onShow}; if(#{cc.attrs.fullScreen}) PF('#{cc.attrs.widgetVar}').toggleMaximize();"
+              onHide="#{cc.attrs.onHide}"
+              appendTo="#{cc.attrs.appendTo}"
+              showHeader="#{cc.attrs.showHeader}"
+              footer="#{cc.attrs.footer}"
+              dynamic="#{cc.attrs.dynamic}"
+              cache="#{cc.attrs.cache}"
+              minimizable="#{cc.attrs.minimizable}"
+              maximizable="#{cc.attrs.maximizable}"
+              closeOnEscape="#{cc.attrs.closeOnEscape}"
+              dir="#{cc.attrs.dir}"
+              focus="#{cc.attrs.focus}"
+              fitViewport="#{cc.attrs.fitViewport}"
+              positionType="#{cc.attrs.positionType}"
+              responsive="#{cc.attrs.responsive}"
+              blockScroll="#{cc.attrs.blockScroll}"
+              my="#{cc.attrs.my}">
+        <composite:insertFacet name="header"/>
+
+        <p:blockUI widgetVar="dailogBlock" block="contentPanel" trigger="saveButton">
+            <p:graphicImage name="img/dialogloading.gif" library="custom" width="100"/>
+        </p:blockUI>
+
+        <p:outputPanel id="contentPanel">
+            <p:messages id="messages" styleClass="messages" forType="messages"
+                        forIgnores="globalMessageGrowl,globalMessageGrowl"
+                        showDetail="true"/>
+            <p:outputPanel rendered="#{!cc.attrs.saveDisabled}">
+                <p:outputPanel style="max-width: 1200px;margin: auto;"
+                               styleClass="#{cc.attrs.dialogContentStyleClass}">
+                    <composite:insertChildren/>
+                </p:outputPanel>
+            </p:outputPanel>
+        </p:outputPanel>
+
+
+        <f:facet name="footer">
+            <composite:renderFacet name="button"/>
+            <p:outputPanel rendered="#{cc.attrs.saveSupported}" layout="inline">
+                <p:commandButton id="saveButton" styleClass="entity-dialog-save-btn" icon="pi pi-check"
+                                 process="@form" validateClient="true"
+                                 value="#{cc.attrs.saveButtonText}"
+                                 action="#{cc.attrs.saveMethod}"
+                                 disabled="#{cc.attrs.saveDisabled}"
+                                 update=":#{cc.clientId}:contentPanel, #{cc.attrs.saveUpdate}"
+                                 oncomplete="#{cc.attrs.widgetVar}_handleComplete(xhr, status, args); #{cc.attrs.saveComplete}"/>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{cc.attrs.cancelSupported}" layout="inline">
+                <p:commandButton id="cancelButton" styleClass="entity-dialog-cancel-btn ui-button-secondary"
+                                 icon="pi pi-times" process="@this" immediate="true"
+                                 value="#{cc.attrs.cancelButtonText}"
+                                 action="#{cc.attrs.cancelMethod}"
+                                 update="#{cc.attrs.cancelUpdate}"
+                                 oncomplete="#{cc.attrs.cancelOncomplete}"/>
+            </p:outputPanel>
+        </f:facet>
+
+        <c:if test="#{cc.attrs.closeAjaxSupported}">
+            <p:ajax event="close" process="@this" global="true"
+                    listener="#{cc.attrs.closeListener}"
+                    update="#{cc.attrs.closeUpdate}"
+                    oncomplete="#{cc.attrs.closeOncomplete}"/>
+        </c:if>
+    </p:dialog>
+</composite:implementation>
+</html>

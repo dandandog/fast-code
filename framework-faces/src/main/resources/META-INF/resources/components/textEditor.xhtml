@@ -1,0 +1,228 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+    <composite:attribute name="id"/>
+    <composite:attribute name="rendered" default="true"/>
+    <composite:attribute name="binding" default="#{textEditor}"/>
+    <composite:attribute name="value"/>
+    <composite:attribute name="converter"/>
+    <composite:attribute name="immediate" default="false"/>
+    <composite:attribute name="required" default="false"/>
+    <composite:attribute name="validator"/>
+    <composite:attribute name="valueChangeListener"/>
+    <composite:attribute name="requiredMessage"/>
+    <composite:attribute name="converterMessage"/>
+    <composite:attribute name="validatorMessage"/>
+    <composite:attribute name="widgetVar" default="#{cc.attrs.id}_editor"/>
+    <composite:attribute name="height" default="400"/>
+    <composite:attribute name="readonly" default="false"/>
+    <composite:attribute name="disabled" default="false"/>
+    <composite:attribute name="style"/>
+    <composite:attribute name="styleClass"/>
+    <composite:attribute name="placeholder"/>
+    <composite:attribute name="toolbarVisible" default="true"/>
+    <composite:attribute name="secure" default="true"/>
+    <composite:attribute name="allowFormatting" default="true"/>
+    <composite:attribute name="allowBlocks" default="true"/>
+    <composite:attribute name="allowStyles" default="true"/>
+    <composite:attribute name="allowLinks" default="true"/>
+    <composite:attribute name="allowImages" default="true"/>
+    <composite:attribute name="formats"/>
+
+    <composite:attribute name="url" default="/api/upload"/>
+
+</composite:interface>
+
+<composite:implementation>
+
+    <h:outputScript library="textEditor" name="quill.htmlEditButton.min.js"/>
+    <h:outputScript library="textEditor" name="highlight.js"/>
+    <h:outputScript library="textEditor" name="textEditor.js"/>
+
+    <h:outputStylesheet>
+        .ql-html-buttonOk {
+            margin: 0 0.5rem 0 0;
+            width: auto;
+            background: #2196F3;
+            color: #ffffff;
+            border: 1px solid #2196F3;
+            margin: 0;
+            outline: 0 none;
+            border-radius: 4px;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .ql-html-buttonCancel {
+            margin: 0 0.5rem 0 0;
+            width: auto;
+            background: #607D8B;
+            color: #ffffff;
+            border: 1px solid #607D8B;
+            outline: 0 none;
+            border-radius: 4px;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+    </h:outputStylesheet>
+
+
+    <script>
+        Quill.register("modules/htmlEditButton", htmlEditButton);
+
+        PrimeFaces.widget.TextEditor = PrimeFaces.widget.TextEditor.extend({
+            init: function (cfg) {
+                this._super(cfg);
+                cfg.modules = {
+                    htmlEditButton: {
+                        buttonHTML: "&lt;i style='font-size: large;font-weight: bold;' class='fa fa-code' aria-hidden='true'/&gt;",
+                    },
+                }
+            }
+        });
+        $(function () {
+            const loadImage = function loadImage(url, callback) {
+                var img = new Image();
+                img.src = url;
+                if (img.complete) {
+                    callback.call(img);
+                    return;
+                }
+                img.onload = function () {
+                    callback.call(img);
+                };
+            };
+
+            $('button.upload-image').click(function (e) {
+                $('input.upload-image').trigger('click');
+            })
+
+            $('input.upload-image').change(function (e) {
+                const files = e.target.files;
+                if (files.length == 0) {
+                    PF('blockUI').hide()
+                    return;
+                }
+                const data = new FormData();
+                for (let i = 0; i &lt; files.length; i++) {
+                    data.append("files", files[i]);
+                }
+                PF('blockUI').show()
+                $.ajax({
+                    type: "post",
+                    url: '${request.contextPath}#{cc.attrs.url}',
+                    data: data,
+                    Accept: 'text/html;charset=UTF-8',
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        debugger
+                        const editor = PF('#{cc.attrs.widgetVar}').editor;
+                        for (let i = 0; i &lt; res.length; i++) {
+                            let selection = editor.getSelection();
+                            let index = i;
+                            index = selection ? index + selection.index : i
+                            console.log("i:" + i)
+                            editor.setSelection(index);
+                            editor.insertEmbed(index, 'image', res[i]);
+                            loadImage(res[i], function () {
+                                PF('blockUI').hide()
+                            })
+                        }
+                    },
+                    error: function (e) {
+                        PF('blockUI').hide()
+                        console.log("后台处理错误");
+                    }
+                })
+            })
+        })
+    </script>
+    <p:blockUI block="editor" trigger="editor" widgetVar="blockUI">
+        LOADING<br/>
+        <p:graphicImage name="img/ajaxloadingbar.gif" library="custom"/>
+    </p:blockUI>
+    <p:textEditor id="editor"
+                  rendered="#{cc.attrs.rendered}"
+                  binding="#{cc.attrs.binding}"
+                  value="#{cc.attrs.value}"
+                  converter="#{cc.attrs.converter}"
+                  immediate="#{cc.attrs.immediate}"
+                  required="#{cc.attrs.required}"
+                  requiredMessage="#{cc.attrs.requiredMessage}"
+                  converterMessage="#{cc.attrs.converterMessage}"
+                  validatorMessage="#{cc.attrs.validatorMessage}"
+                  widgetVar="#{cc.attrs.widgetVar}"
+                  height="#{cc.attrs.height}"
+                  readonly="#{cc.attrs.readonly}"
+                  disabled="#{cc.attrs.disabled}"
+                  style="#{cc.attrs.style}"
+                  styleClass="#{cc.attrs.styleClass}"
+                  placeholder="#{cc.attrs.placeholder}"
+                  toolbarVisible="#{cc.attrs.toolbarVisible}"
+                  secure="#{cc.attrs.secure}"
+                  allowFormatting="#{cc.attrs.allowFormatting}"
+                  allowBlocks="#{cc.attrs.allowBlocks}"
+                  allowStyles="#{cc.attrs.allowStyles}"
+                  allowLinks="#{cc.attrs.allowLinks}"
+                  allowImages="#{cc.attrs.allowImages}"
+                  formats="#{cc.attrs.formats}">
+
+
+        <f:facet name="toolbar">
+            <span class="ql-formats">
+                <select class="ql-font"/>
+                <select class="ql-size"/>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-bold"/>
+                <button class="ql-italic"/>
+                <button class="ql-underline"/>
+                <button class="ql-strike"/>
+            </span>
+            <span class="ql-formats">
+                <select class="ql-color"/>
+                <select class="ql-background"/>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-script" value="sub"/>
+                <button class="ql-script" value="super"/>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-header" value="1"/>
+                <button class="ql-header" value="2"/>
+                <button class="ql-blockquote"/>
+                <button class="ql-code-block"/>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-list" value="ordered"/>
+                <button class="ql-list" value="bullet"/>
+                <button class="ql-indent" value="-1"/>
+                <button class="ql-indent" value="+1"/>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-direction" value="rtl"/>
+                <select class="ql-align ql-picker ql-icon-picker"/>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-link"/>
+                <button class="pi pi-image upload-image p-text-bold" type="button"/>
+                 <input type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
+                        class="ql-image upload-image" multiple="multiple"/>
+                <button class="ql-video"/>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-clean" onclick="PF('#{cc.attrs.widgetVar}').clear()"/>
+            </span>
+
+        </f:facet>
+    </p:textEditor>
+</composite:implementation>
+
+
+</html>

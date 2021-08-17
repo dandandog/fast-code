@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+    <!-- coustom attrs-->
+    <composite:attribute name="header"/>
+    <composite:attribute name="style"/>
+    <composite:facet name="viewname"/>
+</composite:interface>
+
+
+<composite:implementation>
+
+    <p:outputPanel styleClass="ui-g sample-layout" style="padding:20px #{cc.attrs.style}">
+        <p:outputPanel styleClass="ui-g-12" style="padding:0;">
+            <p:outputPanel styleClass="card card-w-title">
+                <h1>
+                    <composite:renderFacet name="header"/>
+                </h1>
+                <composite:insertChildren/>
+            </p:outputPanel>
+        </p:outputPanel>
+    </p:outputPanel>
+
+</composite:implementation>
+
+
+</html>

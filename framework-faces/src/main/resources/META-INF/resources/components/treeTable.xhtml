@@ -1,0 +1,373 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<composite:interface>
+    <!-- default attrs-->
+    <composite:attribute name="rendered" default="true"/>
+    <composite:attribute name="binding" default="#{entityTreeTable}"/>
+    <composite:attribute name="value"/>
+    <composite:attribute name="var" default="element"/>
+
+    <composite:attribute name="filterDelay" default="300"/>
+    <composite:attribute name="cellEditMode" default="eager"/>
+    <composite:attribute name="filterEvent" default="enter"/>
+    <composite:attribute name="globalFilter"/>
+    <composite:attribute name="globalFilterFunction"/>
+    <composite:attribute name="multiViewState" default="false"/>
+    <composite:attribute name="rowsPerPageLabel"/>
+    <composite:attribute name="widgetVar"
+                         default="#{cc.clientId.replace(':','')}_treeTable"/>
+    <composite:attribute name="style"/>
+    <composite:attribute name="styleClass"/>
+    <composite:attribute name="selectionMode" default="checkbox"/>
+    <composite:attribute name="scrollable" default="false"/>
+    <composite:attribute name="scrollHeight" default="100%"/>
+    <composite:attribute name="scrollWidth" default="100%"/>
+    <composite:attribute name="tableStyle"/>
+    <composite:attribute name="tableStyleClass"/>
+    <composite:attribute name="emptyMessage" default="#{msg['framework']['noRecords']}"/>
+    <composite:attribute name="resizableColumns" default="false"/>
+    <composite:attribute name="rowStyleClass"/>
+    <composite:attribute name="liveResize" default="false"/>
+    <composite:attribute name="required" default="false"/>
+    <composite:attribute name="requiredMessage"/>
+    <composite:attribute name="sortBy"/>
+    <composite:attribute name="nativeElements" default="false"/>
+    <composite:attribute name="dataLocale"/>
+    <composite:attribute name="skipChildren" default="false"/>
+    <composite:attribute name="showUnselectableCheckbox" default="false"/>
+    <composite:attribute name="nodeVar" default="node"/>
+    <composite:attribute name="expandMode" default="children"/>
+    <composite:attribute name="stickyHeader" default="false"/>
+    <composite:attribute name="editable" default="true"/>
+    <composite:attribute name="editMode" default="cell"/>
+    <composite:attribute name="editingRow" default="false"/>
+    <composite:attribute name="cellSeparator"/>
+    <composite:attribute name="paginatorTemplate"
+                         default="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {JumpToPageInput}"/>
+    <composite:attribute name="rowsPerPageTemplate"/>
+    <composite:attribute name="currentPageReportTemplate"
+                         default="#{msg['framework']['total']} {totalRecords} #{msg['framework']['record']} ({startRecord} - {endRecord})"/>
+    <composite:attribute name="pageLinks" default="20"/>
+    <composite:attribute name="paginator" default="true"/>
+    <composite:attribute name="paginatorPosition" default="bottom"/>
+    <composite:attribute name="paginatorAlwaysVisible" default="true"/>
+    <composite:attribute name="rows" default="20"/>
+    <composite:attribute name="first" default="0"/>
+    <composite:attribute name="disabledTextSelection" default="false"/>
+    <composite:attribute name="touchable" default="true"/>
+    <composite:attribute name="editInitEvent" default="dblclick"/>
+    <composite:attribute name="filterBy"/>
+    <composite:attribute name="allowUnsorting" default="false"/>
+    <composite:attribute name="sortMode" default="multiple"/>
+    <composite:attribute name="filteredValue"/>
+    <composite:attribute name="cloneOnFilter" default="false"/>
+    <composite:attribute name="saveOnCellBlur" default="true"/>
+    <composite:attribute name="size" default="small"/>
+    <composite:attribute name="showGridlines" default="false"/>
+
+
+    <!-- coustom attrs-->
+    <composite:attribute name="formDialogId" default=""/>
+    <composite:attribute name="dialogWidgetVar" default="#{cc.attrs.formDialogId}_dialog"/>
+    <composite:attribute name="singleSelection"/>
+    <composite:attribute name="multipleSelection"/>
+    <composite:attribute name="enabledFilter" default="false"/>
+    <composite:attribute name="outcomeBack" default="#{null}"/>
+    <composite:attribute name="outcomeBackTitle" default="#{msg['framework']['getBack']}"/>
+
+    <!-- toolbar -->
+    <composite:attribute name="enabledToolbar" default="true"/>
+    <composite:attribute name="headText" default="#{null}"/>
+
+    <composite:attribute name="uploadSupported" default="false"/>
+    <composite:attribute name="exportSupported" default="false"/>
+
+    <composite:attribute name="optionsSupport" default="true"/>
+    <composite:attribute name="optionsWidth" default="100"/>
+
+    <!--  add操作按钮-->
+    <composite:attribute name="addTitle" default="#{msg['framework']['add']}"/>
+    <composite:attribute name="addSupported" default="true"/>
+    <composite:attribute name="addMethod" method-signature="void add()" default="#{controller.add}"/>
+    <composite:attribute name="addUpdate" default="@widgetVar(#{cc.attrs.dialogWidgetVar})"/>
+    <composite:attribute name="addOncomplete"
+                         default="PF('#{cc.attrs.dialogWidgetVar}').show();"/>
+
+    <!--  edit row操作按钮-->
+    <composite:attribute name="editTitle" default="#{msg['framework']['edit']}"/>
+    <composite:attribute name="editSupported" default="true"/>
+    <composite:attribute name="editMethod" method-signature="void edit()" default="#{controller.edit}"/>
+    <composite:attribute name="editUpdate" default="@widgetVar(#{cc.attrs.dialogWidgetVar})"/>
+    <composite:attribute name="editOncomplete"
+                         default="PF('#{cc.attrs.dialogWidgetVar}').show();"/>
+
+    <!--  delete操作按钮-->
+    <composite:attribute name="deleteTitle" default="#{msg['framework']['delete']}"/>
+    <composite:attribute name="deleteSupported" default="true"/>
+    <composite:attribute name="deleteMethod" method-signature="void delete()" default="#{controller.delete}"/>
+    <composite:attribute name="deleteUpdate" default="@form"/>
+    <composite:attribute name="deleteOncomplete"/>
+
+
+    <!--  refresh操作按钮-->
+    <composite:attribute name="refreshSupported" default="true"/>
+    <composite:attribute name="refreshMethod" method-signature="void onEntry()" default="#{controller.onEntry}"/>
+    <composite:attribute name="refreshUpdate" default="@form"/>
+    <composite:attribute name="refreshOncomplete"/>
+
+
+    <composite:clientBehavior name="expand" targets="entityTreeTable" event="expand"/>
+    <composite:clientBehavior name="collapse" targets="entityTreeTable" event="collapse"/>
+    <composite:clientBehavior name="select" targets="entityTreeTable" event="select"/>
+    <composite:clientBehavior name="unselect" targets="entityTreeTable" event="unselect"/>
+    <composite:clientBehavior name="contextMenu" targets="entityTreeTable" event="contextMenu"/>
+    <composite:clientBehavior name="colResize" targets="entityTreeTable" event="colResize"/>
+    <composite:clientBehavior name="sort" targets="entityTreeTable" event="sort"/>
+    <composite:clientBehavior name="filter" targets="entityTreeTable" event="filter"/>
+    <composite:clientBehavior name="rowEdit" targets="entityTreeTable" event="rowEdit"/>
+    <composite:clientBehavior name="rowEditInit" targets="entityTreeTable" event="rowEditInit"/>
+    <composite:clientBehavior name="rowEditCancel" targets="entityTreeTable" event="rowEditCancel"/>
+    <composite:clientBehavior name="cellEdit" targets="entityTreeTable" event="cellEdit"/>
+    <composite:clientBehavior name="page" targets="entityTreeTable" event="page"/>
+
+
+    <!--  多选-->
+
+</composite:interface>
+
+
+<composite:implementation>
+    <h:outputStylesheet>
+        .ui-paginator-jtp-input {
+            width: 50px !important;
+        }
+
+        .ui-toolbar {
+            border: 1px solid #edf0f5 !important;
+            background: #edf0f5 !important;
+            color: #495057;
+            padding-bottom: 1rem !important;
+            border-radius: 4px;
+        }
+
+        .datatable-title {
+            font-size: large !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .datatable-row-grid {
+            padding: 10px;
+            background: white;
+        }
+    </h:outputStylesheet>
+    <script>
+        String.prototype.format = function () {
+            if (arguments.length == 0) return this;
+            for (var s = this, i = 0; i &lt; arguments.length; i++) {
+                s = s.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+            }
+            return s;
+        };
+
+        function #{cc.attrs.widgetVar}_onRowClick() {
+            const count = PF('#{cc.attrs.widgetVar}').selections.length;
+            let msg = "#{msg['framework']['selectedRecord']}"
+            let delText = PF('#{cc.attrs.widgetVar}_deleteBtn').jq.find('.ui-button-text').text().split(" ")[0]
+            if (count) {
+                PF('#{cc.attrs.widgetVar}_deleteBtn').enable()
+                PF('#{cc.attrs.widgetVar}_deleteBtn').jq.find('.ui-button-text').text(delText + " " + msg.format(count))
+            } else {
+                PF('#{cc.attrs.widgetVar}_deleteBtn').disable()
+                PF('#{cc.attrs.widgetVar}_deleteBtn').jq.find('.ui-button-text').text(delText)
+            }
+        }
+    </script>
+
+    <p:toolbar id="entityToolbar" styleClass="ui-my-toolbar">
+        <f:facet name="left">
+            <p:outputPanel rendered="#{cc.attrs.enabledToolbar}" layout="inline">
+                <p:commandButton id="addBtn" widgetVar="#{cc.attrs.widgetVar}_addBtn" icon="pi pi-plus"
+                                 styleClass="ui-button-success" style="margin-right: .5rem"
+                                 value="#{cc.attrs.addTitle}"
+                                 rendered="#{cc.attrs.addSupported}"
+                                 action="#{cc.attrs.addMethod}"
+                                 update="#{cc.attrs.addUpdate}"
+                                 oncomplete="#{cc.attrs.addOncomplete}"/>
+
+                <p:commandButton id="deleteBtn" widgetVar="#{cc.attrs.widgetVar}_deleteBtn" icon="pi pi-trash"
+                                 styleClass="ui-button-danger" disabled="true" style="margin-right: .5rem"
+                                 value="#{cc.attrs.deleteTitle}"
+                                 rendered="#{cc.attrs.deleteSupported}"
+                                 onclick="PF('#{cc.attrs.widgetVar}_delete_tips').show()"/>
+
+                <p:linkButton id="backBtn" widgetVar="#{cc.attrs.widgetVar}_backBtn" icon="pi pi-arrow-left"
+                              style="margin-right: .5rem"
+                              value="#{cc.attrs.outcomeBackTitle}" outcome="#{cc.attrs.outcomeBack}"
+                              rendered="#{cc.attrs.outcomeBack ne null}"/>
+
+            </p:outputPanel>
+            <composite:renderFacet name="toolbar"/>
+        </f:facet>
+
+        <f:facet name="right">
+            <p:fileUpload mode="simple" skinSimple="true" label="#{msg['framework']['import']}"
+                          chooseIcon="pi pi-download" rendered="#{cc.attrs.uploadSupported}"/>
+            <p:commandButton value="#{msg['framework']['export']}" icon="pi pi-upload" styleClass="ui-button-help"
+                             ajax="false" rendered="#{cc.attrs.exportSupported}">
+                <p:dataExporter type="xls" target="entityTreeTable" fileName="data"/>
+            </p:commandButton>
+        </f:facet>
+    </p:toolbar>
+    <p:sticky target="entityToolbar" margin="50"/>
+    <p:blockUI block="entityTreeTable" trigger="entityTreeTable">
+        <p:graphicImage name="img/ajaxloadingbar.gif" library="custom"/>
+    </p:blockUI>
+    <p:tooltip position="bottom"/>
+    <p:treeTable id="entityTreeTable"
+                 filterDelay="#{cc.attrs.filterDelay}"
+                 cellEditMode="#{cc.attrs.cellEditMode}"
+                 filterEvent="#{cc.attrs.filterEvent}"
+                 multiViewState="#{cc.attrs.multiViewState}"
+                 rowsPerPageLabel="#{cc.attrs.rowsPerPageLabel}"
+                 rendered="#{cc.attrs.rendered}"
+                 binding="#{cc.attrs.binding}"
+                 value="#{cc.attrs.value}"
+                 var="#{cc.attrs.var}"
+                 widgetVar="#{cc.attrs.widgetVar}"
+                 style="#{cc.attrs.style}"
+                 selection="#{cc.attrs.multipleSelection}"
+                 styleClass="#{cc.attrs.styleClass} #{cc.attrs.widgetVar} content"
+                 selectionMode="#{cc.attrs.selectionMode}"
+                 scrollable="#{cc.attrs.scrollable}"
+                 scrollHeight="#{cc.attrs.scrollHeight}"
+                 scrollWidth="#{cc.attrs.scrollWidth}"
+                 tableStyle="#{cc.attrs.tableStyle}"
+                 tableStyleClass="#{cc.attrs.tableStyleClass}"
+                 emptyMessage="#{cc.attrs.emptyMessage}"
+                 resizableColumns="#{cc.attrs.resizableColumns}"
+                 rowStyleClass="#{cc.attrs.rowStyleClass}"
+                 liveResize="#{cc.attrs.liveResize}"
+                 required="#{cc.attrs.required}"
+                 requiredMessage="#{cc.attrs.requiredMessage}"
+                 sortBy="#{cc.attrs.sortBy}"
+                 nativeElements="#{cc.attrs.nativeElements}"
+                 dataLocale="#{cc.attrs.dataLocale}"
+                 skipChildren="#{cc.attrs.skipChildren}"
+                 showUnselectableCheckbox="#{cc.attrs.showUnselectableCheckbox}"
+                 nodeVar="#{cc.attrs.nodeVar}"
+                 expandMode="#{cc.attrs.expandMode}"
+                 stickyHeader="#{cc.attrs.stickyHeader}"
+                 editable="#{cc.attrs.editable}"
+                 editMode="#{cc.attrs.editMode}"
+                 editingRow="#{cc.attrs.editingRow}"
+                 cellSeparator="#{cc.attrs.cellSeparator}"
+                 paginatorTemplate="#{cc.attrs.paginatorTemplate}"
+                 rowsPerPageTemplate="#{cc.attrs.rowsPerPageTemplate}"
+                 currentPageReportTemplate="#{cc.attrs.currentPageReportTemplate}"
+                 paginator="#{cc.attrs.paginator}"
+                 pageLinks="#{cc.attrs.pageLinks}"
+                 paginatorPosition="#{cc.attrs.paginatorPosition}"
+                 paginatorAlwaysVisible="#{cc.attrs.paginatorAlwaysVisible}"
+                 rows="#{cc.attrs.rows}"
+                 first="#{cc.attrs.first}"
+                 disabledTextSelection="#{cc.attrs.disabledTextSelection}"
+                 touchable="#{cc.attrs.touchable}"
+                 editInitEvent="#{cc.attrs.editInitEvent}"
+                 filterBy="#{cc.attrs.filterBy}"
+                 allowUnsorting="#{cc.attrs.allowUnsorting}"
+                 sortMode="#{cc.attrs.sortMode}"
+                 filteredValue="#{cc.attrs.filteredValue}"
+                 cloneOnFilter="#{cc.attrs.cloneOnFilter}"
+                 saveOnCellBlur="#{cc.attrs.saveOnCellBlur}"
+                 size="#{cc.attrs.size}"
+                 showGridlines="#{cc.attrs.showGridlines}">
+        <p:autoUpdate/>
+        <c:set target="#{component}" property="var" value="#{cc.attrs.var}"/>
+        <c:set target="#{component}" property="globalFilterFunction" value="#{cc.attrs.globalFilterFunction}"/>
+        <c:set target="#{component}" property="globalFilter" value="#{cc.attrs.globalFilter}"/>
+
+        <p:ajax event="select" oncomplete="#{cc.attrs.widgetVar}_onRowClick()" global="false"/>
+        <p:ajax event="unselect" oncomplete="#{cc.attrs.widgetVar}_onRowClick()" global="false"/>
+
+        <f:facet name="header">
+            <p:outputPanel styleClass="p-d-flex p-jc-between">
+                <p:outputPanel styleClass="p-text-bold"
+                               rendered="#{cc.attrs.headText eq null}">
+                    <composite:renderFacet name="header"/>
+                </p:outputPanel>
+
+
+                <h:outputText styleClass="p-text-bold datatable-title" rendered="#{cc.attrs.headText ne null}"
+                              value="#{cc.attrs.headText}"/>
+
+                <p:outputPanel rendered="#{cc.attrs.enabledFilter}" layout="inline" styleClass="ui-inputgroup">
+                    //TODO Impact tree Table update
+
+                    <p:commandButton id="refreshBtn" widgetVar="refreshBtn" icon="fa fa-refresh"
+                                     onclick="PF('#{cc.attrs.widgetVar}').clearFilters()"
+                                     rendered="#{cc.attrs.refreshSupported}"
+                                     action="#{cc.attrs.refreshMethod}"
+                                     update="#{cc.attrs.refreshUpdate}"
+                                     oncomplete=""/>
+                    <p:commandButton id="toggler" type="button" icon="fa fa-align-justify"/>
+                    <p:columnToggler datasource="entityTreeTable" trigger="toggler"/>
+                </p:outputPanel>
+            </p:outputPanel>
+        </f:facet>
+
+        <composite:insertChildren/>
+        <p:column toggleable="false" exportable="false" width="#{cc.attrs.optionsWidth}"
+                  rendered="#{cc.attrs.optionsSupport}">
+
+            <composite:renderFacet name="options"/>
+
+            <p:commandButton id="editBtn" icon="pi pi-pencil" process="@this"
+                             styleClass="rounded-button ui-button-success p-mr-2 p-mb-2"
+                             title="#{cc.attrs.editTitle}"
+                             rendered="#{cc.attrs.editSupported}"
+                             action="#{cc.attrs.editMethod}"
+                             update="#{cc.attrs.editUpdate}"
+                             oncomplete="#{cc.attrs.editOncomplete}">
+                <f:setPropertyActionListener value="#{element}" target="#{cc.attrs.singleSelection}"/>
+            </p:commandButton>
+            <p:commandButton id="delBtn" icon="pi pi-trash" process="@this"
+                             styleClass="ui-button-warning rounded-button p-mr-2 p-mb-2"
+                             title="#{cc.attrs.deleteTitle}"
+                             rendered="#{cc.attrs.deleteSupported}"
+                             action="#{cc.attrs.deleteMethod}"
+                             update="#{cc.attrs.deleteUpdate}"
+                             oncomplete="#{cc.attrs.deleteOncomplete}">
+                <f:setPropertyActionListener value="#{element}" target="#{cc.attrs.singleSelection}"/>
+                <p:confirm header="#{msg['framework']['message']}" message="#{msg['framework']['confirmDeletion']}"
+                           icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+    </p:treeTable>
+
+    <p:confirmDialog id="#{cc.attrs.widgetVar}_delete_tip" widgetVar="#{cc.attrs.widgetVar}_delete_tips"
+                     rendered="#{cc.attrs.deleteSupported}" severity="warn"
+                     header="#{msg['framework']['message']}" message="#{msg['framework']['confirmDeletion']}"
+                     showEffect="fade" hideEffect="fade" width="400">
+        <p:commandButton
+                id="deleteButton" styleClass="ui-confirmdialog-yes" icon="pi pi-check"
+                value="#{msg['framework']['confirm']}" process="@form"
+                rendered="#{cc.attrs.deleteSupported}"
+                action="#{cc.attrs.deleteMethod}"
+                update="#{cc.attrs.deleteUpdate}"
+                oncomplete="PF('#{cc.attrs.widgetVar}_delete_tips').hide(); #{cc.attrs.deleteOncomplete}">
+            <f:setPropertyActionListener value="#{null}" target="#{cc.attrs.singleSelection}"/>
+        </p:commandButton>
+        <p:commandButton value="#{msg['framework']['cancel']}" type="button"
+                         styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times"
+                         onclick="PF('#{cc.attrs.widgetVar}_delete_tips').hide()"/>
+    </p:confirmDialog>
+</composite:implementation>
+
+</html>

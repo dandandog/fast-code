@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui" xmlns:comment="http://java.sun.com/jsf/core">
+
+
+<composite:interface>
+    <!-- coustom attrs-->
+    <composite:attribute name="opts"/>
+    <composite:attribute name="value"/>
+    <composite:attribute name="required" default="false"/>
+    <composite:attribute name="id" default="#{cc.clientId}"/>
+    <composite:attribute name="label"/>
+    <composite:attribute name="messageSupport" default="true"/>
+    <composite:attribute name="onchange"/>
+    <composite:attribute name="styleClass"/>
+
+</composite:interface>
+
+<composite:implementation>
+    <c:set value="#{cc.attrs.opts}" var="optList"/>
+    <p:selectOneMenu binding="#{cc.attrs.binding}" widgetVar="#{cc.attrs.id}" id="select" value="#{cc.attrs.value}"
+                     required="#{cc.attrs.required}"
+                     label="#{cc.attrs.label}" style="#{fn:length(optList) eq 0 ? 'display: none' :''}"
+                     onchange="#{cc.attrs.onchange}" styleClass="#{cc.attrs.styleClass}">
+        <f:selectItem itemLabel="#{msg['framework']['pleaseChoose']}"
+                      itemValue="#{null}"/>
+        <f:selectItems value="#{optList}" var="dict"/>
+    </p:selectOneMenu>
+    <p:outputPanel>
+        <p:staticMessage severity="error" style="margin: 0px; width: 100%" rendered="#{fn:length(optList) eq 0}"
+                         detail="#{cc.attrs.code}"
+                         summary="#{msg['component']['dictKey']}:"/>
+    </p:outputPanel>
+    <small id="message">
+        <p:message for="select"
+                   rendered="#{cc.attrs.messageSupport}" display="text"
+                   styleClass="ui-label-message"/>
+    </small>
+</composite:implementation>
+</html>

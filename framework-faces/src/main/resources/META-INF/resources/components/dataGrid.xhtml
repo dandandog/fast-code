@@ -1,0 +1,194 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+<composite:interface>
+    <!--  The default configuration-->
+    <composite:attribute name="id" default="dataGrid"/>
+    <composite:attribute name="rendered" default="true"/>
+    <composite:attribute name="binding" default="#{entityGridComponent}"/>
+    <composite:attribute name="value" default="null"/>
+    <composite:attribute name="var" default="element"/>
+    <composite:attribute name="rows" default="20"/>
+    <composite:attribute name="first" default="0"/>
+    <composite:attribute name="widgetVar"
+                         default="#{cc.clientId.replace(':', '_')}_var"/>
+    <composite:attribute name="columns" default="4"/>
+    <composite:attribute name="paginator" default="true"/>
+    <composite:attribute name="paginatorTemplate"
+                         default="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {JumpToPageInput}"/>
+    <composite:attribute name="rowsPerPageTemplate" default="10, 20, 50, 100"/>
+    <composite:attribute name="currentPageReportTemplate"
+                         default="#{msg['framework']['total']} {totalRecords}  #{msg['framework']['record']} ({currentPage} / {totalPages}) "/>
+    <composite:attribute name="pageLinks" default="10"/>
+    <composite:attribute name="paginatorPosition"/>
+    <composite:attribute name="paginatorAlwaysVisible" default="true"/>
+    <composite:attribute name="style" default="null"/>
+    <composite:attribute name="styleClass" default="null"/>
+    <composite:attribute name="rowIndexVar" default="index"/>
+    <composite:attribute name="lazy" default="false"/>
+    <composite:attribute name="emptyMessage" default="#{msg['framework']['noRecords']}"/>
+    <composite:attribute name="layout" default="grid"/>
+    <composite:attribute name="multiViewState" default="false"/>
+
+    <!-- coustom attrs-->
+    <composite:attribute name="formDialogId" default=""/>
+    <composite:attribute name="dialogWidgetVar"
+                         default="#{cc.attrs.formDialogId}_dialog"/>
+
+    <!-- toolbar操作按钮-->
+    <composite:attribute name="toolbarLeftSupport" default="true"/>
+    <composite:attribute name="toolbarRightSupport" default="true"/>
+
+
+    <!--  add操作按钮-->
+    <composite:attribute name="addTitle" default="#{msg['framework']['add']}"/>
+    <composite:attribute name="addRendered" default="true"/>
+    <composite:attribute name="addMethod" method-signature="void add()" default="#{controller.add}"/>
+    <composite:attribute name="addUpdate" default="@widgetVar(#{cc.attrs.dialogWidgetVar})"/>
+    <composite:attribute name="addOncomplete"
+                         default="PF('#{cc.attrs.dialogWidgetVar}').show();"/>
+
+    <!--  refresh操作按钮-->
+    <composite:attribute name="refreshRendered" default="true"/>
+    <composite:attribute name="refreshMethod" method-signature="void onEntry()" default="#{controller.onEntry}"/>
+    <composite:attribute name="refreshUpdate" default="@widgetVar(#{cc.attrs.dialogWidgetVar})"/>
+    <composite:attribute name="refreshOncomplete" default=""/>
+
+    <!--  deleteBatch操作按钮-->
+    <composite:attribute name="deleteTitle" default="#{msg['framework']['delete']}"/>
+    <composite:attribute name="deleteRendered" default="true"/>
+    <composite:attribute name="deleteMethod" method-signature="void deleteBatch()" default="#{controller.deleteBatch}"/>
+    <composite:attribute name="deleteUpdate" default="@form"/>
+    <composite:attribute name="deleteOncomplete" default=""/>
+
+
+</composite:interface>
+
+
+<composite:implementation>
+    <script>
+        function #{cc.attrs.widgetVar}_isSelected() {
+            let status = (PF('#{cc.attrs.widgetVar}').getSelectedRowsCount() > 0);
+            if (!status) {
+                PF('#{cc.attrs.widgetVar}_select_tips').show();
+            }
+            return status;
+        }
+
+        function #{cc.attrs.widgetVar}_checkDelete() {
+            let selected = #{cc.attrs.widgetVar}_isSelected();
+            if (selected) {
+                PF('#{cc.attrs.widgetVar}_delete_tips').show();
+            }
+            return selected;
+        }
+
+        function #{cc.attrs.widgetVar}_onRowClick() {
+            const count = PF('#{cc.attrs.widgetVar}').getSelectedRowsCount();
+            let msg = "#{msg['framework']['selectedRecord']}"
+            $('##{cc.attrs.widgetVar}\\:entityDataGrid\\:selectedRecordCount').html(msg.format(count))
+        }
+
+        function #{cc.attrs.widgetVar}_filtered() {
+            let value = $('##{cc.attrs.widgetVar}\\:filterInput').val()
+            $('##{cc.attrs.widgetVar}\\:entityDataGrid\\:filter').val(value)
+            PF('#{cc.attrs.widgetVar}').filter()
+        }
+    </script>
+    <h:outputStylesheet>
+        .ui-state-highlight a {
+            color: #ffffff !important;
+        }
+
+        .ui-my-toolbar {
+            border: #ffffff !important;
+            background: #ffffff !important;
+        }
+
+        .ui-paginator.ui-paginator-bottom {
+            border-top: 0 none;
+            display: flex;
+            justify-content: center;
+        }
+
+        .ui-paginator-jtp-input {
+            padding: 0px 6px !important;
+            height: 20px !important;
+            width: 50px !important;
+            vertical-align: middle !important;
+        }
+    </h:outputStylesheet>
+
+    <p:toolbar id="entityToolbar" styleClass="ui-my-toolbar">
+        <f:facet name="left">
+            <p:outputPanel rendered="#{cc.attrs.toolbarLeftSupport}" layout="inline">
+                <p:commandButton id="addBtn" widgetVar="#{cc.attrs.widgetVar}_addBtn" icon="fa fa-plus"
+                                 value="#{cc.attrs.addTitle}"
+                                 rendered="#{cc.attrs.addRendered}"
+                                 action="#{cc.attrs.addMethod}"
+                                 update="#{cc.attrs.addUpdate}"
+                                 oncomplete="#{cc.attrs.addOncomplete}"/>
+
+                <p:commandButton id="deleteBtn" widgetVar="#{cc.attrs.widgetVar}_deleteBtn" icon="fa fa-trash"
+                                 value="#{cc.attrs.deleteTitle}"
+                                 rendered="#{cc.attrs.deleteRendered}"
+                                 onclick="if(!#{cc.attrs.widgetVar}_checkDelete()) return false;"/>
+            </p:outputPanel>
+            <composite:renderFacet name="toolbar"/>
+        </f:facet>
+
+        <f:facet name="right">
+            <p:outputPanel rendered="#{cc.attrs.toolbarRightSupport}" layout="inline" styleClass="ui-inputgroup">
+                <p:inputText id="filterInput" style="width:150px"
+                             placeholder="#{msg['framework']['enterKeyword']}"/>
+                <p:commandButton id="searchBtn" type="button" icon="fa fa-search"
+                                 onclick="#{cc.attrs.widgetVar}_filtered()"/>
+
+                <p:commandButton id="refreshBtn" widgetVar="refreshBtn" icon="fa fa-refresh"
+                                 rendered="#{cc.attrs.refreshRendered}"
+                                 action="#{cc.attrs.refreshMethod}"
+                                 update="#{cc.attrs.refreshUpdate}"
+                                 oncomplete=""/>
+            </p:outputPanel>
+        </f:facet>
+    </p:toolbar>
+    <p:sticky target="entityToolbar" margin="50"/>
+    <p:blockUI block="entityDataGrid" trigger="entityDataGrid">
+        <p:graphicImage name="img/ajaxloadingbar.gif" library="custom"/>
+    </p:blockUI>
+    <p:dataGrid id="entityDataGrid"
+                rendered="#{cc.attrs.rendered}"
+                binding="#{cc.attrs.binding}"
+                value="#{cc.attrs.value}"
+                rows="#{cc.attrs.rows}"
+                first="#{cc.attrs.first}"
+                widgetVar="#{cc.attrs.widgetVar}"
+                columns="#{cc.attrs.columns}"
+                paginator="#{cc.attrs.paginator}"
+                paginatorTemplate="#{cc.attrs.paginatorTemplate}"
+                rowsPerPageTemplate="#{cc.attrs.rowsPerPageTemplate}"
+                currentPageReportTemplate="#{cc.attrs.currentPageReportTemplate}"
+                pageLinks="#{cc.attrs.pageLinks}"
+                paginatorPosition="#{cc.attrs.paginatorPosition}"
+                paginatorAlwaysVisible="#{cc.attrs.paginatorAlwaysVisible}"
+                style="#{cc.attrs.style}"
+                styleClass="#{cc.attrs.styleClass}"
+                rowIndexVar="#{cc.attrs.rowIndexVar}"
+                lazy="#{cc.attrs.lazy}"
+                emptyMessage="#{cc.attrs.emptyMessage}"
+                layout="#{cc.attrs.layout}"
+                multiViewState="#{cc.attrs.multiViewState}">
+        <c:set target="#{component}" property="var" value="#{cc.attrs.var}"/>
+
+
+        <composite:insertChildren/>
+
+    </p:dataGrid>
+
+
+</composite:implementation>
+
+</html>

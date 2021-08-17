@@ -1,0 +1,318 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fun="http://java.sun.com/jsp/jstl/functions"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+
+    <composite:attribute name="id" default="upload"/>
+    <composite:attribute name="accept"/>
+    <composite:attribute name="allowTypes" default="/(\.|\/)(gif|jpe?g|png)$/"/>
+    <composite:attribute name="auto" default="true"/>
+    <composite:attribute name="binding" default="#{uploadComponent}"/>
+    <composite:attribute name="cancelButtonTitle"/>
+    <composite:attribute name="cancelIcon" default="ui-icon-cancel"/>
+    <composite:attribute name="cancelLabel" default="#{msg['framework']['cancel']}"/>
+    <composite:attribute name="chooseButtonTitle"/>
+    <composite:attribute name="chooseIcon" default="ui-icon-plusthick"/>
+    <composite:attribute name="converter"/>
+    <composite:attribute name="converterMessage"/>
+    <composite:attribute name="disabled" default="false"/>
+    <composite:attribute name="dragDropSupport" default="true"/>
+    <composite:attribute name="fileLimit" default="10"/>
+    <composite:attribute name="fileLimitMessage" default="#{msg['framework']['maximumNumber']}"/>
+    <composite:attribute name="global" default="false"/>
+    <composite:attribute name="immediate" default="false"/>
+    <composite:attribute name="invalidFileMessage" default="#{msg['framework']['InvalidFileType']}"/>
+    <composite:attribute name="invalidSizeMessage" default="#{msg['framework']['InvalidFileSize']}"/>
+    <composite:attribute name="label" default="#{msg['framework']['pleaseChoose']}"/>
+    <composite:attribute name="listener" method-signature="void upload(org.primefaces.event.FileUploadEvent)"
+                         default="#{fileController.upload}"/>
+    <composite:attribute name="maxChunkSize" default="1000000"/>
+    <composite:attribute name="maxRetries" default="30"/>
+    <composite:attribute name="messageTemplate" default="{name} {size}"/>
+    <composite:attribute name="mode" default="advanced"/>
+    <composite:attribute name="multiple" default="false"/>
+    <composite:attribute name="onAdd"/>
+    <composite:attribute name="oncomplete" default="console.log('oncomplete')"/>
+    <composite:attribute name="onerror" default="console.log('onerror')"/>
+    <composite:attribute name="onstart" default="console.log('onstart')"/>
+    <composite:attribute name="onupload" default="console.log('onupload')"/>
+    <composite:attribute name="onvalidationfailure"/>
+    <composite:attribute name="previewWidth" default="80"/>
+    <composite:attribute name="process" default="@this"/>
+    <composite:attribute name="rendered" default="true"/>
+    <composite:attribute name="required" default="false"/>
+    <composite:attribute name="requiredMessage"/>
+    <composite:attribute name="retryTimeout" default="1000"/>
+    <composite:attribute name="sequential" default="true"/>
+    <composite:attribute name="sizeLimit" default="10485760"/>
+    <composite:attribute name="skinSimple" default="false"/>
+    <composite:attribute name="style"/>
+    <composite:attribute name="styleClass"/>
+    <composite:attribute name="title"/>
+    <composite:attribute name="update" default="@this"/>
+    <composite:attribute name="uploadButtonTitle"/>
+    <composite:attribute name="uploadIcon" default="ui-icon-arrowreturnthick-1-n"/>
+    <composite:attribute name="uploadLabel" default="#{msg['framework']['upload']}"/>
+    <composite:attribute name="validateContentType" default="false"/>
+    <composite:attribute name="validator"/>
+    <composite:attribute name="validatorMessage"/>
+    <composite:attribute name="value" required="true"/>
+    <composite:attribute name="valueChangeListener"/>
+    <composite:attribute name="virusScan" default="false"/>
+    <composite:attribute name="widgetVar" default="#{cc.clientId.replace(':','')}_upload"/>
+
+
+    <!--   custom-->
+    <composite:attribute name="previewSupported" default="true"/>
+    <composite:attribute name="max" default="#{cc.attrs.fileLimit}"/>
+
+    <composite:attribute name="remove" method-signature="void remove(javax.faces.event.ActionEvent)"
+                         default="#{fileController.remove}"/>
+    <composite:attribute name="removeOncomplete"/>
+    <composite:attribute name="removeSupported" default="true"/>
+
+
+    <composite:attribute name="sorting" method-signature="void sorting(javax.faces.event.ActionEvent)"
+                         default="#{fileController.sorting}"/>
+    <composite:attribute name="sortingOncomplete"/>
+    <composite:attribute name="sortingSupported" default="true"/>
+
+</composite:interface>
+
+<composite:implementation>
+    <h:outputStylesheet>
+        .el-upload-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .el-upload-list--picture-card {
+            margin: 0;
+            display: inline;
+            vertical-align: top;
+        }
+
+        .el-upload-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+            width: 100%;
+            height: 100%;
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item {
+            overflow: hidden;
+            background-color: #fff;
+            border-radius: 6px;
+            box-sizing: border-box;
+            width: 148px;
+            height: 148px;
+            margin: 0 8px 8px 0;
+            display: inline-block;
+        }
+
+        .el-upload-list__item {
+            transition: all .5s cubic-bezier(.55, 0, .1, 1);
+            font-size: 14px;
+            color: #606266;
+            line-height: 1.8;
+            margin-top: 5px;
+            position: relative;
+            box-sizing: border-box;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .el-upload--picture-card {
+            background-color: #fbfdff;
+            border: 1px dashed #c0ccda;
+            border-radius: 6px;
+            box-sizing: border-box;
+            width: 148px;
+            height: 148px;
+            cursor: pointer;
+            line-height: 146px;
+            vertical-align: top;
+        }
+
+        .el-upload {
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .el-upload-list__item-status-label {
+            position: absolute;
+            right: -15px;
+            top: -6px;
+            width: 40px;
+            height: 24px;
+            background: #13ce66;
+            text-align: center;
+            transform: rotate(45deg);
+            box-shadow: 0 0 1pc 1px rgba(0, 0, 0, .2);
+        }
+
+        .el-icon-check {
+            color: #fff;
+        }
+
+        .el-upload-list__item-status-label i {
+            font-size: 12px;
+            margin-top: 11px;
+            transform: rotate(-45deg);
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item-actions {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            cursor: default;
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, .5);
+            transition: opacity .3s;
+            line-height: 146px;
+        }
+
+
+        .el-upload-list__item-thumbnail:hover {
+            box-shadow: 0 0 8px 0 rgba(232, 237, 250, .6), 0 2px 4px 0 rgba(232, 237, 250, .5);
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item-actions:hover {
+            opacity: 1;
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item-actions a {
+            position: static;
+            font-size: 20px;;
+            color: inherit;
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item-actions a {
+            cursor: pointer;
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item-actions a + a {
+            margin-left: 15px;
+        }
+
+        .imagebox {
+            padding: 10px;
+            border-left: 1px solid #dee2e6;
+            border-right: 1px solid #dee2e6;
+        }
+
+
+    </h:outputStylesheet>
+
+    <p:outputPanel id="uploadPanel">
+        <p:fileUpload id="fileUpload"
+                      accept="#{cc.attrs.accept}"
+                      allowTypes="#{cc.attrs.allowTypes}"
+                      auto="#{cc.attrs.auto}"
+                      binding="#{cc.attrs.binding}"
+                      cancelButtonTitle="#{cc.attrs.cancelButtonTitle}"
+                      cancelIcon="#{cc.attrs.cancelIcon}"
+                      cancelLabel="#{cc.attrs.cancelLabel}"
+                      chooseButtonTitle="#{cc.attrs.chooseButtonTitle}"
+                      chooseIcon="#{cc.attrs.chooseIcon}"
+                      converter="#{cc.attrs.converter}"
+                      converterMessage="#{cc.attrs.converterMessage}"
+                      disabled="#{cc.attrs.disabled}"
+                      dragDropSupport="#{cc.attrs.dragDropSupport}"
+                      fileLimit="#{cc.attrs.fileLimit}"
+                      fileLimitMessage="#{cc.attrs.fileLimitMessage}"
+                      global="#{cc.attrs.global}"
+                      immediate="#{cc.attrs.immediate}"
+                      invalidFileMessage="#{cc.attrs.invalidFileMessage}"
+                      invalidSizeMessage="#{cc.attrs.invalidSizeMessage}"
+                      label="#{cc.attrs.label}"
+                      listener="#{cc.attrs.listener}"
+                      maxChunkSize="#{cc.attrs.maxChunkSize}"
+                      maxRetries="#{cc.attrs.maxRetries}"
+                      messageTemplate="#{cc.attrs.messageTemplate}"
+                      mode="#{cc.attrs.mode}"
+                      multiple="#{cc.attrs.multiple}"
+                      previewWidth="#{cc.attrs.previewWidth}"
+                      process="#{cc.attrs.process}"
+                      rendered="#{cc.attrs.rendered}"
+                      required="#{cc.attrs.required}"
+                      requiredMessage="#{cc.attrs.requiredMessage}"
+                      retryTimeout="#{cc.attrs.retryTimeout}"
+                      sequential="#{cc.attrs.sequential}"
+                      sizeLimit="#{cc.attrs.sizeLimit}"
+                      skinSimple="#{cc.attrs.skinSimple}"
+                      style="#{cc.attrs.style}"
+                      styleClass="#{cc.attrs.styleClass} #{cc.attrs.widgetVar}"
+                      title="#{cc.attrs.title}"
+                      update="imagebox, #{cc.attrs.update}"
+                      uploadButtonTitle="#{cc.attrs.uploadButtonTitle}"
+                      uploadIcon="#{cc.attrs.uploadIcon}"
+                      uploadLabel="#{cc.attrs.uploadLabel}"
+                      value="#{fileController.value}"
+                      validateContentType="#{cc.attrs.validateContentType}"
+                      validatorMessage="#{cc.attrs.validatorMessage}"
+                      virusScan="#{cc.attrs.virusScan}"
+                      widgetVar="#{cc.attrs.widgetVar}">
+
+            <c:set target="#{component}" property="onAdd" value="#{cc.attrs.onAdd}"/>
+            <c:set target="#{component}" property="oncomplete" value="#{cc.attrs.oncomplete}"/>
+            <c:set target="#{component}" property="onerror" value="#{cc.attrs.onerror}"/>
+            <c:set target="#{component}" property="onstart" value="#{cc.attrs.onstart}"/>
+            <c:set target="#{component}" property="onupload" value="#{cc.attrs.onupload}"/>
+            <c:set target="#{component}" property="onvalidationfailure" value="#{cc.attrs.onvalidationfailure}"/>
+
+            <p:outputPanel id="imagebox" styleClass="imagebox">
+                <ul class="el-upload-list el-upload-list--picture-card">
+                    <p:repeat value="#{cc.attrs.value}" var="item" varStatus="status">
+                        <li tabindex="#{status.index}" class="el-upload-list__item p-shadow-4">
+                            <p:graphicImage url="#{item}" class="el-upload-list__item-thumbnail"/>
+
+                            <p:outputPanel class="el-upload-list__item-actions">
+                                <p:commandLink id="sorting" title="#{msg['framework']['move']}"
+                                               update="@(.imagebox)" process="@this"
+                                               rendered="#{cc.attrs.sortingSupported}"
+                                               ncomplete="#{cc.attrs.sortingOncomplete}"
+                                               actionListener="#{cc.attrs.sorting}">
+                                    <f:param name="index" value="#{status.index}"/>
+                                    <i class="pi pi-arrow-left"/>
+                                </p:commandLink>
+
+                                <p:commandLink id="remove" title="#{msg['framework']['delete']}"
+                                               update="@(.imagebox)"
+                                               process="@this"
+                                               rendered="#{cc.attrs.removeSupported}"
+                                               oncomplete="#{cc.attrs.removeOncomplete}"
+                                               actionListener="#{cc.attrs.remove}">
+                                    <f:param name="index" value="#{status.index}"/>
+                                    <i class="pi pi-trash"/>
+                                </p:commandLink>
+                            </p:outputPanel>
+                        </li>
+                    </p:repeat>
+                </ul>
+            </p:outputPanel>
+
+        </p:fileUpload>
+
+
+    </p:outputPanel>
+
+</composite:implementation>
+</html>
