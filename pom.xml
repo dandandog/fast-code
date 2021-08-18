@@ -44,7 +44,6 @@
         <h2.version>1.4.200</h2.version>
         <mysql.version>8.0.21</mysql.version>
         <joinfaces.version>4.5.0</joinfaces.version>
-        <omega-theme.version>2.0.1</omega-theme.version>
 
         <weixin-java.version>3.9.0</weixin-java.version>
         <alipay-easysdk.versioin>2.1.2</alipay-easysdk.versioin>
@@ -200,11 +199,6 @@
                 <version>${joinfaces.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.primefaces.themes</groupId>
-                <artifactId>omega-theme</artifactId>
-                <version>${omega-theme.version}</version>
             </dependency>
             <!--faces end-->
 
@@ -565,4 +559,5 @@
             </plugins>
         </pluginManagement>
     </build>
+
 </project>
