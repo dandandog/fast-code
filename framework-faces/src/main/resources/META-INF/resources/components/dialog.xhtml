@@ -18,9 +18,9 @@
     <composite:attribute name="resizable" default="true"/>
     <composite:attribute name="modal" default="true"/>
     <composite:attribute name="visible" default="false"/>
-    <composite:attribute name="width" default="auto"/>
+    <composite:attribute name="width" default="700"/>
     <composite:attribute name="height" default="auto"/>
-    <composite:attribute name="minWidth" default="650"/>
+    <composite:attribute name="minWidth" default="700"/>
     <composite:attribute name="minHeight" default="150"/>
     <composite:attribute name="style"/>
     <composite:attribute name="styleClass" default=""/>
@@ -136,8 +136,8 @@
               my="#{cc.attrs.my}">
         <composite:insertFacet name="header"/>
 
-        <p:blockUI widgetVar="dailogBlock" block="contentPanel" trigger="saveButton">
-            <p:graphicImage name="images/dialogloading.gif" library="theme" width="100"/>
+        <p:blockUI widgetVar="dailogBlock" block="entityDialog" trigger="saveButton">
+            <p:graphicImage name="images/dialogloading.gif" library="common" width="100"/>
         </p:blockUI>
 
         <p:outputPanel id="contentPanel">

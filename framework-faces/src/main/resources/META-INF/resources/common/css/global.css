@@ -1,0 +1,53 @@
+.ui-blockui-content.ui-shadow {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.p-text-xs {
+    font-size: 0.75rem !important;
+}
+
+.p-text-sm {
+    font-size: 0.875rem !important;
+}
+
+.p-text-base {
+    font-size: 1rem !important;
+}
+
+.p-text-lg {
+    font-size: 1.125rem !important;
+}
+
+.p-text-xl {
+    font-size: 1.25rem !important;
+}
+
+.p-text-2xl {
+    font-size: 1.5rem !important;
+}
+
+.p-text-3xl {
+    font-size: 1.75rem !important;
+}
+
+.p-text-4xl {
+    font-size: 2rem !important;
+}
+
+.p-text-5xl {
+    font-size: 2.5rem !important;
+}
+
+.p-text-6xl {
+    font-size: 3rem !important;
+}
+
+.p-text-7xl {
+    font-size: 4rem !important;
+}
+
+.p-text-8xl {
+    font-size: 6rem !important;
+}

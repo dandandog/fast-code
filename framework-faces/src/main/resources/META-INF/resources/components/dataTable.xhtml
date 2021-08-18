@@ -225,42 +225,8 @@
 
     </script>
     <h:outputStylesheet>
-        .ui-toolbar {
-            border: 1px solid #edf0f5 !important;
-            background: #edf0f5 !important;
-            color: #495057;
-            padding-bottom: 1rem !important;
-            border-radius: 4px;
-        }
-
-        .datatable-title {
-            font-size: large !important;
-            display: flex !important;
-            align-items: center !important;
-        }
-
-        .datatable-row-grid {
-            padding: 10px;
-            background: white;
-        }
-
-        .ui-datatable .ui-g .ui-lg-1,
-        .ui-datatable .ui-g .ui-lg-2,
-        .ui-datatable .ui-g .ui-lg-3,
-        .ui-datatable .ui-g .ui-lg-4,
-        .ui-datatable .ui-g .ui-lg-5,
-        .ui-datatable .ui-g .ui-lg-6,
-        .ui-datatable .ui-g .ui-lg-7,
-        .ui-datatable .ui-g .ui-lg-8,
-        .ui-datatable .ui-g .ui-lg-9,
-        .ui-datatable .ui-g .ui-lg-10,
-        .ui-datatable .ui-g .ui-lg-11,
-        .ui-datatable .ui-g .ui-lg-12 {
-            padding: 0px;
-        }
-
-        .back-btn > a {
-            text-decoration: none;
+        .entity-block {
+            z-index: 100 !important;
         }
     </h:outputStylesheet>
 
@@ -301,8 +267,12 @@
         </f:facet>
     </p:toolbar>
     <p:sticky target="entityToolbar" margin="50"/>
-    <p:blockUI block="entityDataTable" trigger="entityDataTable">
-        <p:graphicImage name="images/ajaxloadingbar.gif" library="theme"/>
+    <p:blockUI block="entityDataTable" trigger="entityDataTable" styleClass="entity-block">
+        <p:graphicImage name="images/ajaxloadingbar.gif" library="common" style="left: 950px;
+            top: 500px;
+            z-index: 100;
+            display: block;
+            position: fixed;"/>
     </p:blockUI>
     <p:tooltip position="bottom"/>
     <p:dataTable id="entityDataTable"
@@ -400,13 +370,12 @@
         <p:ajax event="toggleSelect" oncomplete="#{cc.attrs.widgetVar}_onRowClick()" global="false"/>
         <f:facet name="header">
             <p:outputPanel styleClass="p-d-flex p-jc-between">
-                <p:outputPanel styleClass="p-text-bold datatable-title"
+                <p:outputPanel styleClass="p-text-bold p-text-xl"
                                rendered="#{cc.attrs.headText eq null}">
                     <composite:renderFacet name="header"/>
                 </p:outputPanel>
 
-
-                <h:outputText styleClass="p-text-bold datatable-title" rendered="#{cc.attrs.headText ne null}"
+                <h:outputText styleClass="p-text-bold p-text-xl" rendered="#{cc.attrs.headText ne null}"
                               value="#{cc.attrs.headText}"/>
 
                 <p:outputPanel layout="inline" styleClass="ui-inputgroup">
