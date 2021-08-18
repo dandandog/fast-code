@@ -268,7 +268,7 @@
     </p:toolbar>
     <p:sticky target="entityToolbar" margin="50"/>
     <p:blockUI block="entityDataTable" trigger="entityDataTable" styleClass="entity-block">
-        <p:graphicImage name="images/ajaxloadingbar.gif" library="common" style="left: 950px;
+        <p:graphicImage name="images/ajaxloadingbar.gif" library="framework" style="left: 950px;
             top: 500px;
             z-index: 100;
             display: block;
@@ -370,12 +370,12 @@
         <p:ajax event="toggleSelect" oncomplete="#{cc.attrs.widgetVar}_onRowClick()" global="false"/>
         <f:facet name="header">
             <p:outputPanel styleClass="p-d-flex p-jc-between">
-                <p:outputPanel styleClass="p-text-bold p-text-xl"
+                <p:outputPanel styleClass="p-text-bold p-text-xl p-ac-center"
                                rendered="#{cc.attrs.headText eq null}">
                     <composite:renderFacet name="header"/>
                 </p:outputPanel>
 
-                <h:outputText styleClass="p-text-bold p-text-xl" rendered="#{cc.attrs.headText ne null}"
+                <h:outputText styleClass="p-text-bold p-text-xl p-ac-center" rendered="#{cc.attrs.headText ne null}"
                               value="#{cc.attrs.headText}"/>
 
                 <p:outputPanel layout="inline" styleClass="ui-inputgroup">
