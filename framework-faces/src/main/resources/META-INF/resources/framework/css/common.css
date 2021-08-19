@@ -4,6 +4,11 @@
     box-shadow: none !important;
 }
 
+.ui-paginator {
+    display: flex;
+    align-items: center;
+}
+
 .p-text-xs {
     font-size: 0.75rem !important;
 }

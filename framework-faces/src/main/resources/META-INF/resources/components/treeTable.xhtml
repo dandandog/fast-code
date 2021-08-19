@@ -49,7 +49,7 @@
     <composite:attribute name="editingRow" default="false"/>
     <composite:attribute name="cellSeparator"/>
     <composite:attribute name="paginatorTemplate"
-                         default="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {JumpToPageInput}"/>
+                         default="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {JumpToPageDropdown}"/>
     <composite:attribute name="rowsPerPageTemplate"/>
     <composite:attribute name="currentPageReportTemplate"
                          default="#{msg['framework']['total']} {totalRecords} #{msg['framework']['record']} ({startRecord} - {endRecord})"/>
@@ -143,30 +143,6 @@
 
 
 <composite:implementation>
-    <h:outputStylesheet>
-        .ui-paginator-jtp-input {
-            width: 50px !important;
-        }
-
-        .ui-toolbar {
-            border: 1px solid #edf0f5 !important;
-            background: #edf0f5 !important;
-            color: #495057;
-            padding-bottom: 1rem !important;
-            border-radius: 4px;
-        }
-
-        .datatable-title {
-            font-size: large !important;
-            display: flex !important;
-            align-items: center !important;
-        }
-
-        .datatable-row-grid {
-            padding: 10px;
-            background: white;
-        }
-    </h:outputStylesheet>
     <script>
         String.prototype.format = function () {
             if (arguments.length == 0) return this;
@@ -298,13 +274,13 @@
 
         <f:facet name="header">
             <p:outputPanel styleClass="p-d-flex p-jc-between">
-                <p:outputPanel styleClass="p-text-bold"
+                <p:outputPanel styleClass="p-text-bold p-text-xl p-ac-center"
                                rendered="#{cc.attrs.headText eq null}">
                     <composite:renderFacet name="header"/>
                 </p:outputPanel>
 
 
-                <h:outputText styleClass="p-text-bold datatable-title" rendered="#{cc.attrs.headText ne null}"
+                <h:outputText styleClass="p-text-bold p-text-xl p-ac-center" rendered="#{cc.attrs.headText ne null}"
                               value="#{cc.attrs.headText}"/>
 
                 <p:outputPanel rendered="#{cc.attrs.enabledFilter}" layout="inline" styleClass="ui-inputgroup">

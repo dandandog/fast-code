@@ -48,10 +48,6 @@ public class FacesController {
     @Autowired
     private SessionScope sessionScope;
 
-    @Autowired
-    private MessageSource messageSource;
-
-
     public void onEntry() {
 
     }
@@ -169,34 +165,31 @@ public class FacesController {
         return getResponse().getLocale();
     }
 
-    public String getMessage(String code, Object... args) {
-        return MessageUtil.getMessageSource(code, args);
-    }
 
     public String getMessage(String prefix, String code, Object... args) {
         return MessageUtil.getMessageSource(prefix, code, args);
     }
 
-    protected void addMessages(String code, FacesMessage.Severity severity, Object... args) {
-        FacesMessage facesMessage = new FacesMessage(getMessage(code, args));
+    protected void addMessages(String prefix, String code, FacesMessage.Severity severity, Object... args) {
+        FacesMessage facesMessage = new FacesMessage(getMessage(prefix, code, args));
         facesMessage.setSeverity(severity);
         MessageUtil.addFacesMessage("messages", facesMessage);
     }
 
-    protected void infoMessages(String code, Object... args) {
-        this.addMessages(code, FacesMessage.SEVERITY_INFO, args);
+    protected void infoMessages(String prefix, String code, Object... args) {
+        this.addMessages(prefix, code, FacesMessage.SEVERITY_INFO, args);
     }
 
-    protected void warnMessages(String code, Object... args) {
-        this.addMessages(code, FacesMessage.SEVERITY_WARN, args);
+    protected void warnMessages(String prefix, String code, Object... args) {
+        this.addMessages(prefix, code, FacesMessage.SEVERITY_WARN, args);
     }
 
-    protected void errorMessages(String code, Object... args) {
-        this.addMessages(code, FacesMessage.SEVERITY_ERROR, args);
+    protected void errorMessages(String prefix, String code, Object... args) {
+        this.addMessages(prefix, code, FacesMessage.SEVERITY_ERROR, args);
     }
 
-    protected void fatalMessages(String code, Object... args) {
-        this.addMessages(code, FacesMessage.SEVERITY_FATAL, args);
+    protected void fatalMessages(String prefix, String code, Object... args) {
+        this.addMessages(prefix, code, FacesMessage.SEVERITY_FATAL, args);
     }
 
     protected Optional<String> getOptParams(String key) {

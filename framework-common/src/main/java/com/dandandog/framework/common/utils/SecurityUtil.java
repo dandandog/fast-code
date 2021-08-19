@@ -13,19 +13,22 @@ public class SecurityUtil {
 
     private static IAuthenticationFacade authenticationFacade;
 
-    @Autowired
+    @Autowired(required = false)
     public SecurityUtil(IAuthenticationFacade authenticationFacade) {
         SecurityUtil.authenticationFacade = authenticationFacade;
     }
 
+    public SecurityUtil() {
+
+    }
 
     public static String getUniqueId() {
-        return authenticationFacade.getUniqueId();
+        return authenticationFacade != null ? authenticationFacade.getUniqueId() : null;
     }
 
 
     public static boolean isLogin() {
-        return authenticationFacade.isLogin();
+        return authenticationFacade != null && authenticationFacade.isLogin();
     }
 
 }

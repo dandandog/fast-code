@@ -145,7 +145,7 @@
     </script>
     <p:blockUI block="editor" trigger="editor" widgetVar="blockUI">
         LOADING<br/>
-        <p:graphicImage name="img/ajaxloadingbar.gif" library="custom"/>
+        <p:graphicImage name="images/loading.gif" library="framework"/>
     </p:blockUI>
     <p:textEditor id="editor"
                   rendered="#{cc.attrs.rendered}"
@@ -219,7 +219,6 @@
             <span class="ql-formats">
                 <button class="ql-clean" onclick="PF('#{cc.attrs.widgetVar}').clear()"/>
             </span>
-
         </f:facet>
     </p:textEditor>
 </composite:implementation>

@@ -1,3 +1,3 @@
 $(document).scroll(function () {
-    $(".ui-selectonemenu-panel").hide()
+    $(".ui-input-overlay,.ui-overlaypanel").hide()
 })

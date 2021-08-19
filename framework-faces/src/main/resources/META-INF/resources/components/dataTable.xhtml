@@ -55,7 +55,7 @@
     <composite:attribute name="paginatorAlwaysVisible" default="true"/>
     <composite:attribute name="paginatorPosition" default="bottom"/>
     <composite:attribute name="paginatorTemplate"
-                         default="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {JumpToPageInput}"/>
+                         default="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {JumpToPageDropdown}"/>
     <composite:attribute name="reflow" default="true"/>
     <composite:attribute name="rendered" default="true"/>
     <composite:attribute name="renderEmptyFacets" default="false"/>
@@ -268,11 +268,7 @@
     </p:toolbar>
     <p:sticky target="entityToolbar" margin="50"/>
     <p:blockUI block="entityDataTable" trigger="entityDataTable" styleClass="entity-block">
-        <p:graphicImage name="images/ajaxloadingbar.gif" library="framework" style="left: 950px;
-            top: 500px;
-            z-index: 100;
-            display: block;
-            position: fixed;"/>
+        <p:graphicImage name="images/loading.gif" library="framework" width="100"/>
     </p:blockUI>
     <p:tooltip position="bottom"/>
     <p:dataTable id="entityDataTable"

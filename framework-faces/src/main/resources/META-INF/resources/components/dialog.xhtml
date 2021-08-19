@@ -137,12 +137,12 @@
         <composite:insertFacet name="header"/>
 
         <p:blockUI widgetVar="dailogBlock" block="entityDialog" trigger="saveButton">
-            <p:graphicImage name="images/dialogloading.gif" library="framework" width="100"/>
+            <p:graphicImage name="images/loading.gif" library="framework" width="100"/>
         </p:blockUI>
 
         <p:outputPanel id="contentPanel">
             <p:messages id="messages" styleClass="messages" forType="messages"
-                        forIgnores="globalMessageGrowl,globalMessageGrowl"
+                        forIgnores="globalMessageGrowl"
                         showDetail="true"/>
             <p:outputPanel rendered="#{!cc.attrs.saveDisabled}">
                 <p:outputPanel style="max-width: 1200px;margin: auto;"
