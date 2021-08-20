@@ -24,6 +24,19 @@
 
 
 <composite:implementation>
+    <h:outputStylesheet>
+        .framework-label.p-field {
+            margin-bottom: 0px !important;
+        }
+
+        .framework-label .ui-message-info,
+        .framework-label .ui-message-error,
+        .framework-label .ui-message-warn,
+        .framework-label .ui-message-fatal {
+            margin: 0px !important;
+            background: transparent !important;
+        }
+    </h:outputStylesheet>
     <h:outputScript>
         PrimeFaces.widgets['#{cc.attrs.widgetVar}'] = {
         show: function () {

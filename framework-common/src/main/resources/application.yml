@@ -19,16 +19,6 @@ spring:
       location: /opt/upload/tmp
       max-file-size: 10MB
       max-request-size: 100MB
-  datasource:
-    dynamic:
-      primary: master
-      strict: false
-      datasource:
-        master:
-          url: jdbc:h2:file:~/.fc/db/connect
-          driver-class-name: org.h2.Driver
-          username: admin
-          password: 123456
 #MyBatis
 mybatis-plus:
   # 启动时是否检查MyBatis XML文件是否存在
