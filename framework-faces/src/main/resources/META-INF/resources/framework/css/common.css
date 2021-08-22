@@ -4,6 +4,10 @@
     box-shadow: none !important;
 }
 
+.ui-outputlabel-rfi {
+    color: red;
+}
+
 .ui-paginator {
     display: flex;
     align-items: center;
