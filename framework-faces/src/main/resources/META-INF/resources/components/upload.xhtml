@@ -30,7 +30,7 @@
     <composite:attribute name="invalidSizeMessage" default="#{msg['framework']['InvalidFileSize']}"/>
     <composite:attribute name="label" default="#{msg['framework']['pleaseChoose']}"/>
     <composite:attribute name="listener" method-signature="void upload(org.primefaces.event.FileUploadEvent)"
-                         default="#{fileController.upload}"/>
+                         default="#{guestFileUpload.upload}"/>
     <composite:attribute name="maxChunkSize" default="1000000"/>
     <composite:attribute name="maxRetries" default="30"/>
     <composite:attribute name="messageTemplate" default="{name} {size}"/>
@@ -72,13 +72,13 @@
     <composite:attribute name="max" default="#{cc.attrs.fileLimit}"/>
 
     <composite:attribute name="remove" method-signature="void remove(javax.faces.event.ActionEvent)"
-                         default="#{fileController.remove}"/>
+                         default="#{guestFileUpload.remove}"/>
     <composite:attribute name="removeOncomplete"/>
     <composite:attribute name="removeSupported" default="true"/>
 
 
     <composite:attribute name="sorting" method-signature="void sorting(javax.faces.event.ActionEvent)"
-                         default="#{fileController.sorting}"/>
+                         default="#{guestFileUpload.sorting}"/>
     <composite:attribute name="sortingOncomplete"/>
     <composite:attribute name="sortingSupported" default="true"/>
 
@@ -265,7 +265,7 @@
                       uploadButtonTitle="#{cc.attrs.uploadButtonTitle}"
                       uploadIcon="#{cc.attrs.uploadIcon}"
                       uploadLabel="#{cc.attrs.uploadLabel}"
-                      value="#{fileController.value}"
+                      value="#{guestFileUpload.value}"
                       validateContentType="#{cc.attrs.validateContentType}"
                       validatorMessage="#{cc.attrs.validatorMessage}"
                       virusScan="#{cc.attrs.virusScan}"
