@@ -50,7 +50,8 @@
 
     <p:outputPanel id="labelPanel" styleClass="framework-label p-field #{cc.attrs.styleClass} ">
         <p:outputLabel for="#{cc.attrs.target?cc.attrs.target:'@next'}" value="#{cc.attrs.value}"
-                       style="line-height: 30px; display: block" indicateRequired="#{cc.attrs.indicateRequired}"/>
+                       style="line-height: 30px; display: block; padding-left: 0.8em;"
+                       indicateRequired="#{cc.attrs.indicateRequired}"/>
         <composite:insertChildren/>
         <small id="message">
             <p:message for="#{cc.attrs.target?cc.attrs.target:'@previous'}"
