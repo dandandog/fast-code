@@ -5,6 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
+ * 京东订单包含子订单
  * @Author: StephenZhang
  * @date: 2021-07-23 14:48
  */
