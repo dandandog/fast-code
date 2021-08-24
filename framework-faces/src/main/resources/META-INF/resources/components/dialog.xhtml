@@ -136,7 +136,7 @@
               my="#{cc.attrs.my}">
         <composite:insertFacet name="header"/>
 
-        <p:blockUI widgetVar="dailogBlock" block="entityDialog" trigger="saveButton">
+        <p:blockUI widgetVar="dailogBlock" block="entityDialog" trigger="@(.ui-commandlink),@(.ui-button)">
             <p:graphicImage name="images/loading.gif" library="framework" width="100"/>
         </p:blockUI>
 
