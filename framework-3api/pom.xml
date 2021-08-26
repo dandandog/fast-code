@@ -28,6 +28,10 @@
             <artifactId>fastjson</artifactId>
         </dependency>
         <dependency>
+            <groupId>aop.sdk</groupId>
+            <artifactId>message</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.jd</groupId>
             <artifactId>open-api-sdk</artifactId>
         </dependency>

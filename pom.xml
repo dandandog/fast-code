@@ -73,6 +73,7 @@
 
         <ocean-client-java-biz.version>1.0-SNAPSHOT</ocean-client-java-biz.version>
         <com-alibaba-fast-json.version>1.2.48</com-alibaba-fast-json.version>
+        <aop-sdk-message.version>0.9.0</aop-sdk-message.version>
         <com-jd-open-api-sdk.version>2.0</com-jd-open-api-sdk.version>
         <jackson-asl.version>1.9.2</jackson-asl.version>
         <tiny-pinyin.version>2.0.3.RELEASE</tiny-pinyin.version>
@@ -230,6 +231,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${com-alibaba-fast-json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>aop.sdk</groupId>
+                <artifactId>message</artifactId>
+                <version>${aop-sdk-message.version}</version>
             </dependency>
             <!--ali api end-->
 
