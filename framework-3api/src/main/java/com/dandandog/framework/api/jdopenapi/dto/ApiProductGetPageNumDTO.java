@@ -7,7 +7,7 @@ import lombok.Data;
  * @Date: 2021/7/21 15:53
  */
 @Data
-public class ApiProductGetPageNumDTO {
+public class ApiProductGetPageNumDTO extends ResultDTO {
 
     private String name;
 

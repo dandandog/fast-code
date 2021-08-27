@@ -1,4 +1,4 @@
-package com.dandandog.framework.faces.model;
+package com.dandandog.framework.faces.adapter;
 
 import cn.hutool.db.PageResult;
 import com.dandandog.framework.common.model.IEntity;
@@ -22,41 +22,41 @@ public class PageDataModel<T extends IEntity> extends LazyDataModel<T> {
     private IPageAdapter<T> adapter;
 
     private static class InnerDataModel {
-        private final static Map<Integer, Object> DATA_MODEL_MAP = new ConcurrentHashMap<>();
+        private final static Map<Object, PageDataModel<?>> DATA_MODEL_MAP = new ConcurrentHashMap<>();
 
-        private static <T extends IEntity> PageDataModel<T> get(Integer key) {
-            return (PageDataModel) DATA_MODEL_MAP.get(key);
+        private static PageDataModel<?> get(Object key) {
+            return DATA_MODEL_MAP.get(key);
         }
 
-        private static boolean containsKey(Integer key) {
+        private static boolean containsKey(Object key) {
             return DATA_MODEL_MAP.containsKey(key);
         }
 
-        public static <T extends IEntity> void put(Integer key, PageDataModel<T> pageVoModel) {
+        public static void put(Object key, PageDataModel<?> pageVoModel) {
             DATA_MODEL_MAP.put(key, pageVoModel);
         }
 
     }
 
     public static <T extends IEntity> PageDataModel<T> getInstance(IPageAdapter<T> adapter) {
-        if (!InnerDataModel.containsKey(adapter.hashCode())) {
-            InnerDataModel.put(adapter.hashCode(), new PageDataModel<>());
+        if (!InnerDataModel.containsKey(adapter.getKey())) {
+            InnerDataModel.put(adapter.getKey(), new PageDataModel<>());
         }
-        PageDataModel<T> pageDataModel = InnerDataModel.get(adapter.hashCode());
+        PageDataModel<T> pageDataModel = (PageDataModel<T>) InnerDataModel.get(adapter.getClass());
         pageDataModel.setAdapter(adapter);
         return pageDataModel;
+    }
+
+    private int getPage(int first, int pageSize) {
+        int pageNum = (pageSize > 0) ? (first / pageSize) : 0;
+        return pageNum + 1;
     }
 
     @Override
     public List<T> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
         PageResult<T> result = adapter.queryPage(getPage(first, pageSize), pageSize, sortBy, filterBy);
         this.setRowCount(result.getTotal());
-        return result;
-    }
-
-    private int getPage(int first, int pageSize) {
-        int pageNum = (pageSize > 0) ? (first / pageSize) : 0;
-        return pageNum + 1;
+        return adapter.resultPage(result);
     }
 
     @Override
@@ -68,5 +68,6 @@ public class PageDataModel<T extends IEntity> extends LazyDataModel<T> {
     public String getRowKey(T object) {
         return object.getId();
     }
+
 
 }

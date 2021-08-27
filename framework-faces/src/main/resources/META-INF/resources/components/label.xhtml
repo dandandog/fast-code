@@ -39,6 +39,7 @@
     </h:outputStylesheet>
     <h:outputScript>
         PrimeFaces.widgets['#{cc.attrs.widgetVar}'] = {
+        cfg:{widgetVar:"#{cc.attrs.widgetVar}"},
         show: function () {
         $('#' + '#{cc.clientId}:labelPanel'.replace(/:/g, "\\:")).show();
         },
