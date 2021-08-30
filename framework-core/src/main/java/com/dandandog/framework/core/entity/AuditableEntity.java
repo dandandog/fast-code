@@ -16,16 +16,16 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class AuditableEntity extends AbstractEntity {
 
-    @TableField(value = "creator", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     protected String creator;
 
-    @TableField(value = "created_time", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     protected LocalDateTime createdTime;
 
-    @TableField(value = "operator", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     protected String operator;
 
-    @TableField(value = "operated_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime operatedTime;
 
 }

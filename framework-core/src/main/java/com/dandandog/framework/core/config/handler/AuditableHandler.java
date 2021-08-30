@@ -1,5 +1,6 @@
 package com.dandandog.framework.core.config.handler;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.dandandog.framework.common.utils.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +26,10 @@ public class AuditableHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "operator", SecurityUtil::getUniqueId, String.class);
-        this.strictInsertFill(metaObject, "operatedTime", LocalDateTime::now, LocalDateTime.class);
+        log.debug("operator: " + SecurityUtil.getUniqueId());
+        this.strictUpdateFill(metaObject, "operator", String.class, SecurityUtil.getUniqueId());
+        log.debug("operated time: " + LocalDateTimeUtil.format(LocalDateTime.now(), "yyyy/MM/dd HH:mm:ss"));
+        this.strictUpdateFill(metaObject, "operatedTime", LocalDateTime.class, LocalDateTime.now());
     }
 
 }

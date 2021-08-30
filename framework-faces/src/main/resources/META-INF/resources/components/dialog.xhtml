@@ -135,10 +135,6 @@
               blockScroll="#{cc.attrs.blockScroll}"
               my="#{cc.attrs.my}">
         <composite:insertFacet name="header"/>
-
-        <p:blockUI widgetVar="dailogBlock" block="entityDialog" trigger="@(.ui-commandlink),@(.ui-button)">
-            <p:graphicImage name="images/loading.gif" library="framework" width="100"/>
-        </p:blockUI>
         <p:messages id="messages" styleClass="messages" forType="messages"
                     forIgnores="globalMessageGrowl"
                     showDetail="true">

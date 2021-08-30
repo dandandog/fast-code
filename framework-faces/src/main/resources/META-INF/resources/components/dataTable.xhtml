@@ -224,12 +224,6 @@
         }
 
     </script>
-    <h:outputStylesheet>
-        .entity-block {
-            z-index: 100 !important;
-        }
-    </h:outputStylesheet>
-
     <p:toolbar id="entityToolbar" styleClass="ui-my-toolbar" style="border: unset;">
         <f:facet name="left">
             <p:outputPanel rendered="#{cc.attrs.enabledToolbar}" layout="inline">
@@ -267,10 +261,7 @@
         </f:facet>
     </p:toolbar>
     <p:sticky target="entityToolbar" margin="50"/>
-    <p:blockUI block="entityDataTable" trigger="entityDataTable" styleClass="entity-block">
-        <p:graphicImage name="images/loading.gif" library="framework" width="100"/>
-    </p:blockUI>
-    <p:tooltip position="bottom"/>
+    <p:tooltip trackMouse="true"/>
     <p:dataTable id="entityDataTable"
                  allowUnsorting="#{cc.attrs.allowUnsorting}"
                  ariaRowLabel="#{cc.attrs.ariaRowLabel}"
