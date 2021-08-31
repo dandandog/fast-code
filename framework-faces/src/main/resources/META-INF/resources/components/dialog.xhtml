@@ -136,8 +136,7 @@
               my="#{cc.attrs.my}">
         <composite:insertFacet name="header"/>
         <p:messages id="messages" styleClass="messages" forType="messages"
-                    forIgnores="globalMessageGrowl"
-                    showDetail="true">
+                    showDetail="true" showSummary="true" globalOnly="true">
             <p:autoUpdate/>
         </p:messages>
         <p:outputPanel id="contentPanel">
