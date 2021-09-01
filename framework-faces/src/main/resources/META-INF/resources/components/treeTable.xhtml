@@ -202,10 +202,7 @@
         </f:facet>
     </p:toolbar>
     <p:sticky target="entityToolbar" margin="50"/>
-    <p:blockUI block="entityTreeTable" trigger="entityTreeTable">
-        <p:graphicImage name="img/ajaxloadingbar.gif" library="custom"/>
-    </p:blockUI>
-    <p:tooltip position="bottom"/>
+    <p:tooltip trackMouse="true"/>
     <p:treeTable id="entityTreeTable"
                  filterDelay="#{cc.attrs.filterDelay}"
                  cellEditMode="#{cc.attrs.cellEditMode}"
@@ -216,7 +213,7 @@
                  binding="#{cc.attrs.binding}"
                  value="#{cc.attrs.value}"
                  var="#{cc.attrs.var}"
-                 widgetVar="#{cc.attrs.widgetVar}"
+                 rwidgetVar="#{cc.attrs.widgetVar}"
                  style="#{cc.attrs.style}"
                  selection="#{cc.attrs.multipleSelection}"
                  styleClass="#{cc.attrs.styleClass} #{cc.attrs.widgetVar} content"
