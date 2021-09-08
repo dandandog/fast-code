@@ -302,7 +302,7 @@
             <composite:renderFacet name="options"/>
 
             <p:commandButton id="editBtn" icon="pi pi-pencil" process="@this"
-                             styleClass="rounded-button ui-button-success p-mr-2 p-mb-2"
+                             styleClass="rounded-button ui-button-success p-mr-2"
                              title="#{cc.attrs.editTitle}"
                              rendered="#{cc.attrs.editSupported}"
                              action="#{cc.attrs.editMethod}"
@@ -311,7 +311,7 @@
                 <f:setPropertyActionListener value="#{element}" target="#{cc.attrs.singleSelection}"/>
             </p:commandButton>
             <p:commandButton id="delBtn" icon="pi pi-trash" process="@this"
-                             styleClass="ui-button-warning rounded-button p-mr-2 p-mb-2"
+                             styleClass="ui-button-warning rounded-button p-mr-2"
                              title="#{cc.attrs.deleteTitle}"
                              rendered="#{cc.attrs.deleteSupported}"
                              action="#{cc.attrs.deleteMethod}"
