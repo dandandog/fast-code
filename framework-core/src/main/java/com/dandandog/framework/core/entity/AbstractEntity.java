@@ -1,15 +1,14 @@
 package com.dandandog.framework.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author JohnnyLiu
  */
-
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public abstract class AbstractEntity extends BaseEntity {
 
     @TableLogic

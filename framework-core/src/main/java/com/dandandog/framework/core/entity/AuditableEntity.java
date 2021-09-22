@@ -2,8 +2,8 @@ package com.dandandog.framework.core.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
  *
  * @author JohnnyLiu
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class AuditableEntity extends AbstractEntity {
 
     @TableField(fill = FieldFill.INSERT)

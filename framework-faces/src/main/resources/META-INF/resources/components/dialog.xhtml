@@ -81,7 +81,7 @@
                          default="PF('#{cc.attrs.widgetVar}').hide();"/>
 
     <!-- other attrs -->
-    <composite:attribute name="dialogContentStyleClass" default="ui-fluid p-formgrid p-grid"/>
+    <composite:attribute name="contentStyleClass" default="ui-fluid p-formgrid p-grid"/>
     <composite:attribute name="showMessages" default="true"/>
 
 
@@ -142,7 +142,7 @@
         <p:outputPanel id="contentPanel">
             <p:outputPanel rendered="#{!cc.attrs.saveDisabled}">
                 <p:outputPanel style="max-width: 1200px;margin: auto;"
-                               styleClass="#{cc.attrs.dialogContentStyleClass}">
+                               styleClass="#{cc.attrs.contentStyleClass}">
                     <composite:insertChildren/>
                 </p:outputPanel>
             </p:outputPanel>

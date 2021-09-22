@@ -10,7 +10,7 @@
 
     <composite:attribute name="id" default="upload"/>
     <composite:attribute name="accept"/>
-    <composite:attribute name="allowTypes" default="/(\.|\/)(gif|jpe?g|png)$/"/>
+    <composite:attribute name="allowTypes" default="null"/>
     <composite:attribute name="auto" default="true"/>
     <composite:attribute name="binding" default="#{uploadComponent}"/>
     <composite:attribute name="cancelButtonTitle"/>
@@ -26,8 +26,8 @@
     <composite:attribute name="fileLimitMessage" default="#{msg['framework']['maximumNumber']}"/>
     <composite:attribute name="global" default="false"/>
     <composite:attribute name="immediate" default="false"/>
-    <composite:attribute name="invalidFileMessage" default="#{msg['framework']['InvalidFileType']}"/>
-    <composite:attribute name="invalidSizeMessage" default="#{msg['framework']['InvalidFileSize']}"/>
+    <composite:attribute name="invalidFileMessage" default="#{msg['framework']['invalidFileType']}"/>
+    <composite:attribute name="invalidSizeMessage" default="#{msg['framework']['invalidFileSize']}"/>
     <composite:attribute name="label" default="#{msg['framework']['pleaseChoose']}"/>
     <composite:attribute name="listener" method-signature="void upload(org.primefaces.event.FileUploadEvent)"
                          default="#{guestFileUpload.upload}"/>
@@ -65,6 +65,8 @@
     <composite:attribute name="valueChangeListener"/>
     <composite:attribute name="virusScan" default="false"/>
     <composite:attribute name="widgetVar" default="#{cc.clientId.replace(':','')}_upload"/>
+
+    <composite:attribute name="layout" default="default"/>
 
 
     <!--   custom-->
@@ -279,39 +281,43 @@
             <c:set target="#{component}" property="onvalidationfailure" value="#{cc.attrs.onvalidationfailure}"/>
 
             <p:outputPanel id="imagebox" styleClass="imagebox">
-                <ul class="el-upload-list el-upload-list--picture-card">
-                    <p:repeat value="#{cc.attrs.value}" var="item" varStatus="status">
-                        <li tabindex="#{status.index}" class="el-upload-list__item p-shadow-4">
-                            <p:graphicImage url="#{item}" class="el-upload-list__item-thumbnail"/>
+                <p:outputPanel rendered="#{cc.attrs.layout eq 'default'}">
+                    <ul class="el-upload-list el-upload-list--picture-card">
+                        <p:repeat value="#{cc.attrs.value}" var="item" varStatus="status">
+                            <li tabindex="#{status.index}" class="el-upload-list__item p-shadow-4">
+                                <p:graphicImage url="#{item}" class="el-upload-list__item-thumbnail"/>
 
-                            <p:outputPanel class="el-upload-list__item-actions">
-                                <p:commandLink id="sorting" title="#{msg['framework']['move']}"
-                                               update="@(.imagebox)" process="@this"
-                                               rendered="#{cc.attrs.sortingSupported}"
-                                               ncomplete="#{cc.attrs.sortingOncomplete}"
-                                               actionListener="#{cc.attrs.sorting}">
-                                    <f:param name="index" value="#{status.index}"/>
-                                    <i class="pi pi-arrow-left"/>
-                                </p:commandLink>
+                                <p:outputPanel class="el-upload-list__item-actions">
+                                    <p:commandLink id="sorting" title="#{msg['framework']['move']}"
+                                                   update="@(.imagebox)" process="@this"
+                                                   rendered="#{cc.attrs.sortingSupported}"
+                                                   ncomplete="#{cc.attrs.sortingOncomplete}"
+                                                   actionListener="#{cc.attrs.sorting}">
+                                        <f:param name="index" value="#{status.index}"/>
+                                        <i class="pi pi-arrow-left"/>
+                                    </p:commandLink>
 
-                                <p:commandLink id="remove" title="#{msg['framework']['delete']}"
-                                               update="@(.imagebox)"
-                                               process="@this"
-                                               rendered="#{cc.attrs.removeSupported}"
-                                               oncomplete="#{cc.attrs.removeOncomplete}"
-                                               actionListener="#{cc.attrs.remove}">
-                                    <f:param name="index" value="#{status.index}"/>
-                                    <i class="pi pi-trash"/>
-                                </p:commandLink>
-                            </p:outputPanel>
-                        </li>
+                                    <p:commandLink id="remove" title="#{msg['framework']['delete']}"
+                                                   update="@(.imagebox)"
+                                                   process="@this"
+                                                   rendered="#{cc.attrs.removeSupported}"
+                                                   oncomplete="#{cc.attrs.removeOncomplete}"
+                                                   actionListener="#{cc.attrs.remove}">
+                                        <f:param name="index" value="#{status.index}"/>
+                                        <i class="pi pi-trash"/>
+                                    </p:commandLink>
+                                </p:outputPanel>
+                            </li>
+                        </p:repeat>
+                    </ul>
+                </p:outputPanel>
+                <p:outputPanel rendered="#{cc.attrs.layout eq 'custom'}">
+                    <p:repeat value="#{cc.attrs.value}" var="element" varStatus="status">
+                        <composite:insertChildren/>
                     </p:repeat>
-                </ul>
+                </p:outputPanel>
             </p:outputPanel>
-
         </p:fileUpload>
-
-
     </p:outputPanel>
 
 </composite:implementation>
