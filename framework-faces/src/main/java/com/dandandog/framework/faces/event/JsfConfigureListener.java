@@ -19,23 +19,24 @@ import java.util.Locale;
 public class JsfConfigureListener extends ConfigureListener {
 
 
-	@Override
-	public void contextInitialized(ServletContextEvent sce) {
-		super.contextInitialized(sce);
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        super.contextInitialized(sce);
 
-		ApplicationFactory appFactory = (ApplicationFactory) FactoryFinder
-				.getFactory(FactoryFinder.APPLICATION_FACTORY);
-		Application app = appFactory.getApplication();
-		app.addELResolver(new SpringBeanFacesELResolver());
-		app.addELResolver(new FacesControllerELResolver());
-		app.addELResolver(new PlatformMessageSourceELResolver());
-		app.setDefaultLocale(new Locale("zh_CN"));
+        ApplicationFactory appFactory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+        Application app = appFactory.getApplication();
+        app.setMessageBundle("jsf-messages");
+        app.addELResolver(new SpringBeanFacesELResolver());
+        app.addELResolver(new FacesControllerELResolver());
+        app.addELResolver(new PlatformMessageSourceELResolver());
+        app.setDefaultLocale(new Locale("zh_CN"));
 
-		// Lifecycle
-		LifecycleFactory lifeFactory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
-		Lifecycle lifecycle = lifeFactory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
-		lifecycle.addPhaseListener(new ControllerPhaseListener());
+        // Lifecycle
+        LifecycleFactory lifeFactory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
+        Lifecycle lifecycle = lifeFactory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
+        lifecycle.addPhaseListener(new ControllerPhaseListener());
+        lifecycle.addPhaseListener(new LocalePhaseListener());
 
-	}
+    }
 
 }

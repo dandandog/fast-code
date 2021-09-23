@@ -97,7 +97,8 @@
             }
         }
     </script>
-
+    <p:hotkey bind="enter" handler="PF('saveButton').jq.click()"/>
+    <p:hotkey bind="esc" handler="PF('cancelButton').jq.click()"/>
     <p:dialog id="entityDialog"
               rendered="#{cc.attrs.rendered}"
               binding="#{cc.attrs.binding}"
@@ -148,11 +149,11 @@
             </p:outputPanel>
         </p:outputPanel>
 
-
         <f:facet name="footer">
             <composite:renderFacet name="button"/>
             <p:outputPanel rendered="#{cc.attrs.saveSupported}" layout="inline">
-                <p:commandButton id="saveButton" styleClass="entity-dialog-save-btn" icon="pi pi-check"
+                <p:commandButton id="saveButton" widgetVar="saveButton" styleClass="entity-dialog-save-btn"
+                                 icon="pi pi-check"
                                  process="@form" validateClient="true"
                                  value="#{cc.attrs.saveButtonText}"
                                  action="#{cc.attrs.saveMethod}"
@@ -161,7 +162,8 @@
                                  oncomplete="#{cc.attrs.widgetVar}_handleComplete(xhr, status, args); #{cc.attrs.saveComplete}"/>
             </p:outputPanel>
             <p:outputPanel rendered="#{cc.attrs.cancelSupported}" layout="inline">
-                <p:commandButton id="cancelButton" styleClass="entity-dialog-cancel-btn ui-button-secondary"
+                <p:commandButton id="cancelButton" widgetVar="cancelButton"
+                                 styleClass="entity-dialog-cancel-btn ui-button-secondary"
                                  icon="pi pi-times" process="@this" immediate="true"
                                  value="#{cc.attrs.cancelButtonText}"
                                  action="#{cc.attrs.cancelMethod}"
