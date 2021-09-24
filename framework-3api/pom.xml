@@ -13,35 +13,45 @@
     <packaging>jar</packaging>
     <name>fastcode :: framework :: 3api</name>
 
+    <properties>
+        <ocean-client-java-biz.version>1.0-SNAPSHOT</ocean-client-java-biz.version>
+        <aop-sdk-message.version>0.9.0</aop-sdk-message.version>
+        <com-alibaba-fast-json.version>1.2.48</com-alibaba-fast-json.version>
+        <com-jd-open-api-sdk.version>2.0</com-jd-open-api-sdk.version>
+        <jackson-asl.version>1.9.2</jackson-asl.version>
+    </properties>
+
 
     <dependencies>
         <dependency>
-            <groupId>com.dandandog.fastcode</groupId>
-            <artifactId>framework-common</artifactId>
-        </dependency>
-        <dependency>
             <groupId>ocean.client</groupId>
             <artifactId>java-biz</artifactId>
+            <version>${ocean-client-java-biz.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
+            <version>${com-alibaba-fast-json.version}</version>
         </dependency>
         <dependency>
             <groupId>aop.sdk</groupId>
             <artifactId>message</artifactId>
+            <version>${aop-sdk-message.version}</version>
         </dependency>
         <dependency>
             <groupId>com.jd</groupId>
             <artifactId>open-api-sdk</artifactId>
+            <version>${com-jd-open-api-sdk.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
+            <version>${jackson-asl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
+            <version>${jackson-asl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

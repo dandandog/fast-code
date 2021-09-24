@@ -65,18 +65,12 @@
         <minio.version>7.1.4</minio.version>
         <snakeyaml.version>1.29</snakeyaml.version>
         <jstl.version>1.2</jstl.version>
+        <tiny-pinyin.version>2.0.3.RELEASE</tiny-pinyin.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-war-plugin.version>2.2</maven-war-plugin.version>
         <maven-versions-plugin.version>2.2</maven-versions-plugin.version>
-
-        <ocean-client-java-biz.version>1.0-SNAPSHOT</ocean-client-java-biz.version>
-        <com-alibaba-fast-json.version>1.2.48</com-alibaba-fast-json.version>
-        <aop-sdk-message.version>0.9.0</aop-sdk-message.version>
-        <com-jd-open-api-sdk.version>2.0</com-jd-open-api-sdk.version>
-        <jackson-asl.version>1.9.2</jackson-asl.version>
-        <tiny-pinyin.version>2.0.3.RELEASE</tiny-pinyin.version>
     </properties>
 
     <dependencyManagement>
@@ -222,40 +216,8 @@
                 <artifactId>alipay-easysdk</artifactId>
                 <version>${alipay-easysdk.versioin}</version>
             </dependency>
-            <dependency>
-                <groupId>ocean.client</groupId>
-                <artifactId>java-biz</artifactId>
-                <version>${ocean-client-java-biz.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${com-alibaba-fast-json.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>aop.sdk</groupId>
-                <artifactId>message</artifactId>
-                <version>${aop-sdk-message.version}</version>
-            </dependency>
-            <!--ali api end-->
 
-            <!-- jd api start-->
-            <dependency>
-                <groupId>com.jd</groupId>
-                <artifactId>open-api-sdk</artifactId>
-                <version>${com-jd-open-api-sdk.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>${jackson-asl.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>${jackson-asl.version}</version>
-            </dependency>
-            <!-- jd api end-->
+            <!--ali api end-->
 
             <!-- jwt start-->
             <dependency>
