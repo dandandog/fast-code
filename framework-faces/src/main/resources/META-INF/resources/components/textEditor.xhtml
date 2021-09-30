@@ -40,8 +40,9 @@
 
 <composite:implementation>
 
+
+    <h:outputScript library="highlight" name="highlight.min.js"/>
     <h:outputScript library="textEditor" name="quill.htmlEditButton.min.js"/>
-    <h:outputScript library="textEditor" name="highlight.js"/>
     <h:outputScript library="textEditor" name="textEditor.js"/>
 
     <h:outputStylesheet>
@@ -72,13 +73,18 @@
 
 
     <script>
-        Quill.register("modules/htmlEditButton", htmlEditButton);
+        hljs.configure({   // optionally configure hljs
+            languages: ['java', 'javascript', 'ruby', 'python', 'xml']
+        });
 
+
+        Quill.register("modules/htmlEditButton", htmlEditButton);
         PrimeFaces.widget.TextEditor = PrimeFaces.widget.TextEditor.extend({
             init: function (cfg) {
                 this._super(cfg);
                 cfg.modules = {
                     htmlEditButton: {
+                        syntax: true,
                         buttonHTML: "&lt;i style='font-size: large;font-weight: bold;' class='fa fa-code' aria-hidden='true'/&gt;",
                     },
                 }

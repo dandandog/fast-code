@@ -1,10 +1,7 @@
 package com.dandandog.framework.api.jdopenapi.api;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.map.MapBuilder;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
@@ -20,10 +17,8 @@ import com.dandandog.framework.api.jdopenapi.result.Oauth2AccessTokenResult;
 import com.dandandog.framework.api.jdopenapi.result.Oauth2RefreshTokenResult;
 import com.dandandog.framework.api.jdopenapi.utils.HttpUtil;
 import com.dandandog.framework.api.jdopenapi.utils.MD5Util;
-import com.google.common.collect.Maps;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
