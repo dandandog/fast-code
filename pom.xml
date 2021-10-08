@@ -44,6 +44,7 @@
         <h2.version>1.4.200</h2.version>
         <mysql.version>8.0.21</mysql.version>
         <joinfaces.version>4.5.0</joinfaces.version>
+        <primeflex.version>3.0.1</primeflex.version>
         <weixin-java.version>3.9.0</weixin-java.version>
         <alipay-easysdk.versioin>2.1.2</alipay-easysdk.versioin>
 
@@ -195,6 +196,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.webjars.npm</groupId>
+                <artifactId>primeflex</artifactId>
+                <version>${primeflex.version}</version>
+            </dependency>
+
             <!--faces end-->
 
             <!-- wechat api start-->
