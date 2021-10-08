@@ -29,7 +29,7 @@ public class JsfConfigureListener extends ConfigureListener {
         app.addELResolver(new SpringBeanFacesELResolver());
         app.addELResolver(new FacesControllerELResolver());
         app.addELResolver(new PlatformMessageSourceELResolver());
-        app.setDefaultLocale(new Locale("zh_CN"));
+        app.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
 
         // Lifecycle
         LifecycleFactory lifeFactory = (LifecycleFactory) FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
