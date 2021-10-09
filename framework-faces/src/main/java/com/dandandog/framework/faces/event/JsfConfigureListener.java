@@ -1,5 +1,6 @@
 package com.dandandog.framework.faces.event;
 
+import com.dandandog.framework.faces.el.EmptyToNullStringELResolver;
 import com.dandandog.framework.faces.el.FacesControllerELResolver;
 import com.dandandog.framework.faces.el.PlatformMessageSourceELResolver;
 import com.sun.faces.config.ConfigureListener;
@@ -8,6 +9,9 @@ import org.springframework.web.jsf.el.SpringBeanFacesELResolver;
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.ExternalContextFactory;
+import javax.faces.context.FacesContext;
 import javax.faces.lifecycle.Lifecycle;
 import javax.faces.lifecycle.LifecycleFactory;
 import javax.servlet.ServletContextEvent;
@@ -29,6 +33,7 @@ public class JsfConfigureListener extends ConfigureListener {
         app.addELResolver(new SpringBeanFacesELResolver());
         app.addELResolver(new FacesControllerELResolver());
         app.addELResolver(new PlatformMessageSourceELResolver());
+        app.addELResolver(new EmptyToNullStringELResolver());
         app.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
 
         // Lifecycle
