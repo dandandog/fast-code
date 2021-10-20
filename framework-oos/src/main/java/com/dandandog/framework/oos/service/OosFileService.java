@@ -2,6 +2,7 @@ package com.dandandog.framework.oos.service;
 
 import com.dandandog.framework.oos.model.OosBucket;
 import com.dandandog.framework.oos.model.OosItem;
+import com.qiniu.common.QiniuException;
 
 import java.io.InputStream;
 import java.util.Collection;
@@ -33,7 +34,7 @@ public interface OosFileService {
 
     String putItem(String itemName, InputStream stream);
 
-    void removeItem(String bucketName, String itemName);
+    void removeItem(String itemName);
 
 
 }

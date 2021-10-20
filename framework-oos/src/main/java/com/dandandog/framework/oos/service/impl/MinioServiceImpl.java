@@ -70,7 +70,7 @@ public class MinioServiceImpl implements OosFileService {
     }
 
     @Override
-    public void removeItem(String bucketName, String itemName) {
+    public void removeItem(String itemName) {
 
     }
 }

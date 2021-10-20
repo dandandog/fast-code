@@ -120,7 +120,7 @@
 
     <composite:attribute name="uploadSupported" default="false"/>
     <composite:attribute name="exportSupported" default="false"/>
-
+    <composite:attribute name="exportFileName" default="data"/>
     <!-- row操作按钮-->
     <composite:attribute name="optionsSupport" default="true"/>
     <composite:attribute name="optionsWidth" default="100"/>
@@ -256,7 +256,7 @@
                           chooseIcon="pi pi-download" rendered="#{cc.attrs.uploadSupported}"/>
             <p:commandButton value="#{msg['framework']['export']}" icon="pi pi-upload" styleClass="ui-button-help"
                              ajax="false" rendered="#{cc.attrs.exportSupported}">
-                <p:dataExporter type="xls" target="entityDataTable" fileName="data"/>
+                <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"/>
             </p:commandButton>
         </f:facet>
     </p:toolbar>

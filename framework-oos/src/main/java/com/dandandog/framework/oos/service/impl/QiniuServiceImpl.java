@@ -75,6 +75,7 @@ public class QiniuServiceImpl implements OosFileService {
 
     @Override
     public void removeBucket(String bucketName) {
+
     }
 
     @Override
@@ -111,7 +112,11 @@ public class QiniuServiceImpl implements OosFileService {
     }
 
     @Override
-    public void removeItem(String bucketName, String itemName) {
-
+    public void removeItem(String itemName) {
+        try {
+            bucketManager.delete(this.properties.getDefBucket(), itemName);
+        } catch (QiniuException e) {
+            e.printStackTrace();
+        }
     }
 }
