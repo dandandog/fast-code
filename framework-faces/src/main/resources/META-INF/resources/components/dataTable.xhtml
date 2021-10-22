@@ -121,6 +121,11 @@
     <composite:attribute name="uploadSupported" default="false"/>
     <composite:attribute name="exportSupported" default="false"/>
     <composite:attribute name="exportFileName" default="data"/>
+    <composite:attribute name="exportPostProcessor" method-signature="void exportPostProcessor(java.lang.Object)"
+                         default="#{controller.exportPostProcessor}"/>
+    <composite:attribute name="exportPreProcessor" method-signature="void exportPostProcessor(java.lang.Object)"
+                         default="#{controller.exportPreProcessor}"/>
+    <composite:attribute name="exportOptions" default="#{null}"/>
     <!-- row操作按钮-->
     <composite:attribute name="optionsSupport" default="true"/>
     <composite:attribute name="optionsWidth" default="100"/>
@@ -216,12 +221,20 @@
             }
         }
 
+        function #{cc.attrs.widgetVar}_cleanAll() {
+            PF('#{cc.attrs.widgetVar}').clearFilters();
+            PF('#{cc.attrs.widgetVar}').unselectAllRows()
+            #{cc.attrs.widgetVar}
+            _onRowClick();
+        }
+
 
         function #{cc.attrs.widgetVar}_handleComplete(xhr, status, args) {
             if (!args.validationFailed) {
                 PF('#{cc.attrs.widgetVar}').hide();
             }
         }
+
 
     </script>
     <p:toolbar id="entityToolbar" styleClass="ui-my-toolbar" style="border: unset;">
@@ -256,7 +269,10 @@
                           chooseIcon="pi pi-download" rendered="#{cc.attrs.uploadSupported}"/>
             <p:commandButton value="#{msg['framework']['export']}" icon="pi pi-upload" styleClass="ui-button-help"
                              ajax="false" rendered="#{cc.attrs.exportSupported}">
-                <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"/>
+                <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"
+                                postProcessor="#{cc.attrs.exportPostProcessor}"
+                                preProcessor="#{cc.attrs.exportPreProcessor}"
+                                options="#{cc.attrs.exportOptions}"/>
             </p:commandButton>
         </f:facet>
     </p:toolbar>
@@ -373,7 +389,7 @@
                                      onclick="PF('#{cc.attrs.widgetVar}').filter()"/>
 
                     <p:commandButton id="refreshBtn" widgetVar="refreshBtn" icon="fa fa-refresh"
-                                     onclick="PF('#{cc.attrs.widgetVar}').clearFilters()"
+                                     onclick="#{cc.attrs.widgetVar}_cleanAll()"
                                      action="#{cc.attrs.refreshMethod}"
                                      update="#{cc.attrs.refreshUpdate}, @(.ui-column-filter)"
                                      oncomplete="#{cc.attrs.refreshOncomplete}"/>

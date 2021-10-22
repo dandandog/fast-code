@@ -149,6 +149,14 @@ public class FacesController {
         }
     }
 
+    public void exportPostProcessor(Object document) {
+
+    }
+
+    public void exportPreProcessor(Object document) {
+
+    }
+
 
     public UIForm getNestingForm(UIComponent component) {
         UIComponent parent = component.getParent();
