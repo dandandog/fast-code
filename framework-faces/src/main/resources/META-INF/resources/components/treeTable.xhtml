@@ -3,6 +3,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
 
@@ -269,32 +270,33 @@
         <p:ajax event="select" oncomplete="#{cc.attrs.widgetVar}_onRowClick()" global="false"/>
         <p:ajax event="unselect" oncomplete="#{cc.attrs.widgetVar}_onRowClick()" global="false"/>
 
-        <f:facet name="header">
-            <p:outputPanel styleClass="p-d-flex p-jc-between">
-                <p:outputPanel styleClass="p-text-bold p-text-xl p-ac-center"
-                               rendered="#{cc.attrs.headText eq null}">
-                    <composite:renderFacet name="header"/>
+        <ui:remove>
+            <f:facet name="header">
+                <p:outputPanel styleClass="p-d-flex p-jc-between">
+                    <p:outputPanel styleClass="p-text-bold p-text-xl p-ac-center"
+                                   rendered="#{cc.attrs.headText eq null}">
+                        <composite:renderFacet name="header"/>
+                    </p:outputPanel>
+
+
+                    <h:outputText styleClass="p-text-bold p-text-xl p-ac-center" rendered="#{cc.attrs.headText ne null}"
+                                  value="#{cc.attrs.headText}"/>
+
+                    <p:outputPanel rendered="#{cc.attrs.enabledFilter}" layout="inline" styleClass="ui-inputgroup">
+                        //TODO Impact tree Table update
+
+                        <p:commandButton id="refreshBtn" widgetVar="refreshBtn" icon="fa fa-refresh"
+                                         onclick="PF('#{cc.attrs.widgetVar}').clearFilters()"
+                                         rendered="#{cc.attrs.refreshSupported}"
+                                         action="#{cc.attrs.refreshMethod}"
+                                         update="#{cc.attrs.refreshUpdate}"
+                                         oncomplete=""/>
+                        <p:commandButton id="toggler" type="button" icon="fa fa-align-justify"/>
+                        <p:columnToggler datasource="entityTreeTable" trigger="toggler"/>
+                    </p:outputPanel>
                 </p:outputPanel>
-
-
-                <h:outputText styleClass="p-text-bold p-text-xl p-ac-center" rendered="#{cc.attrs.headText ne null}"
-                              value="#{cc.attrs.headText}"/>
-
-                <p:outputPanel rendered="#{cc.attrs.enabledFilter}" layout="inline" styleClass="ui-inputgroup">
-                    //TODO Impact tree Table update
-
-                    <p:commandButton id="refreshBtn" widgetVar="refreshBtn" icon="fa fa-refresh"
-                                     onclick="PF('#{cc.attrs.widgetVar}').clearFilters()"
-                                     rendered="#{cc.attrs.refreshSupported}"
-                                     action="#{cc.attrs.refreshMethod}"
-                                     update="#{cc.attrs.refreshUpdate}"
-                                     oncomplete=""/>
-                    <p:commandButton id="toggler" type="button" icon="fa fa-align-justify"/>
-                    <p:columnToggler datasource="entityTreeTable" trigger="toggler"/>
-                </p:outputPanel>
-            </p:outputPanel>
-        </f:facet>
-
+            </f:facet>
+        </ui:remove>
         <composite:insertChildren/>
         <p:column toggleable="false" exportable="false" width="#{cc.attrs.optionsWidth}"
                   rendered="#{cc.attrs.optionsSupport}">

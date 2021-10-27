@@ -13,7 +13,7 @@
     <composite:attribute name="target"/>
     <composite:attribute name="show" default="true"/>
     <composite:attribute name="styleClass" default="p-col-12"/>
-    <composite:attribute name="rendered" default="#{true}" type="java.lang.Boolean"/>
+    <composite:attribute name="rendered" default="true"/>
     <composite:attribute name="messageSupport" default="true"/>
     <composite:attribute name="indicateRequired" default="auto"/>
 
@@ -49,7 +49,8 @@
         }
     </h:outputScript>
 
-    <p:outputPanel id="labelPanel" styleClass="framework-label p-field #{cc.attrs.styleClass} ">
+    <p:outputPanel id="labelPanel" rendered="#{cc.attrs.rendered}"
+                   styleClass="framework-label p-field #{cc.attrs.styleClass} ">
         <p:outputLabel for="#{cc.attrs.target?cc.attrs.target:'@next'}" value="#{cc.attrs.value}"
                        title="#{cc.attrs.value}"
                        style="line-height: 30px; display: block; padding-left: 0.8em;" styleClass="p-text-bold"

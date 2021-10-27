@@ -13,7 +13,7 @@
     <composite:attribute name="widgetVar"
                          default="#{fn:substringAfter(cc.clientId,':').replace(':','')}_dialog"/>
     <composite:attribute name="header"
-                         default="#{cc.attrs.value.id == null ? msg['framework']['add'] : msg['framework']['edit']}"/>
+                         default="#{cc.attrs.value.id eq null ? msg['framework']['add'] : msg['framework']['edit']}"/>
     <composite:attribute name="draggable" default="true"/>
     <composite:attribute name="resizable" default="true"/>
     <composite:attribute name="modal" default="true"/>
@@ -63,7 +63,7 @@
 
     <!-- save button-->
     <composite:attribute name="saveSupported" default="true"/>
-    <composite:attribute name="saveDisabled" default="#{cc.attrs.value == null}"/>
+    <composite:attribute name="saveDisabled" default="#{cc.attrs.value eq null}"/>
     <composite:attribute name="saveButtonText" default="#{msg['framework']['confirm']}"/>
     <composite:attribute name="saveMethod" method-signature="void save()" default="#{controller.save}"/>
     <composite:attribute name="saveUpdate" default="@none"/>
