@@ -162,6 +162,8 @@
     <composite:attribute name="refreshOncomplete" default=""/>
 
 
+    <composite:attribute name="toolbarStickyMargin" default="50"/>
+
     <!--  facet -->
     <composite:facet name="header"/>
     <composite:facet name="footer"/>
@@ -266,8 +268,8 @@
 
         <f:facet name="right">
             <p:fileUpload mode="simple" skinSimple="true" label="#{msg['framework']['import']}"
-                          chooseIcon="pi pi-download" rendered="#{cc.attrs.uploadSupported}"/>
-            <p:commandButton value="#{msg['framework']['export']}" icon="pi pi-upload" styleClass="ui-button-help"
+                          chooseIcon="pi pi-upload" rendered="#{cc.attrs.uploadSupported}"/>
+            <p:commandButton value="#{msg['framework']['export']}" icon="pi pi-download" styleClass="ui-button-help"
                              ajax="false" rendered="#{cc.attrs.exportSupported}">
                 <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"
                                 postProcessor="#{cc.attrs.exportPostProcessor}"
@@ -276,7 +278,7 @@
             </p:commandButton>
         </f:facet>
     </p:toolbar>
-    <p:sticky target="entityToolbar" margin="50"/>
+    <p:sticky target="entityToolbar" margin="#{cc.attrs.toolbarStickyMargin}"/>
     <p:tooltip trackMouse="true"/>
     <p:dataTable id="entityDataTable"
                  allowUnsorting="#{cc.attrs.allowUnsorting}"

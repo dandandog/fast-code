@@ -123,6 +123,9 @@
     <composite:attribute name="refreshOncomplete"/>
 
 
+    <composite:attribute name="toolbarStickyMargin" default="50"/>
+
+
     <composite:clientBehavior name="expand" targets="entityTreeTable" event="expand"/>
     <composite:clientBehavior name="collapse" targets="entityTreeTable" event="collapse"/>
     <composite:clientBehavior name="select" targets="entityTreeTable" event="select"/>
@@ -202,7 +205,7 @@
             </p:commandButton>
         </f:facet>
     </p:toolbar>
-    <p:sticky target="entityToolbar" margin="50"/>
+    <p:sticky target="entityToolbar" margin="#{cc.attrs.toolbarStickyMargin}"/>
     <p:tooltip trackMouse="true"/>
     <p:treeTable id="entityTreeTable"
                  filterDelay="#{cc.attrs.filterDelay}"
