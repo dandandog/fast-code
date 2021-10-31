@@ -33,11 +33,11 @@
             <artifactId>fastjson</artifactId>
             <version>${com-alibaba-fast-json.version}</version>
         </dependency>
-        <dependency>
-            <groupId>aop.sdk</groupId>
-            <artifactId>message</artifactId>
-            <version>${aop-sdk-message.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>aop.sdk</groupId>-->
+<!--            <artifactId>message</artifactId>-->
+<!--            <version>${aop-sdk-message.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.jd</groupId>
             <artifactId>open-api-sdk</artifactId>

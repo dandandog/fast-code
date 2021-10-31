@@ -1,7 +1,6 @@
 package com.dandandog.framework.api.config;
 
 import com.alibaba.ocean.rawsdk.ApiExecutor;
-import com.alibaba.tuna.client.websocket.TunaWebSocketClient;
 import com.dandandog.framework.api.config.properties.AlibabaMaProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +32,15 @@ public class AlibabaConfig implements InitializingBean {
         return new ApiExecutor(properties.getAppKey(), properties.getSecKey());
     }
 
-    @Bean
-    public TunaWebSocketClient getWebSocketClient() {
-        return new TunaWebSocketClient(properties.getAppKey(), properties.getSecKey(), URL);
-    }
+//    @Bean
+//    public TunaWebSocketClient getWebSocketClient() {
+//        return new TunaWebSocketClient(properties.getAppKey(), properties.getSecKey(), URL);
+//    }
 
     @Override
     public void afterPropertiesSet() {
         getApiExecutor();
-        getWebSocketClient();
+//        getWebSocketClient();
         log.info("loading alibaba sdk:{}", true);
     }
 }
