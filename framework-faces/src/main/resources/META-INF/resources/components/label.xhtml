@@ -13,12 +13,10 @@
     <composite:attribute name="target"/>
     <composite:attribute name="show" default="true"/>
     <composite:attribute name="styleClass" default="p-col-12"/>
-    <composite:attribute name="rendered" default="true"/>
     <composite:attribute name="messageSupport" default="true"/>
     <composite:attribute name="indicateRequired" default="auto"/>
 
     <!-- coustom attrs-->
-
 
 </composite:interface>
 
@@ -49,7 +47,8 @@
         }
     </h:outputScript>
 
-    <p:outputPanel id="labelPanel" rendered="#{cc.attrs.rendered}"
+
+    <p:outputPanel id="labelPanel" rendered="#{cc.rendered}"
                    styleClass="framework-label p-field #{cc.attrs.styleClass} ">
         <p:outputLabel for="#{cc.attrs.target?cc.attrs.target:'@next'}" value="#{cc.attrs.value}"
                        title="#{cc.attrs.value}"

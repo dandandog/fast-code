@@ -30,6 +30,8 @@ public class MybatisConfig {
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         // 乐观锁
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        // 数据权限
+        interceptor.addInnerInterceptor(new DataScopeInnerInterceptor());
         return interceptor;
     }
 
