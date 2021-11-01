@@ -47,6 +47,11 @@
         <primeflex.version>3.0.1</primeflex.version>
         <weixin-java.version>3.9.0</weixin-java.version>
         <alipay-easysdk.versioin>2.1.2</alipay-easysdk.versioin>
+        <aliyun-sdk-oss.version>3.12.0</aliyun-sdk-oss.version>
+        <aliyun-java-sdk-sts.version>3.0.0</aliyun-java-sdk-sts.version>
+        <aliyun-java-sdk-core.version>4.5.16</aliyun-java-sdk-core.version>
+        <aliyun-java-sdk-ocr.version>1.0.11</aliyun-java-sdk-ocr.version>
+        <aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
 
         <java-jwt.version>3.10.0</java-jwt.version>
 
@@ -225,6 +230,33 @@
                 <artifactId>alipay-easysdk</artifactId>
                 <version>${alipay-easysdk.versioin}</version>
             </dependency>
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-sts</artifactId>
+                <version>${aliyun-java-sdk-sts.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-ocr</artifactId>
+                <version>${aliyun-java-sdk-ocr.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun-java-sdk-dysmsapi.version}</version>
+            </dependency>
+
+
 
             <!--ali api end-->
 
