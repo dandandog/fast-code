@@ -35,6 +35,11 @@ public class AliyunConfig implements InitializingBean {
     public void afterPropertiesSet() {
         oss();
         iacsClient();
+        try {
+            createClient();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Bean
@@ -50,12 +55,13 @@ public class AliyunConfig implements InitializingBean {
         return new DefaultAcsClient(profile);
     }
 
-    public static Client createClient(String accessKeyId, String accessKeySecret) throws Exception {
+    @Bean
+    public Client createClient() throws Exception {
         Config config = new Config()
                 // 您的AccessKey ID
-                .setAccessKeyId(accessKeyId)
+                .setAccessKeyId(properties.getAccessKeyId())
                 // 您的AccessKey Secret
-                .setAccessKeySecret(accessKeySecret);
+                .setAccessKeySecret(properties.getAccessKeySecret());
         // 访问的域名
         config.endpoint = SMS_ENDPOINT;
         return new Client(config);
