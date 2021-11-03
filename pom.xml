@@ -52,6 +52,8 @@
         <aliyun-java-sdk-core.version>4.5.16</aliyun-java-sdk-core.version>
         <aliyun-java-sdk-ocr.version>1.0.11</aliyun-java-sdk-ocr.version>
         <aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
+        <tea-openapi.version>0.0.19</tea-openapi.version>
+        <dysmsapi20170525.version>2.0.6</dysmsapi20170525.version>
 
         <java-jwt.version>3.10.0</java-jwt.version>
 
@@ -255,6 +257,17 @@
                 <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
                 <version>${aliyun-java-sdk-dysmsapi.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>tea-openapi</artifactId>
+                <version>${tea-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>dysmsapi20170525</artifactId>
+                <version>${dysmsapi20170525.version}</version>
+            </dependency>
+
 
 
 

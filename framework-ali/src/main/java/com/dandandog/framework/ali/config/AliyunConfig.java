@@ -1,7 +1,9 @@
 package com.dandandog.framework.ali.config;
 
+import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.teaopenapi.models.Config;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;
@@ -27,6 +29,8 @@ public class AliyunConfig implements InitializingBean {
 
     private final AliyunSdkProperties properties;
 
+    private static final String SMS_ENDPOINT = "dysmsapi.aliyuncs.com";
+
     @Override
     public void afterPropertiesSet() {
         oss();
@@ -44,6 +48,17 @@ public class AliyunConfig implements InitializingBean {
         //构建阿里云客户端时需要设置AccessKey ID和AccessKey Secret。
         DefaultProfile profile = DefaultProfile.getProfile(properties.getRegionId(), properties.getStsAccessKeyId(), properties.getStsSecret());
         return new DefaultAcsClient(profile);
+    }
+
+    public static Client createClient(String accessKeyId, String accessKeySecret) throws Exception {
+        Config config = new Config()
+                // 您的AccessKey ID
+                .setAccessKeyId(accessKeyId)
+                // 您的AccessKey Secret
+                .setAccessKeySecret(accessKeySecret);
+        // 访问的域名
+        config.endpoint = SMS_ENDPOINT;
+        return new Client(config);
     }
 
 
