@@ -34,10 +34,10 @@ public class FacesAutoConfig {
 
     private final static String TMP = System.getProperty("user.dir") + "/data/tmp";
 
-    @Bean
-    public ServletListenerRegistrationBean<JsfConfigureListener> jsfConfigureListenerBean() {
-        return new ServletListenerRegistrationBean<>(new JsfConfigureListener());
-    }
+//    @Bean
+//    public ServletListenerRegistrationBean<JsfConfigureListener> jsfConfigureListenerBean() {
+//        return new ServletListenerRegistrationBean<>(new JsfConfigureListener());
+//    }
 
     @Bean
     public FilterRegistrationBean<FileUploadFilter> fileUploadFilter() {

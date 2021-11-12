@@ -60,3 +60,23 @@
 .p-text-8xl {
     font-size: 6rem !important;
 }
+
+.dialog-layout {
+    max-width: 700px;
+    max-height: 100vh;
+    overflow: auto;
+}
+
+@media (max-width: 640px) {
+    .ui-datatable-reflow .ui-datatable-data td[role="gridcell"]:not(.ui-helper-hidden) {
+        text-align: left;
+        display: flex;
+        border: 0 none;
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        float: left;
+        clear: left;
+    }
+}

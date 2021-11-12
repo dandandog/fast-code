@@ -17,6 +17,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -50,11 +51,6 @@ public abstract class AbstractMessageAspect {
                 MessageResolvableException e1 = (MessageResolvableException) e;
                 messageDetail = MessageUtil.getMessageSource(e1.getCategory(), e1.getErrorCode(), e1.getParameters());
                 notice = MessageNotice.MESSAGE;
-            } else {
-                e.printStackTrace();
-                String detail = MessageUtil.getMessageSource("contactTheAdmin");
-                messageDetail = MessageUtil.getMessageSource(messageRequired.type().getFailedCode(), new Object[] {detail});
-                notice = MessageNotice.DIALOG;
             }
         } finally {
             notice = MessageNotice.DEFAULT.equals(messageRequired.notice()) ? notice : messageRequired.notice();

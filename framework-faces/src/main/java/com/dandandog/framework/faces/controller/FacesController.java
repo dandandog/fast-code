@@ -1,19 +1,17 @@
 package com.dandandog.framework.faces.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.dandandog.framework.faces.scope.FlashScope;
 import com.dandandog.framework.faces.scope.PageScope;
 import com.dandandog.framework.faces.scope.SessionScope;
 import com.dandandog.framework.faces.scope.ViewScope;
 import com.dandandog.framework.faces.utils.MessageUtil;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.jsf.FacesContextUtils;
 
+import javax.annotation.Resource;
 import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
@@ -36,16 +34,16 @@ import java.util.Optional;
  */
 @Component
 public class FacesController {
-    @Autowired
+    @Resource
     private FlashScope flashScope;
 
-    @Autowired
+    @Resource
     private ViewScope viewScope;
 
-    @Autowired
+    @Resource
     private PageScope pageScope;
 
-    @Autowired
+    @Resource
     private SessionScope sessionScope;
 
     public void onEntry() {
