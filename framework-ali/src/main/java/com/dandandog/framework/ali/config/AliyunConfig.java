@@ -1,5 +1,6 @@
 package com.dandandog.framework.ali.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -33,8 +34,12 @@ public class AliyunConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        oss();
-        iacsClient();
+        if (StrUtil.isNotEmpty(properties.getEndpoint()) && StrUtil.isNotEmpty(properties.getAccessKeyId()) && StrUtil.isNotEmpty(properties.getAccessKeySecret())) {
+            oss();
+        }
+        if (StrUtil.isNotEmpty(properties.getRegionId()) && StrUtil.isNotEmpty(properties.getStsAccessKeyId()) && StrUtil.isNotEmpty(properties.getStsSecret())) {
+            iacsClient();
+        }
         try {
             createClient();
         } catch (Exception e) {
