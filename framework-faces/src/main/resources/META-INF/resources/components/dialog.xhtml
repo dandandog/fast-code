@@ -18,12 +18,12 @@
     <composite:attribute name="resizable" default="true"/>
     <composite:attribute name="modal" default="true"/>
     <composite:attribute name="visible" default="false"/>
-    <composite:attribute name="width" default="700"/>
+    <composite:attribute name="width"/>
     <composite:attribute name="height" default="auto"/>
-    <composite:attribute name="minWidth" default="700"/>
+    <composite:attribute name="minWidth"/>
     <composite:attribute name="minHeight" default="150"/>
     <composite:attribute name="style"/>
-    <composite:attribute name="styleClass" default=""/>
+    <composite:attribute name="styleClass" default="dialog-layout"/>
     <composite:attribute name="showEffect" default="fade"/>
     <composite:attribute name="hideEffect" default="fade"/>
     <composite:attribute name="position" default="center"/>
@@ -142,8 +142,7 @@
         </p:messages>
         <p:outputPanel id="contentPanel">
             <p:outputPanel rendered="#{!cc.attrs.saveDisabled}">
-                <p:outputPanel style="max-width: 1200px;margin: auto;"
-                               styleClass="#{cc.attrs.contentStyleClass}">
+                <p:outputPanel styleClass="#{cc.attrs.contentStyleClass}">
                     <composite:insertChildren/>
                 </p:outputPanel>
             </p:outputPanel>

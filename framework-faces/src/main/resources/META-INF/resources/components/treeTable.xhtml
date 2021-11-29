@@ -85,6 +85,8 @@
     <!-- toolbar -->
     <composite:attribute name="enabledToolbar" default="true"/>
     <composite:attribute name="headText" default="#{null}"/>
+    <composite:attribute name="toolbarStickyMargin" default="50"/>
+    <composite:attribute name="toolbarStickySupported" default="false"/>
 
     <composite:attribute name="uploadSupported" default="false"/>
     <composite:attribute name="exportSupported" default="false"/>
@@ -121,9 +123,6 @@
     <composite:attribute name="refreshMethod" method-signature="void onEntry()" default="#{controller.onEntry}"/>
     <composite:attribute name="refreshUpdate" default="@form"/>
     <composite:attribute name="refreshOncomplete"/>
-
-
-    <composite:attribute name="toolbarStickyMargin" default="50"/>
 
 
     <composite:clientBehavior name="expand" targets="entityTreeTable" event="expand"/>
@@ -205,7 +204,8 @@
             </p:commandButton>
         </f:facet>
     </p:toolbar>
-    <p:sticky target="entityToolbar" margin="#{cc.attrs.toolbarStickyMargin}"/>
+    <p:sticky target="entityToolbar" rendered="#{cc.attrs.toolbarStickySupported}"
+              margin="#{cc.attrs.toolbarStickyMargin}"/>
     <p:tooltip trackMouse="true"/>
     <p:treeTable id="entityTreeTable"
                  filterDelay="#{cc.attrs.filterDelay}"

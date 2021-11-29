@@ -11,9 +11,9 @@ import java.util.Locale;
  */
 public class MessageResolvableException extends RuntimeException {
     private static final long serialVersionUID = -5129058461881408125L;
-    private String category;
-    private String errorCode;
-    private Object[] parameters;
+    private final String category;
+    private final String errorCode;
+    private final Object[] parameters;
 
     public MessageResolvableException(String category, String errorCode) {
         this(category, errorCode, new Object[0], null);

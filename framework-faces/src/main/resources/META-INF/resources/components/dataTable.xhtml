@@ -117,6 +117,8 @@
     <!-- toolbar -->
     <composite:attribute name="enabledToolbar" default="true"/>
     <composite:attribute name="headText" default="#{null}"/>
+    <composite:attribute name="toolbarStickyMargin" default="50"/>
+    <composite:attribute name="toolbarStickySupported" default="false"/>
 
     <composite:attribute name="uploadSupported" default="false"/>
     <composite:attribute name="exportSupported" default="false"/>
@@ -154,15 +156,12 @@
     <composite:attribute name="deleteUpdate" default="@form"/>
     <composite:attribute name="deleteOncomplete" default=""/>
 
-
     <!--  refresh操作按钮-->
     <composite:attribute name="refreshSupported" default="true"/>
     <composite:attribute name="refreshMethod" method-signature="void onEntry()" default="#{controller.onEntry}"/>
     <composite:attribute name="refreshUpdate" default="@widgetVar(#{cc.attrs.widgetVar})"/>
     <composite:attribute name="refreshOncomplete" default=""/>
 
-
-    <composite:attribute name="toolbarStickyMargin" default="50"/>
 
     <!--  facet -->
     <composite:facet name="header"/>
@@ -278,7 +277,8 @@
             </p:commandButton>
         </f:facet>
     </p:toolbar>
-    <p:sticky target="entityToolbar" margin="#{cc.attrs.toolbarStickyMargin}"/>
+    <p:sticky target="entityToolbar" rendered="#{cc.attrs.toolbarStickySupported}"
+              margin="#{cc.attrs.toolbarStickyMargin}"/>
     <p:tooltip trackMouse="true"/>
     <p:dataTable id="entityDataTable"
                  allowUnsorting="#{cc.attrs.allowUnsorting}"
@@ -374,8 +374,8 @@
 
         <p:ajax event="toggleSelect" oncomplete="#{cc.attrs.widgetVar}_onRowClick()" global="false"/>
         <f:facet name="header">
-            <p:outputPanel styleClass="p-d-flex p-jc-between">
-                <p:outputPanel styleClass="p-text-bold p-text-xl p-ac-center"
+            <p:outputPanel styleClass="p-d-flex p-jc-between p-ac-center ">
+                <p:outputPanel styleClass="p-text-bold p-text-xl"
                                rendered="#{cc.attrs.headText eq null}">
                     <composite:renderFacet name="header"/>
                 </p:outputPanel>
