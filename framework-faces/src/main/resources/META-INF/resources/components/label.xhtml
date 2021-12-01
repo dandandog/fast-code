@@ -57,7 +57,8 @@
         <composite:insertChildren/>
         <small id="labelMessage">
             <p:message for="#{cc.attrs.target?cc.attrs.target:'@previous'}"
-                       rendered="#{cc.attrs.messageSupport}" display="text"
+                       rendered="#{cc.attrs.messageSupport}" display="text" showSummary="false"
+                       showDetail="true"
                        styleClass="ui-label-message">
                 <p:autoUpdate/>
             </p:message>

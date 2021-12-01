@@ -269,7 +269,7 @@
             <p:fileUpload mode="simple" skinSimple="true" label="#{msg['framework']['import']}"
                           chooseIcon="pi pi-upload" rendered="#{cc.attrs.uploadSupported}"/>
             <p:commandButton value="#{msg['framework']['export']}" icon="pi pi-download" styleClass="ui-button-help"
-                             ajax="false" rendered="#{cc.attrs.exportSupported}">
+                             ajax="false" rendered="#{cc.attrs.exportSupported}" style="margin-right: 1px; margin-top: 2px;">
                 <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"
                                 postProcessor="#{cc.attrs.exportPostProcessor}"
                                 preProcessor="#{cc.attrs.exportPreProcessor}"
@@ -388,14 +388,14 @@
                     <p:inputText id="globalFilter" style="width:150px" rendered="#{cc.attrs.filterable}"
                                  placeholder="#{msg['framework']['enterKeyword']}"/>
                     <p:commandButton id="searchBtn" type="button" icon="fa fa-search" rendered="#{cc.attrs.filterable}"
-                                     onclick="PF('#{cc.attrs.widgetVar}').filter()"/>
+                                     onclick="PF('#{cc.attrs.widgetVar}').filter()" style="width: 2.57rem;"/>
 
                     <p:commandButton id="refreshBtn" widgetVar="refreshBtn" icon="fa fa-refresh"
                                      onclick="#{cc.attrs.widgetVar}_cleanAll()"
                                      action="#{cc.attrs.refreshMethod}"
                                      update="#{cc.attrs.refreshUpdate}, @(.ui-column-filter)"
-                                     oncomplete="#{cc.attrs.refreshOncomplete}"/>
-                    <p:commandButton id="toggler" type="button" icon="pi pi-align-justify"/>
+                                     oncomplete="#{cc.attrs.refreshOncomplete}" style="width: 2.57rem;"/>
+                    <p:commandButton id="toggler" type="button" icon="pi pi-align-justify" style="width: 2.57rem;"/>
                     <p:columnToggler id="columnToggler" datasource="entityDataTable" trigger="toggler"/>
                 </p:outputPanel>
             </p:outputPanel>

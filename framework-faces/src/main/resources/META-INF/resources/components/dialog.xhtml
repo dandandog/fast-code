@@ -68,7 +68,7 @@
     <composite:attribute name="saveMethod" method-signature="void save()" default="#{controller.save}"/>
     <composite:attribute name="saveUpdate" default="@none"/>
     <composite:attribute name="saveComplete"/>
-
+    <composite:attribute name="validateClient" default="true"/>
 
     <!-- cancel button-->
     <composite:attribute name="cancelSupported" default="true"/>
@@ -137,7 +137,7 @@
               my="#{cc.attrs.my}">
         <composite:insertFacet name="header"/>
         <p:messages id="messages" styleClass="messages" forType="messages"
-                    showDetail="true" showSummary="true">
+                    showDetail="true" showSummary="false">
             <p:autoUpdate/>
         </p:messages>
         <p:outputPanel id="contentPanel">
@@ -153,7 +153,7 @@
             <p:outputPanel rendered="#{cc.attrs.saveSupported}" layout="inline">
                 <p:commandButton id="saveButton" widgetVar="saveButton" styleClass="entity-dialog-save-btn"
                                  icon="pi pi-check"
-                                 process="@form" validateClient="true"
+                                 process="@form" validateClient="#{cc.attrs.validateClient}"
                                  value="#{cc.attrs.saveButtonText}"
                                  action="#{cc.attrs.saveMethod}"
                                  disabled="#{cc.attrs.saveDisabled}"
