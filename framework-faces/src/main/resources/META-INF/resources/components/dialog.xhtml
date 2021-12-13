@@ -136,11 +136,11 @@
               blockScroll="#{cc.attrs.blockScroll}"
               my="#{cc.attrs.my}">
         <composite:insertFacet name="header"/>
-        <p:messages id="messages" styleClass="messages" forType="messages"
-                    showDetail="true" showSummary="false">
+        <p:messages id="messages" styleClass="messages" for="dialogMessages"
+                    showDetail="true" showSummary="true">
             <p:autoUpdate/>
         </p:messages>
-        <p:outputPanel id="contentPanel">
+        <p:outputPanel id="contentPanel" styleClass="dialog-content-panel">
             <p:outputPanel rendered="#{!cc.attrs.saveDisabled}">
                 <p:outputPanel styleClass="#{cc.attrs.contentStyleClass}">
                     <composite:insertChildren/>
