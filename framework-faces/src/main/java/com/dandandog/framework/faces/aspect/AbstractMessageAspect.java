@@ -46,6 +46,7 @@ public abstract class AbstractMessageAspect {
             messageDetail = MessageUtil.getMessageSource(messageRequired.type().getSuccessCode(), result);
             return result;
         } catch (Exception e) {
+            e.printStackTrace();
             severity = FacesMessage.SEVERITY_ERROR;
             if ((e instanceof MessageResolvableException)) {
                 MessageResolvableException e1 = (MessageResolvableException) e;

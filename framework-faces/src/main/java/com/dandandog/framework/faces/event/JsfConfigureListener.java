@@ -57,8 +57,6 @@ public class JsfConfigureListener extends ConfigureListener {
         lifecycle.addPhaseListener(new ControllerPhaseListener());
         lifecycle.addPhaseListener(new LocalePhaseListener());
 
-        FactoryFinder.setFactory(EXCEPTION_HANDLER_FACTORY, PrimeExceptionHandlerFactory.class.getName());
-
         super.contextInitialized(sce);
 
     }
