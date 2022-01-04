@@ -128,6 +128,7 @@
     <composite:attribute name="exportPreProcessor" method-signature="void exportPostProcessor(java.lang.Object)"
                          default="#{controller.exportPreProcessor}"/>
     <composite:attribute name="exportOptions" default="#{null}"/>
+
     <!-- row操作按钮-->
     <composite:attribute name="optionsSupport" default="true"/>
     <composite:attribute name="optionsWidth" default="100"/>
@@ -268,13 +269,24 @@
         <f:facet name="right">
             <p:fileUpload mode="simple" skinSimple="true" label="#{msg['framework']['import']}"
                           chooseIcon="pi pi-upload" rendered="#{cc.attrs.uploadSupported}"/>
-            <p:commandButton value="#{msg['framework']['export']}" icon="pi pi-download" styleClass="ui-button-help"
-                             ajax="false" rendered="#{cc.attrs.exportSupported}" style="margin-right: 1px; margin-top: 2px;">
+
+            <p:splitButton value="#{msg['framework']['export']}" widgetVar="export" icon="pi pi-download"
+                           styleClass="ui-button-help"
+                           ajax="false" rendered="#{cc.attrs.exportSupported}"
+                           style="margin-top: 2px;">
                 <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"
                                 postProcessor="#{cc.attrs.exportPostProcessor}"
                                 preProcessor="#{cc.attrs.exportPreProcessor}"
                                 options="#{cc.attrs.exportOptions}"/>
-            </p:commandButton>
+                <p:menuitem value="#{msg['framework']['export']}#{msg['framework']['selected']}"
+                            icon="pi pi-check-square">
+                    <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"
+                                    postProcessor="#{cc.attrs.exportPostProcessor}" selectionOnly="true"
+                                    preProcessor="#{cc.attrs.exportPreProcessor}"
+                                    options="#{cc.attrs.exportOptions}"/>
+
+                </p:menuitem>
+            </p:splitButton>
         </f:facet>
     </p:toolbar>
     <p:sticky target="entityToolbar" rendered="#{cc.attrs.toolbarStickySupported}"
