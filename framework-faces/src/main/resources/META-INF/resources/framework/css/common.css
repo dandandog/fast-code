@@ -75,6 +75,9 @@
     max-width: 90vw !important;
 }
 
+.ui-toolbar-group-left {
+    margin-bottom: .5rem !important;
+}
 
 @media (max-width: 640px) {
     .ui-datatable-reflow .ui-datatable-data td[role="gridcell"]:not(.ui-helper-hidden) {

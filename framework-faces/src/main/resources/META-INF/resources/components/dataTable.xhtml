@@ -120,9 +120,9 @@
     <composite:attribute name="toolbarStickyMargin" default="50"/>
     <composite:attribute name="toolbarStickySupported" default="false"/>
 
-    <composite:attribute name="uploadSupported" default="false"/>
-    <composite:attribute name="uploadFileListener" default="#{controller.uploadFileListener}"
-                         method-signature="void uploadFileListener(org.primefaces.event.FileUploadEvent)"/>
+    <composite:attribute name="importSupported" default="false"/>
+    <composite:attribute name="importFileListener" default="#{controller.importFileListener}"
+                         method-signature="void importFileListener(org.primefaces.event.FileUploadEvent)"/>
 
 
     <composite:attribute name="exportSupported" default="false"/>
@@ -271,10 +271,20 @@
         </f:facet>
 
         <f:facet name="right">
+            <p:fileUpload mode="simple" widgetVar="fileUpload" skinSimple="true"
+                          label="#{msg['framework']['import']}" auto="true"
+                          chooseIcon="pi pi-upload" rendered="#{cc.attrs.importSupported}" style="display: none"
+                          listener="#{cc.attrs.importFileListener}"/>
 
-            <p:fileUpload mode="simple" skinSimple="true" label="#{msg['framework']['import']}"
-                          chooseIcon="pi pi-upload" rendered="#{cc.attrs.uploadSupported}"
-                          listener="#{cc.attrs.uploadFileListener}"/>
+            <p:splitButton value="#{msg['framework']['import']}" widgetVar="import" icon="pi pi-upload"
+                           styleClass="p-mr-2"
+                           rendered="#{cc.attrs.importSupported}" onclick="PF('fileUpload').show()">
+
+                <p:menuitem value="#{msg['framework']['downloadTemplate']}" ajax="false"
+                            icon="pi pi-file-excel" rendered="#{viewScope.importFileTemplate ne null}">
+                    <p:fileDownload value="#{viewScope.importFileTemplate.content}"/>
+                </p:menuitem>
+            </p:splitButton>
 
             <p:splitButton value="#{msg['framework']['export']}" widgetVar="export" icon="pi pi-download"
                            styleClass="ui-button-help"
