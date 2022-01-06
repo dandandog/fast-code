@@ -6,6 +6,7 @@ import com.dandandog.framework.faces.scope.PageScope;
 import com.dandandog.framework.faces.scope.SessionScope;
 import com.dandandog.framework.faces.scope.ViewScope;
 import com.dandandog.framework.faces.utils.MessageUtil;
+import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -145,6 +146,10 @@ public class FacesController {
                 return VisitResult.ACCEPT;
             });
         }
+    }
+
+    public void uploadFileListener(FileUploadEvent event) {
+
     }
 
     public void exportPostProcessor(Object document) {

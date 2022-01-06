@@ -121,6 +121,10 @@
     <composite:attribute name="toolbarStickySupported" default="false"/>
 
     <composite:attribute name="uploadSupported" default="false"/>
+    <composite:attribute name="uploadFileListener" default="#{controller.uploadFileListener}"
+                         method-signature="void uploadFileListener(org.primefaces.event.FileUploadEvent)"/>
+
+
     <composite:attribute name="exportSupported" default="false"/>
     <composite:attribute name="exportFileName" default="data"/>
     <composite:attribute name="exportPostProcessor" method-signature="void exportPostProcessor(java.lang.Object)"
@@ -267,13 +271,14 @@
         </f:facet>
 
         <f:facet name="right">
+
             <p:fileUpload mode="simple" skinSimple="true" label="#{msg['framework']['import']}"
-                          chooseIcon="pi pi-upload" rendered="#{cc.attrs.uploadSupported}"/>
+                          chooseIcon="pi pi-upload" rendered="#{cc.attrs.uploadSupported}"
+                          listener="#{cc.attrs.uploadFileListener}"/>
 
             <p:splitButton value="#{msg['framework']['export']}" widgetVar="export" icon="pi pi-download"
                            styleClass="ui-button-help"
-                           ajax="false" rendered="#{cc.attrs.exportSupported}"
-                           style="margin-top: 2px;">
+                           ajax="false" rendered="#{cc.attrs.exportSupported}">
                 <p:dataExporter type="xls" target="entityDataTable" fileName="#{cc.attrs.exportFileName}"
                                 postProcessor="#{cc.attrs.exportPostProcessor}"
                                 preProcessor="#{cc.attrs.exportPreProcessor}"
@@ -284,7 +289,6 @@
                                     postProcessor="#{cc.attrs.exportPostProcessor}" selectionOnly="true"
                                     preProcessor="#{cc.attrs.exportPreProcessor}"
                                     options="#{cc.attrs.exportOptions}"/>
-
                 </p:menuitem>
             </p:splitButton>
         </f:facet>
