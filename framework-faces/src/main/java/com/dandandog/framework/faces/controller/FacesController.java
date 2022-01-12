@@ -152,6 +152,10 @@ public class FacesController {
 
     }
 
+    public void downloadTemplateListener() {
+    }
+
+
     public void exportPostProcessor(Object document) {
 
     }

@@ -281,8 +281,10 @@
                            rendered="#{cc.attrs.importSupported}" onclick="PF('fileUpload').show()">
 
                 <p:menuitem value="#{msg['framework']['downloadTemplate']}" ajax="false"
-                            icon="pi pi-file-excel" rendered="#{viewScope.importFileTemplate ne null}">
-                    <p:fileDownload value="#{viewScope.importFileTemplate.content}"/>
+                            actionListener="#{controller.downloadTemplateListener}" process="@this" update="@this"
+                            onclick="PrimeFaces.monitorDownload(start, stop);"
+                            icon="pi pi-file-excel">
+                    <p:fileDownload value="#{viewScope.importFileTemplate.content}" />
                 </p:menuitem>
             </p:splitButton>
 

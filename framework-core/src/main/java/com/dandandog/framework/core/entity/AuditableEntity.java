@@ -1,6 +1,7 @@
 package com.dandandog.framework.core.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,10 +17,10 @@ import java.time.LocalDateTime;
 @Setter
 public class AuditableEntity extends AbstractEntity {
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)
     protected String creator;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NOT_NULL)
     protected LocalDateTime createdTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
