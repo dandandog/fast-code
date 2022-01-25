@@ -18,9 +18,8 @@ public abstract class GenericEntityConverter<T extends IEntity> implements Conve
         T entity = this.getEntity(facesContext, component, value);
         if (entity != null)
             return entity;
-        throw new IllegalArgumentException("Entity not found");
+        return notFoundEntityHandler(facesContext, component, value);
     }
-
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent component, T t) {
@@ -28,8 +27,18 @@ public abstract class GenericEntityConverter<T extends IEntity> implements Conve
             return "";
         if (t.getId() != null)
             return t.getId();
-        throw new IllegalArgumentException("Entity has no id");
+        return notFoundIdHandler(facesContext, component, t);
     }
 
     protected abstract T getEntity(FacesContext facesContext, UIComponent component, String value);
+
+    protected String notFoundIdHandler(FacesContext facesContext, UIComponent component, T t) {
+        throw new IllegalArgumentException("Entity has no id");
+    }
+
+    protected T notFoundEntityHandler(FacesContext facesContext, UIComponent component, String value) {
+        throw new IllegalArgumentException("Entity not found");
+    }
+
+
 }
